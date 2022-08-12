@@ -11,6 +11,6 @@ services:
     web:
         build: .
         volumes:
-            - .:/user/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0
+            - .:/usr/src/app
         ports:
             - "8000:8000"
