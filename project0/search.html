@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Google</title>
+    </head>
+    <style>
+
+        ul#horizontal-list{
+	        list-style: none;
+	        padding-top: 20px;
+            text-align: left;
+        }
+
+        ul#horizontal-list li{
+            display:inline;
+            padding: 20px;
+        }
+
+        #centersearch{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: grey;
+            font-size: 50px;
+            text-align: center;
+            padding-top: 4%;
+        }
+        a{
+            text-decoration: none;
+            color: #000000;
+        }
+
+    </style>
+    <body>
+        <div>
+            <ul id="horizontal-list">
+                <li> 
+                    <a href="https://about.google/">About</a>
+                </li>
+                <li>
+                    <a href="https://store.google.com/">Store</a>
+                </li>
+                <li style="padding-left: 1400px;">
+                    <a href="https://www.google.com/gmail/">Gmail</a>
+                </li>
+                <li>
+                    <a href="https://www.google.com/imghp">Images</a>
+                </li>
+                <li>
+                    <a  href="https://accounts.google.com/ServiceLogin" role="button">Sign in</a>
+                </li>
+            </ul>
+        </div>
+        <div id="centersearch">
+            <h1>Google</h1>
+            <form action="https://www.google.com/search" method="get">
+                <input autocomplete="off" autofocus  name="q" placeholder="Query" type="text"> 
+                <input type="submit">
+            </form>
+        </div>
+    </body>
+</html>
