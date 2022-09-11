@@ -28,6 +28,15 @@
             color: #000000;
         }
 
+        #searchbox{
+            border: 1px solid;
+            border-color: grey;
+            opacity: 20%;
+            width: 500px;
+            height: 30px;
+            border-radius: 15px;
+        }
+
     </style>
     <body>
         <div>
@@ -52,8 +61,8 @@
         <div id="centersearch">
             <h1>Google</h1>
             <form action="https://www.google.com/search" method="get">
-                <input autocomplete="off" autofocus  name="q" placeholder="Query" type="text"> 
-                <input type="submit">
+                <input id="searchbox" autocomplete="off" autofocus  name="q"  type="text" > 
+                <input type="submit" hidden="true">
             </form>
         </div>
     </body>
