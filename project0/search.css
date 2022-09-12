@@ -1,39 +1,45 @@
-body{
-    margin: 0%;
-    height: 100%;
-    padding: 0%;
 
+ul{
+    margin: 0px;
+    padding-left: 7px;
+    padding-top: 15px;
 }
 
-#banner-left {
+
+#banner-left{ /* The top banner is made in two pieces and encapsulated by two divs for ease. If i float the lists individually without divsa, the order of the right side is reversed*/
     text-align: left;
+    font-size: 14px;
     float: left;
 }
 
 #banner-right{
     text-align: right;
+    font-size: 14px;
     float:right
 }
 
 #banner-left li{ 
     font-family: Arial, Helvetica, sans-serif;
     display:inline;
-    padding: 20px;
+    padding: 8px;
 }
 
-#banner-right li{ 
+#banner-right li{   /* Applies the styling below to the last 3 list items*/
     font-family: Arial, Helvetica, sans-serif;
     display:inline;
-    padding: 20px;
+    padding: 8px;
 }
 
-
+a{   /* No links will have any decoration on the page*/
+    text-decoration: none;
+    color: #000000;
+}
 
 #centersearch{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 50px;
     text-align: center;
-    padding-top: 4%;
+    padding-top: 10%;
     border-color: grey;
 }
 
@@ -43,18 +49,12 @@ body{
     color: grey;
 }
 
-a{
-    text-decoration: none;
-    color: #000000;
-}
-
 #searchbox{
     border: 1px solid;
     width: 500px;
     height: 30px;
     border-radius: 15px;
 }
-
 
 button{
     outline: none;
