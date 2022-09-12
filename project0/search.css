@@ -5,25 +5,29 @@ body{
 
 }
 
-ul#horizontal-list{
-    list-style: none;
-    padding-top: 20px;
-    margin: 0px;
-}
-
-ul#horizontal-list li:nth-of-type(n-2){   
-    font-family: Arial, Helvetica, sans-serif;
-    display:inline;
-    padding: 20px;
-    text-align: right;
-}
-
-ul#horizontal-list li:nth-of-type(-n+2){   
-    font-family: Arial, Helvetica, sans-serif;
-    display:inline;
-    padding: 20px;
+#banner-left {
     text-align: left;
+    float: left;
 }
+
+#banner-right{
+    text-align: right;
+    float:right
+}
+
+#banner-left li{ 
+    font-family: Arial, Helvetica, sans-serif;
+    display:inline;
+    padding: 20px;
+}
+
+#banner-right li{ 
+    font-family: Arial, Helvetica, sans-serif;
+    display:inline;
+    padding: 20px;
+}
+
+
 
 #centersearch{
     font-family: Arial, Helvetica, sans-serif;
