@@ -47,6 +47,11 @@ a{   /* No links will have any decoration on the page*/
     width: 500px;
     height: 30px;
     border-radius: 15px;
+    background-image: url("search.png");
+    background-size: 4%;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-position-x: 10px;
 }
 
 #centersearch button{
