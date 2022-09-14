@@ -35,26 +35,22 @@ a{   /* No links will have any decoration on the page*/
     color: #000000;
 }
 
-#container{
+#centercontainer{
     text-align: center;
+    padding: 225px;
 }
-
-
 
 #centersearch{
     text-align: center;
     display: inline-block;
-    padding-top: 10%;
+
 }
 
 #centersearch form{
-    border: 4px red;
-    width: 500px;
-    height: 30px;
-    
+    padding: 30px;
 }
 
-/*#searchbox{
+#searchbox{
     width: 500px;
     height: 30px;
     border-radius: 15px;
@@ -66,7 +62,7 @@ a{   /* No links will have any decoration on the page*/
     text-indent: 40px;
     border: 1px transparent;
 
-}*/
+}
 
 #centersearch button{
     border: none;
