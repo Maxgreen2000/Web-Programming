@@ -35,14 +35,26 @@ a{   /* No links will have any decoration on the page*/
     color: #000000;
 }
 
-#centersearch{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 50px;
+#container{
     text-align: center;
+}
+
+
+
+#centersearch{
+    text-align: center;
+    display: inline-block;
     padding-top: 10%;
 }
 
-#searchbox{
+#centersearch form{
+    border: 4px red;
+    width: 500px;
+    height: 30px;
+    
+}
+
+/*#searchbox{
     width: 500px;
     height: 30px;
     border-radius: 15px;
@@ -54,7 +66,7 @@ a{   /* No links will have any decoration on the page*/
     text-indent: 40px;
     border: 1px transparent;
 
-}
+}*/
 
 #centersearch button{
     border: none;
@@ -67,3 +79,4 @@ a{   /* No links will have any decoration on the page*/
 #centersearch button:hover{
     box-shadow: 0 2px 4px 0 lightgray, 0 2px 5px 0 lightgray;
 }
+
