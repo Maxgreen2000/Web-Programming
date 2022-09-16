@@ -55,10 +55,6 @@ a{   /* No links will have any decoration on the page*/
     
 }
 
-#division{
-    color: aqua;
-}
-
 #centersearch button{
     border: none;
     height: 100%;
@@ -69,4 +65,9 @@ a{   /* No links will have any decoration on the page*/
 
 #centersearch button:hover{
     box-shadow: 0 2px 4px 0 lightgray, 0 2px 5px 0 lightgray;
+}
+
+
+#imagephoto{
+    background-color: transparent;
 }
