@@ -1,12 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Search</title>
+        <link href="index.css" rel="stylesheet"> 
+        <title>
+            Google
+        </title>
     </head>
     <body>
-        <form action="https://www.google.com/search">
-            <input type="text" name="q">
-            <input type="submit" value="Google Search">
-        </form>
+        <div id="banner-left">
+            <ul>
+                <li> 
+                    <a href="https://about.google/">About</a>
+                </li>
+                <li>
+                    <a href="https://store.google.com/">Store</a>
+                </li>
+            </ul>
+        </div>
+        <div id="banner-right">
+            <ul>
+                <li>
+                    <a href="https://www.google.com/gmail/">Gmail</a>
+                </li>
+                <li>
+                    <a href="https://www.google.com/imghp">Images</a>
+                </li>
+                <li>
+                    <a  href="https://accounts.google.com/ServiceLogin" role="button">Sign in</a>
+                </li>
+            </ul>
+        </div>
+        <div id="centersearch">
+            <img src="googlelogo.png" alt="Google">
+            <form action="https://www.google.com/search" method="get">
+                <input id="searchbox" autocomplete="on" autofocus  name="q"  type="text" ><br>
+                <button type="submit">Google Search</button>
+            </form>
+        </div>
+        
     </body>
 </html>

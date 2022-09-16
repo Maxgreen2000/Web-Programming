@@ -39,7 +39,7 @@ a{   /* No links will have any decoration on the page*/
     font-family: Arial, Helvetica, sans-serif;
     font-size: 50px;
     text-align: center;
-    padding-top: 10%;
+    padding-top: 12%;
 }
 
 #searchbox{
@@ -53,7 +53,10 @@ a{   /* No links will have any decoration on the page*/
     background-position-x: 10px;
     text-indent: 40px;
     
+}
 
+#division{
+    color: aqua;
 }
 
 #centersearch button{
