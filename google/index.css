@@ -90,24 +90,46 @@ body{
 #toptext{
     padding-top: 50px;
     padding-left: 40px;
+    padding-bottom: 30px;
 }
 
 #Find-pages-with{
     float: left;
-    display: inline-block;
     width: 16%;
     font-size: 16px;
     font-weight: 500;
     color: #333;
-    padding-right: 450px;
-}
-
-#formsdiv{
-    padding-left: 40px;
+    padding-right: 515px;
 }
 
 #formsdiv div{
-    padding-top: 25px;
-    color: #222;
-    font-size: 13px;
+    display: flex;
+    padding: 20px;
+    padding-left: 40px;
 }
+
+#formsdiv form{
+    position: absolute; left: 12%;
+
+}
+
+#top4{
+    width: 579px;
+
+}
+
+#bottoml{
+    width: 200px;
+    transform: translateX(379px);
+}
+
+#bottomr{
+    width: 200px;
+}
+
+#formsdiv small{
+    position: absolute; left: 45%;
+}
+
+
+
