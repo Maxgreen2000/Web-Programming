@@ -65,3 +65,49 @@ body{
     height: 46px;
     border-radius: 30px;
 }
+
+
+#googlelogocorner img{
+    height: 24px;
+    width: 74px;
+    position: absolute; top: 18px; left: 20px; 
+}
+
+#appbar{
+    color: #d93025;
+    font-size: 20px;
+    margin: 81px 35px;
+    margin-bottom: 0px;
+}
+
+#line1 hr{
+    margin-top: 25px;
+    background-color: lightgray;
+    height: 1px;
+    border: none;
+}
+
+#toptext{
+    padding-top: 50px;
+    padding-left: 40px;
+}
+
+#Find-pages-with{
+    float: left;
+    display: inline-block;
+    width: 16%;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    padding-right: 450px;
+}
+
+#formsdiv{
+    padding-left: 40px;
+}
+
+#formsdiv div{
+    padding-top: 25px;
+    color: #222;
+    font-size: 13px;
+}
