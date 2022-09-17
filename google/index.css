@@ -27,10 +27,41 @@ body{
     position: absolute; top: 0; right: 0;
 }
 
+#googlelogo{
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#imagestext{
+    position: fixed;
+    top: 43.5%;
+    left: 55.5%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #4285f4;
+    font: 16px/16px roboto-regular, arial, sans-serif;
+}
+
 #google-search{
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+}
+
+#centerform{    /* style taken from google */
+    margin: 0 auto;
+    padding-top: 6px;
+    width: auto;
+    max-width: 584px;
+    position: relative;
+}
+
+#searchbar{
+    height: 46px;
+    border-radius: 30px;
 }
