@@ -87,6 +87,14 @@ body{
     border: none;
 }
 
+
+#line2 hr{
+    margin-top: 25px;
+    background-color: lightgray;
+    height: 1px;
+    border: none;
+}
+
 #toptext{
     padding-top: 50px;
     padding-left: 40px;
@@ -99,7 +107,7 @@ body{
     font-size: 16px;
     font-weight: 500;
     color: #333;
-    padding-right: 515px;
+    padding-right: 490px;
 }
 
 #formsdiv div{
@@ -108,28 +116,40 @@ body{
     padding-left: 40px;
 }
 
-#formsdiv form{
-    position: absolute; left: 12%;
-
-}
 
 #top4{
     width: 579px;
+    position: absolute; left: 12%;
 
 }
 
 #bottoml{
     width: 200px;
-    transform: translateX(379px);
+    position: absolute; left: 12%;
+
 }
+
+#to{
+    position: absolute; left: 25%; top: 47.5%;
+}
+
 
 #bottomr{
     width: 200px;
+    position: absolute; left: 32%;
 }
 
 #formsdiv small{
     position: absolute; left: 45%;
 }
 
-
+#searchbutton{
+    background-color: #4d90fe; 
+    color: #fff;
+    border-radius: 2px;
+    height: 30px;
+    font-size: 11px;
+    border: none;
+    position: fixed; top: 60%; left: 37.75%;
+}
 

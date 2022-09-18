@@ -28,46 +28,40 @@
                 </div>
                
                 <div id="formsdiv">    <!--...This div is for all the serach boxes. Google uses a div for each search query and divs inside them to put in the search boxes-->
-                    <div>
-                        all these words:
-                        <form action="https://www.google.com/" method="get">
-                            <input id="top4" autocomplete="on" autofocus  name="as_q"  type="text" >
+                    <form action="https://www.google.com/search" method="get">
+                        <div>
+                            all these words:                            
+                                <input id="top4" autocomplete="on" autofocus  name="as_q"  type="text" >                            
+                            <small>Type the important words: tri-colour rat terrier</small>
+                        </div>
+                        <div>
+                            this exact word or phrase:                           
+                                <input id="top4" autocomplete="on" autofocus  name="as_epq"  type="text">
+                            <small>exact words in quotes: "rat terrier"</small>
+                        </div>
+                        <div>
+                            any of these words:
+                                <input id="top4" autocomplete="on" autofocus  name="as_oq"  type="text" >
+                            <small>OR between all the words you want: miniature OR standard</small> 
+                        </div>
+                        <div>
+                            none of these words:
+                                <input id="top4" autocomplete="on" autofocus  name="as_eq"  type="text" >
+                            <small>a minus sign just before words that you don't want: -rodent, -"Jack Russell"</small> 
+                        </div>
+                        <div>
+                            numbers ranging from:
+                                <input id="bottoml" placeholder="JUST FOR STYLING'S SAKE">
+                            <div id="to">to</div>
+                                <input id="bottomr" placeholder="JUST FOR STYLING'S SAKE">
+                            <small>two full stops between the numbers and add a unit of measurement: 10..35 kg, £300..£500, 2010..2011</small> 
+                        </div>
+                        <button id="searchbutton" type="submit">Advanced Search</button>
                         </form>
-                        <small>Type the important words: tri-colour rat terrier</small>
-                    </div>
-                    <div>
-                        this exact word or phrase:
-                        <form action="https://www.google.com/" method="get">
-                            <input id="top4" autocomplete="on" autofocus  name="as_q"  type="text" >
-                        </form>
-                        <small>exact words in quotes: "rat terrier"</small>
-                    </div>
-                    <div>
-                        any of these words:
-                        <form action="https://www.google.com/" method="get">
-                            <input id="top4" autocomplete="on" autofocus  name="as_q"  type="text" >
-                        </form>
-                        <small>OR between all the words you want: miniature OR standard</small> 
-                    </div>
-                    <div>
-                        none of these words:
-                        <form action="https://www.google.com/" method="get">
-                            <input id="top4" autocomplete="on" autofocus  name="as_q"  type="text" >
-                        </form>
-                        <small>a minus sign just before words that you don't want: -rodent, -"Jack Russell"</small> 
-                    </div>
-                    <div>
-                        numbers ranging from:
-                        <form id="enclosure" action="https://www.google.com/" method="get">
-                            <input id="bottoml"  autocomplete="on" autofocus  name="as_q"  type="text" >
-                        </form>
-                        to
-                        <form  action="https://www.google.com/" method="get">
-                            <input id="bottomr" autocomplete="on" autofocus  name="as_q"  type="text" >
-                        </form>
-                        <small>two full stops between the numbers and add a unit of measurement: 10..35 kg, £300..£500, 2010..2011</small> 
-                    </div>
                 </div>
+        </div>
+        <div id="line2">
+        <hr>
         </div>
     </body>
 </html>
