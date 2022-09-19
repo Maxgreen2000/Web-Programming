@@ -1,0 +1,171 @@
+head{
+    display: none;
+}
+
+body, html{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+html, body{
+    min-width: 400px;
+}
+
+body, input, button{
+    font-size: 14px;
+    font-family: arial,sans-serif;
+    color: #202124;
+}
+
+body{
+    background: #fff;
+    display: block;
+}
+
+#page-buttons{
+    position: absolute; top: 0; right: 0;
+    text-decoration: none;
+    padding: 10px;
+}
+
+a{
+    text-decoration: none;
+    color: #202124;
+}
+
+#googlelogo{
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#imagestext{
+    position: fixed;
+    top: 43.5%;
+    left: 55.5%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #4285f4;
+    font: 16px/16px roboto-regular, arial, sans-serif;
+}
+
+#google-search{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#google-search button{
+    border: none;
+    height: 100%;
+    padding: 10px;
+    background-color: whitesmoke;
+    font-weight: 100;
+    transform: translateY(20px);
+}
+
+#google-search button:hover{
+    box-shadow: 0 2px 4px 0 lightgray, 0 2px 5px 0 lightgray;
+}
+
+#centerform{    /* style taken from google */
+    margin: 0 auto;
+    padding-top: 6px;
+    width: auto;
+    max-width: 584px;
+    position: relative;
+}
+
+#searchbar{
+    width: 500px;
+    height: 40px;
+    border-style: solid; 
+    border-color: lightgray;
+    border-width: 1px;
+    outline: none;
+    border-radius: 40px;
+    background-image: url("search.png");
+    background-size: 3%;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-position-x: 10px;
+    text-indent: 40px;
+    opacity: 0.5;
+}
+
+
+#googlelogocorner img{
+    height: 24px;
+    width: 74px;
+    position: absolute; top: 18px; left: 20px; 
+}
+
+#appbar{
+    color: #d93025;
+    font-size: 20px;
+    margin: 81px 35px;
+    margin-bottom: 0px;
+}
+
+#line1 hr{
+    margin-top: 25px;
+    background-color: lightgray;
+    height: 1px;
+    border: none;
+}
+
+
+#line2 hr{
+    margin-top: 25px;
+    background-color: lightgray;
+    height: 1px;
+    border: none;
+}
+
+#toptext{
+    padding-top: 50px;
+    padding-left: 40px;
+    padding-bottom: 30px;
+}
+
+#Find-pages-with{
+    float: left;
+    width: 16%;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    padding-right: 490px;
+}
+
+#formsdiv div{
+    display: flex;
+    padding: 20px;
+    padding-left: 40px;
+}
+
+
+#top4{
+    width: 579px;
+    position: absolute; left: 12%;
+
+}
+
+#formsdiv small{
+    position: absolute; left: 45%;
+}
+
+#searchbutton{
+    background-color: #4d90fe; 
+    color: #fff;
+    border-radius: 2px;
+    height: 30px;
+    font-size: 11px;
+    border: none;
+    position: fixed; top: 53%; left: 37.75%;
+}
+
