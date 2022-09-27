@@ -1,10 +1,14 @@
+from ast import Index
+import re
+from turtle import title
+from unicodedata import category
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Category, Listing
 
 
 def index(request):
@@ -61,3 +65,33 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+
+def createListing(request):
+    if request.method == "GET":
+        allCategories = Category.objects.all()
+        return render(request, "auctions/createListing.html", {
+            "categories": allCategories
+        })
+    else:
+        currentUser = request.user                            #Getting all the information from the form
+        title = request.POST["title"] 
+        description = request.POST["description"]
+        imageUrl = request.POST["imageUrl"]
+        price = request.POST["price"]
+        category = request.POST["category"]
+
+        categoryData = Category.objects.get(categoryName=category)    ##This retrieves the specific category selected by matches the option selected witht he categoryName using the get function.
+
+
+        newListing = Listing(                              #Adding the information collected to the database
+            owner = currentUser,
+            title = title,
+            description = description,
+            imageUrl = imageUrl,
+            price = float(price),
+            category = categoryData 
+        )
+
+        newListing.save()                                #Saving the database entry and then redirect the user back to the index page
+        return HttpResponseRedirect(reverse(index))
