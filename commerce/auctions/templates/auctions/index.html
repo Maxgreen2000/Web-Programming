@@ -21,7 +21,7 @@
                 <div class="card-body">
                 <h5 class="card-title">{{ listing.title }}</h5>
                 <p class="card-text">{{ listing.description }}</p>   <!--STYLE THIS EVEN MORE!!! MAYBE AS INLINE BLOCK SO MULTIPLE LISTINGS ON ONE ROW!!!!!-->
-                <a href="#" class="align-self-end btn btn-lg btn-block btn-primary">View Listing</a>
+                <a href="{% url 'listing' id=listing.id %}" class="align-self-end btn btn-lg btn-block btn-primary">View Listing</a>
                 </div>
             </div>
             {%  endfor %}

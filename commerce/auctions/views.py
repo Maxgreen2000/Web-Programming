@@ -112,3 +112,8 @@ def selectedCategory(request):
             "categories": allCategories
         })
 
+def listing(request, id):
+    listingData = Listing.objects.get(pk=id)
+    return render(request, "auctions/listing.html", {
+        "listing": listingData
+    })
