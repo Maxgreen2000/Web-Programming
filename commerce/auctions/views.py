@@ -12,7 +12,12 @@ from .models import User, Category, Listing
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    activeListings = Listing.objects.filter(isActive=True)
+    allCategories = Category.objects.all()
+    return render(request, "auctions/index.html",{
+        "listings": activeListings,
+        "categories": allCategories
+    })
 
 
 def login_view(request):
@@ -83,7 +88,6 @@ def createListing(request):
 
         categoryData = Category.objects.get(categoryName=category)    ##This retrieves the specific category selected by matches the option selected witht he categoryName using the get function.
 
-
         newListing = Listing(                              #Adding the information collected to the database
             owner = currentUser,
             title = title,
@@ -95,3 +99,16 @@ def createListing(request):
 
         newListing.save()                                #Saving the database entry and then redirect the user back to the index page
         return HttpResponseRedirect(reverse(index))
+
+
+def selectedCategory(request):
+    if request.method == "POST":
+        postedCategory = request.POST['category']
+        chosenCategory = Category.objects.get(categoryName = postedCategory)
+        activeListings = Listing.objects.filter(isActive=True, category=chosenCategory )
+        allCategories = Category.objects.all()
+        return render(request, "auctions/index.html",{
+            "listings": activeListings,
+            "categories": allCategories
+        })
+

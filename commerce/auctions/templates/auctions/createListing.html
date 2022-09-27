@@ -24,7 +24,7 @@
         </div>
         <div>
             <label for="category">Category:</label>
-            <select name="category" class="form-select" aria-label="Default select example">
+            <select name="category" class="form-select">
                 {% for category in categories %}
                 <option value="{{ category }}">{{ category }}</option>               <!--For loop displays all the categories available-->
                 {% endfor %}
