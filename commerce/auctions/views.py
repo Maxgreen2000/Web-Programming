@@ -1,4 +1,4 @@
-from ast import Index
+from ast import Index, Return
 import re
 from turtle import title
 from unicodedata import category
@@ -114,6 +114,17 @@ def selectedCategory(request):
 
 def listing(request, id):
     listingData = Listing.objects.get(pk=id)
+    isListingInWatchlist = False
     return render(request, "auctions/listing.html", {
-        "listing": listingData
+        "listing": listingData,
+        "isListingInWatchlist": isListingInWatchlist
     })
+
+def removeFromWatchlist(request, id):
+    return
+    
+
+
+
+def addToWatchlist(request, id):
+    return
