@@ -20,10 +20,30 @@
 
 
     <h2>{{ listing.title }}</h2>
-    <img src="{{ listing.imageUrl }}" alt="{{ listing.title }}" height="500px">
+    <img src="{{ listing.imageUrl }}" alt="{{ listing.title }}" height="450px">
     <p>{{ listing.description }} </p>
     <h6>Starting Price: £{{ listing.price }}</h6>
     <p>Seller: {{ listing.owner }}</p>
 
+    <div>
+        {% if user.is_authenticated %}
+            <form action="{% url 'addComment' id=listing.id %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                     <input type="text" name="newComment" class="form-control" placeholder="Enter a Comment">
+                    <br>
+                    <button type="submit" class="btn btn-warning mb-2">Submit Comment</button>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+    <br>
+
+    <ul class="list-group">
+        {% for comment in allComments %}
+            <li class="list-group-item">{{ comment.message }}</li>                       <!--STYLE THIS LATER IT LOOKS HORRIBLE-->
+            <p>{{ comment.author }}</p>
+        {% endfor %}
+    </ul>
 
 {% endblock %}

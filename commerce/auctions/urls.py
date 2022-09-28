@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("addComment/<int:id>", views.addComment, name="addComment"),
     path("showWatchlist", views.showWatchlist, name="showWatchlist"),
     path("addToWatchlist/<int:id>", views.addToWatchlist, name="addToWatchlist"),
     path("removeFromWatchlist/<int:id>", views.removeFromWatchlist, name="removeFromWatchlist"),
