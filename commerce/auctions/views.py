@@ -119,10 +119,12 @@ def listing(request, id):
     listingData = Listing.objects.get(pk=id)
     isListingInWatchlist = request.user in listingData.watchlist.all()
     allComments = Comment.objects.filter(listing=listingData)
+    isOwner = request.user.username == listingData.owner.username
     return render(request, "auctions/listing.html", {
         "listing": listingData,
         "isListingInWatchlist": isListingInWatchlist,
-        "allComments": allComments
+        "allComments": allComments,
+        "isOwner": isOwner
     })
 
 def removeFromWatchlist(request, id):
@@ -165,6 +167,7 @@ def addBid(request, id):
     listingData = Listing.objects.get(pk=id)
     isListingInWatchlist = request.user in listingData.watchlist.all()
     allComments = Comment.objects.filter(listing=listingData)
+    isOwner = request.user.username == listingData.owner.username
     if int(newBid) > listingData.price.bid:
         updateBid = Bid(user=request.user, bid=int(newBid))
         updateBid.save()
@@ -175,6 +178,7 @@ def addBid(request, id):
             "message": "Congratulations, your bid was successful",
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
+            "isOwner": isOwner,
             "update": True
          })
     else:
@@ -183,5 +187,24 @@ def addBid(request, id):
             "message": "Your bid was unsuccessful, please bid higher",
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
+            "isOwner": isOwner,
             "update": False
          })
+
+
+def endAuction(request, id):
+    listingData = Listing.objects.get(pk=id)
+    listingData.isActive = False
+    listingData.save()
+    isOwner = request.user.username == listingData.owner.username
+    isListingInWatchlist = request.user in listingData.watchlist.all()
+    allComments = Comment.objects.filter(listing=listingData)
+
+    return render(request,  "auctions/listing.html",{
+        "listing": listingData,
+        "isListingInWatchlist": isListingInWatchlist,
+        "allComments": allComments,
+        "isOwner": isOwner,
+        "update": True,
+        "message": "You have ended the auction"
+     })

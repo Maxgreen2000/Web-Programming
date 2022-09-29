@@ -1,7 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <div class="container">  <!--THE ALERT WONT GO AWAY EVEN AFTER REFRESHING-->
+    <div class="container">  
         {% if message %}                                         
             {% if update %}
                 <div class="alert alert-success" role="alert">
@@ -14,8 +14,21 @@
             {% endif %}
         {% endif %}
     </div>
+
+    {% if not listing.isActive and user == listing.price.user %}                              <!--THIS DEFINETLY NEEDS SOME WORK-->
+        <div class="alert alert-success" role="alert">
+            Congratulations you were the highest bidder. You have won the auction!!
+        </div>
+    {% endif %}
+    
     <div>
         {% if user.is_authenticated %}
+            {% if isOwner and listing.isActive %}
+                <form action="{% url 'endAuction' id=listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning mb-2" >End Auction</button>
+                </form>
+            {% endif %}
             {% if isListingInWatchlist %}
                 <form action="{% url 'removeFromWatchlist' id=listing.id %}" method="POST">
                     {% csrf_token %}
