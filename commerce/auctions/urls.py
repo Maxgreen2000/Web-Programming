@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path("addBid/<int:id>", views.addBid, name="addBid"),
     path("addComment/<int:id>", views.addComment, name="addComment"),
     path("showWatchlist", views.showWatchlist, name="showWatchlist"),
     path("addToWatchlist/<int:id>", views.addToWatchlist, name="addToWatchlist"),

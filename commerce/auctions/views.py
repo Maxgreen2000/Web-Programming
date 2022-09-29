@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Category, Listing, Comment
+from .models import User, Category, Listing, Comment, Bid
 
 
 def index(request):
@@ -88,12 +88,15 @@ def createListing(request):
 
         categoryData = Category.objects.get(categoryName=category)    ##This retrieves the specific category selected by matches the option selected witht he categoryName using the get function.
 
+        bid = Bid(bid=float(price), user=currentUser)   #CREATE AND SAVE THE BID 
+        bid.save()
+
         newListing = Listing(                              #Adding the information collected to the database
             owner = currentUser,
             title = title,
             description = description,
             imageUrl = imageUrl,
-            price = float(price),
+            price = bid,
             category = categoryData 
         )
 
@@ -142,7 +145,7 @@ def showWatchlist(request):
         "listings": allListings
     })
 
-def addComment(request, id):
+def addComment(request, id):                                                   #CHANGE SO COMMENTS CANNOT BE EMPTY
     currentUser = request.user
     listingData = Listing.objects.get(pk=id) 
     message = request.POST['newComment']
@@ -156,3 +159,29 @@ def addComment(request, id):
     newComment.save()
 
     return HttpResponseRedirect(reverse("listing", args=(id, )))
+
+def addBid(request, id):
+    newBid = request.POST['newBid']
+    listingData = Listing.objects.get(pk=id)
+    isListingInWatchlist = request.user in listingData.watchlist.all()
+    allComments = Comment.objects.filter(listing=listingData)
+    if int(newBid) > listingData.price.bid:
+        updateBid = Bid(user=request.user, bid=int(newBid))
+        updateBid.save()
+        listingData.price = updateBid
+        listingData.save()
+        return render(request, "auctions/listing.html",{
+            "listing": listingData,
+            "message": "Congratulations, your bid was successful",
+            "isListingInWatchlist": isListingInWatchlist,
+            "allComments": allComments,
+            "update": True
+         })
+    else:
+        return render(request,  "auctions/listing.html",{
+            "listing": listingData,
+            "message": "Your bid was unsuccessful, please bid higher",
+            "isListingInWatchlist": isListingInWatchlist,
+            "allComments": allComments,
+            "update": False
+         })
