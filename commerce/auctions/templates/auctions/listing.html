@@ -17,7 +17,7 @@
 
     {% if not listing.isActive and user == listing.price.user %}                              <!--THIS DEFINETLY NEEDS SOME WORK-->
         <div class="alert alert-success" role="alert">
-            Congratulations you were the highest bidder. You have won the auction!!
+            The auction has ended. Congratulations you were the highest bidder. You have won the auction!!
         </div>
     {% endif %}
     
@@ -48,8 +48,12 @@
     <img src="{{ listing.imageUrl }}" alt="{{ listing.title }}" height="450px">
     <p>{{ listing.description }} </p>
     <h6>Starting Price: £{{ listing.price.bid }}</h6>
-    <p>Seller: {{ listing.owner }}</p>
-    {% if user.is_authenticated %}
+    {% if isOwner%}
+        <p>Seller: {{ listing.owner }}. This is your listing. Good Luck!</p>
+    {% else %}  
+        <p>Seller: {{ listing.owner }}</p>                               
+    {% endif %}
+    {% if not isOwner and user.is_authenticated and listing.isActive  %}   
         <form action="{% url 'addBid' id=listing.id %}" method="POST">
             {% csrf_token %}
             <div class="form-group">
@@ -61,7 +65,7 @@
     <p>{{ message }}</p>
 
     <div>
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated %}             <!--POSSIBLY ADD A TIMESTAMP.MAKE SURE COMMENTS CANNOT BE EMPTY. WILL ALSO NEED MORE STYLING-->  
             <form action="{% url 'addComment' id=listing.id %}" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
