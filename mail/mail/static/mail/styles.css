@@ -1,3 +1,18 @@
 textarea {
     min-height: 400px;
 }
+
+.unread h6 {
+    font-weight: bold;
+}
+.unread h5 {
+    font-weight: bold;
+    color: blue;
+}
+.unread p {
+    color: lightgray;
+}
+
+.read p{
+    color: lightgray;
+}
