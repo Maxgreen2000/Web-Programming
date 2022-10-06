@@ -17,3 +17,6 @@ textarea {
     color: lightgray;
 }
 
+.read:hover,.unread:hover {
+    background-color: whitesmoke;
+  }

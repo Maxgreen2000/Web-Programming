@@ -60,7 +60,7 @@ function view_email(id){
       //Archive the email?
       const archive_button = document.createElement('button');
       archive_button.innerHTML = !email.archived ? "Archive" : "Unarchive";
-      archive_button.className= email.archived ? "btn btn-primary" : "btn btn-danger";
+      archive_button.className= email.archived ? "btn btn-outline-danger btn-lg" : "btn btn-outline-primary btn-lg";
       archive_button.addEventListener('click', function() {
         fetch(`/emails/${email.id}`, {
           method: 'PUT',
@@ -75,7 +75,7 @@ function view_email(id){
       //REPLY BUTTON
       const reply_button = document.createElement('button');
       reply_button.innerHTML = "Reply"
-      reply_button.className= "btn btn-info";
+      reply_button.className= "btn btn-outline-primary btn-lg m-3";
 
       reply_button.addEventListener('click', function() {
         compose_email();
@@ -138,6 +138,7 @@ function load_mailbox(mailbox) {
         <h6>From: ${singleEmail.sender}</h6>
         <h5>Subject: ${singleEmail.subject}</h5>
         <p>${singleEmail.timestamp}</p>
+        <hr>
       
       `;
 
