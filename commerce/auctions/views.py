@@ -163,6 +163,7 @@ def addComment(request, id):                                                   #
     return HttpResponseRedirect(reverse("listing", args=(id, )))
 
 def addBid(request, id):
+    addToWatchlist(request, id)                                             #WHEN A USER BIDS THE ITEM, WHETHER THEY ARE SUCCESSFUL OR NOT, THEY HAVE BID ON AUTOMATICALLY GETS PUT IN THEIR WATCHLIST
     newBid = request.POST['newBid']
     listingData = Listing.objects.get(pk=id)
     isListingInWatchlist = request.user in listingData.watchlist.all()
@@ -175,7 +176,7 @@ def addBid(request, id):
         listingData.save()
         return render(request, "auctions/listing.html",{
             "listing": listingData,
-            "message": "Congratulations, your bid was successful",
+            "message": "Congratulations, your bid was successful. Item has been added to your watchlist",
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
             "isOwner": isOwner,
@@ -184,7 +185,7 @@ def addBid(request, id):
     else:
         return render(request,  "auctions/listing.html",{
             "listing": listingData,
-            "message": "Your bid was unsuccessful, please bid higher",
+            "message": "Your bid was unsuccessful, please bid higher. Item has been added to your watchlist",
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
             "isOwner": isOwner,

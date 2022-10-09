@@ -7,6 +7,7 @@
         {% csrf_token %}
         <label for="category">Category:</label>
             <select name="category" class="form-select">
+                <!--<option value="all">Select A Filter</option> -->
                 {% for category in categories %}
                     <option value="{{ category }}">{{ category }}</option>            
                 {% endfor %}
@@ -16,7 +17,7 @@
 
     <div class="row">
         {% for listing in listings %}
-           <div class="card mx-3" style="width: 18rem;">                                     <!--Bootstrap cards are great for making little eaby or FB marketplace looking listings -->
+           <div class="card m-3" style="width: 23vw;">                                     <!--Bootstrap cards are great for making little eaby or FB marketplace looking listings -->
                 <img class="card-img-top" src="{{ listing.imageUrl }}" alt="{{ listing.title }}">
                 <div class="card-body">
                 <h5 class="card-title">{{ listing.title }}</h5>
@@ -24,7 +25,7 @@
                 <a href="{% url 'listing' id=listing.id %}" class="align-self-end btn btn-lg btn-block btn-primary">View Listing</a>
                 </div>
             </div>
-            {%  endfor %}
-        </div>
+        {%  endfor %}
+    </div>
 
 {% endblock %}
