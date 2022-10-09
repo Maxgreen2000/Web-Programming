@@ -102,7 +102,7 @@ def createListing(request):
 
         newListing.save()                                #Saving the database entry and then redirect the user back to the index page
         id = newListing.id
-        addToWatchlist(request, id)
+        addToWatchlist(request, id)                      #Before being redirected the new listing is added to the current users watchlist.
         return HttpResponseRedirect(reverse(index))
 
 

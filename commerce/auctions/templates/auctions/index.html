@@ -3,17 +3,23 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    <form action="{% url 'selectedCategory' %}" method="POST">
-        {% csrf_token %}
-        <label for="category">Category:</label>
-            <select name="category" class="form-select">
-                <!--<option value="all">Select A Filter</option> -->
-                {% for category in categories %}
-                    <option value="{{ category }}">{{ category }}</option>            
-                {% endfor %}
-            </select>
-        <button type="submit" class="btn btn-warning mb-2" >Filter</button>
-    </form>
+    <div class="row">
+        <form action="{% url 'selectedCategory' %}" method="POST">
+            {% csrf_token %}
+            <label for="category">Category:</label>
+                <select name="category" class="form-select">
+                    <!--<option value="all">Select A Filter</option> -->
+                    {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>            
+                    {% endfor %}
+                </select>
+            <button type="submit" class="btn btn-warning mx-2" >Filter</button>
+        </form>
+        <form action="{% url 'index' %}" method="POST"> 
+            {% csrf_token %}
+            <button type="" class="btn btn-outline-primary" >Clear Filter</button>                 <!--The filter can be clear by using another form that takes us back to the index url-->
+        </form>
+    </div>
 
     <div class="row">
         {% for listing in listings %}
