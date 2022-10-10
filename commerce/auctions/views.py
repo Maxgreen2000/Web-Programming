@@ -166,19 +166,38 @@ def selectedCategory(request):
 
 def listing(request, id):
     listingData = Listing.objects.get(pk=id)
-    isListingInWatchlist = request.user in listingData.watchlist.all()
     allComments = Comment.objects.filter(listing=listingData)
     isOwner = request.user.username == listingData.owner.username
     currentUser = request.user
-    watchlist = currentUser.listingWatchlist.all()
-    watchlistCounter = watchlist.count()   
-    return render(request, "auctions/listing.html", {
-        "listing": listingData,
-        "isListingInWatchlist": isListingInWatchlist,
-        "allComments": allComments,
-        "isOwner": isOwner,
-        "watchlistCounter": watchlistCounter
-    })
+    if currentUser.is_authenticated:
+        isListingInWatchlist = request.user in listingData.watchlist.all()
+        watchlist = currentUser.listingWatchlist.all()
+        watchlistCounter = watchlist.count()   
+        return render(request, "auctions/listing.html", {
+            "listing": listingData,
+            "isListingInWatchlist": isListingInWatchlist,
+            "allComments": allComments,
+            "isOwner": isOwner,
+            "watchlistCounter": watchlistCounter
+        })
+    else:
+        return render(request, "auctions/listing.html", {
+            "listing": listingData,
+            "allComments": allComments,
+            "isOwner": isOwner,
+        })
+
+
+
+
+
+
+
+
+
+
+
+
 
 def removeFromWatchlist(request, id):
     listingData = Listing.objects.get(pk=id)
