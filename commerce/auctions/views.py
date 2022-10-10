@@ -14,14 +14,28 @@ from .models import User, Category, Listing, Comment, Bid
 def index(request):
     activeListings = Listing.objects.filter(isActive=True)
     counter = activeListings.count()
+    currentUser = request.user
     allCategories = Category.objects.all()
-    return render(request, "auctions/index.html",{
-        "listings": activeListings,
-        "categories": allCategories,
-        "chosenCategory": "Active Listings",
-        "counter": counter
+    if currentUser.is_authenticated:
+        watchlist = currentUser.listingWatchlist.all()
+        watchlistCounter = watchlist.count()
+        return render(request, "auctions/index.html",{
+            "listings": activeListings,
+            "categories": allCategories,
+            "chosenCategory": "Active Listings",
+            "counter": counter,
+            "user":currentUser,
+            "watchlistCounter": watchlistCounter
+        })
+    else:
+        return render(request, "auctions/index.html",{
+            "listings": activeListings,
+            "categories": allCategories,
+            "chosenCategory": "Active Listings",
+            "counter": counter,
 
     })
+    
 
 
 def login_view(request):
@@ -77,14 +91,17 @@ def register(request):
 
 
 def createListing(request):
+    currentUser = request.user
     if request.method == "GET":
         allCategories = Category.objects.all()
+        watchlist = currentUser.listingWatchlist.all()
+        watchlistCounter = watchlist.count()        
         return render(request, "auctions/createListing.html", {
-            "categories": allCategories
+            "categories": allCategories,
+            "watchlistCounter": watchlistCounter
         })
-    else:
-        currentUser = request.user                            #Getting all the information from the form
-        title = request.POST["title"] 
+    else:                       
+        title = request.POST["title"]      #Getting all the information from the form
         description = request.POST["description"]
         imageUrl = request.POST["imageUrl"]
         price = request.POST["price"]
@@ -127,23 +144,40 @@ def selectedCategory(request):
         activeListings = Listing.objects.filter(isActive=True, category=chosenCategory )
         counter = activeListings.count()
         allCategories = Category.objects.all()
-        return render(request, "auctions/index.html",{
-            "listings": activeListings,
-            "categories": allCategories,
-            "chosenCategory": chosenCategory,
-            "counter": counter
-        })
+        currentUser = request.user
+        if currentUser.is_authenticated:
+            watchlist = currentUser.listingWatchlist.all()
+            watchlistCounter = watchlist.count()   
+            return render(request, "auctions/index.html",{
+                "listings": activeListings,
+                "categories": allCategories,
+                "chosenCategory": chosenCategory,
+                "counter": counter,
+                "watchlistCounter": watchlistCounter
+            })
+        else:
+            return render(request, "auctions/index.html",{
+                "listings": activeListings,
+                "categories": allCategories,
+                "chosenCategory": chosenCategory,
+                "counter": counter,
+            })
+
 
 def listing(request, id):
     listingData = Listing.objects.get(pk=id)
     isListingInWatchlist = request.user in listingData.watchlist.all()
     allComments = Comment.objects.filter(listing=listingData)
     isOwner = request.user.username == listingData.owner.username
+    currentUser = request.user
+    watchlist = currentUser.listingWatchlist.all()
+    watchlistCounter = watchlist.count()   
     return render(request, "auctions/listing.html", {
         "listing": listingData,
         "isListingInWatchlist": isListingInWatchlist,
         "allComments": allComments,
-        "isOwner": isOwner
+        "isOwner": isOwner,
+        "watchlistCounter": watchlistCounter
     })
 
 def removeFromWatchlist(request, id):
@@ -162,8 +196,11 @@ def addToWatchlist(request, id):
 def showWatchlist(request):
     currentUser = request.user
     allListings = currentUser.listingWatchlist.all()
+    watchlist = currentUser.listingWatchlist.all()
+    watchlistCounter = watchlist.count()
     return render(request,  "auctions/watchlist.html",{
-        "listings": allListings
+        "listings": allListings,
+        "watchlistCounter": watchlistCounter
     })
 
 def addComment(request, id):                                                   #CHANGE SO COMMENTS CANNOT BE EMPTY

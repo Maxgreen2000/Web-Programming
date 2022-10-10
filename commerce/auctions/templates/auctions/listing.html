@@ -21,7 +21,7 @@
         </div>
     {% endif %}
     
-    <div>
+    <div class="row ml-1">
         {% if user.is_authenticated %}
             {% if isOwner and listing.isActive %}
                 <form action="{% url 'endAuction' id=listing.id %}" method="POST">
@@ -29,16 +29,17 @@
                     <button type="submit" class="btn btn-warning mb-2" >End Auction</button>
                 </form>
             {% endif %}
-            {% if isListingInWatchlist %}
+            {% if not isOwner and isListingInWatchlist%}
                 <form action="{% url 'removeFromWatchlist' id=listing.id %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-warning mb-2" >Remove From Watchlist</button>
                 </form>
-            {% else %}
+            {% elif not isOwner %}
                 <form action="{% url 'addToWatchlist' id=listing.id %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-warning mb-2" >Add to Watchlist</button>
                 </form>
+            {% else %}
             {% endif %}
         {% endif %}
     </div>
@@ -47,7 +48,11 @@
     <h2>{{ listing.title }}</h2>
     <img src="{{ listing.imageUrl }}" alt="{{ listing.title }}" height="450px">
     <p>{{ listing.description }} </p>
-    <h6>Starting Price: £{{ listing.price.bid }}</h6>
+    <div class="row ml-0">
+        <h6>Starting Price: £{{ listing.price.bid }} </h6>
+        <h6 class="ml-3" style="color: blue;">bids: (X)</h6>
+    </div>
+    
     {% if isOwner%}
         <p>Seller: {{ listing.owner }}. This is your listing. Good Luck!</p>
     {% else %}  
