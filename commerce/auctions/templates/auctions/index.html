@@ -1,14 +1,17 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
+    {% if chosenCategory == ""  %}
+        <h2>Active Listings</h2>
+    {% else %}
+        <h2>{{chosenCategory}}</h2>
+    {% endif %}
 
     <div class="row">
         <form action="{% url 'selectedCategory' %}" method="POST">
             {% csrf_token %}
-            <label for="category">Category:</label>
+            <label for="category" class="ml-3">Category:</label>
                 <select name="category" class="form-select">
-                    <!--<option value="all">Select A Filter</option> -->
                     {% for category in categories %}
                         <option value="{{ category }}">{{ category }}</option>            
                     {% endfor %}
@@ -27,8 +30,8 @@
                 <img class="card-img-top" src="{{ listing.imageUrl }}" alt="{{ listing.title }}">
                 <div class="card-body">
                 <h5 class="card-title">{{ listing.title }}</h5>
-                <p class="card-text">{{ listing.description }}</p>   <!--STYLE THIS EVEN MORE!!! MAYBE AS INLINE BLOCK SO MULTIPLE LISTINGS ON ONE ROW!!!!!-->
-                <a href="{% url 'listing' id=listing.id %}" class="align-self-end btn btn-lg btn-block btn-primary">View Listing</a>
+                <p class="card-text" >{{ listing.description }}</p>   <!--STYLE THIS EVEN MORE!!! MAYBE AS INLINE BLOCK SO MULTIPLE LISTINGS ON ONE ROW!!!!!-->
+                <a href="{% url 'listing' id=listing.id %}" class="align-end btn btn-lg btn-block btn-primary">View Listing</a>
                 </div>
             </div>
         {%  endfor %}

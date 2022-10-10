@@ -16,7 +16,9 @@ def index(request):
     allCategories = Category.objects.all()
     return render(request, "auctions/index.html",{
         "listings": activeListings,
-        "categories": allCategories
+        "categories": allCategories,
+        "chosenCategory": "Active Listings"
+
     })
 
 
@@ -114,7 +116,8 @@ def selectedCategory(request):
         allCategories = Category.objects.all()
         return render(request, "auctions/index.html",{
             "listings": activeListings,
-            "categories": allCategories
+            "categories": allCategories,
+            "chosenCategory": chosenCategory
         })
 
 def listing(request, id):
