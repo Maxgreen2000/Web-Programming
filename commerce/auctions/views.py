@@ -13,11 +13,13 @@ from .models import User, Category, Listing, Comment, Bid
 
 def index(request):
     activeListings = Listing.objects.filter(isActive=True)
+    counter = activeListings.count()
     allCategories = Category.objects.all()
     return render(request, "auctions/index.html",{
         "listings": activeListings,
         "categories": allCategories,
-        "chosenCategory": "Active Listings"
+        "chosenCategory": "Active Listings",
+        "counter": counter
 
     })
 
@@ -88,24 +90,34 @@ def createListing(request):
         price = request.POST["price"]
         category = request.POST["category"]
 
-        categoryData = Category.objects.get(categoryName=category)    ##This retrieves the specific category selected by matches the option selected witht he categoryName using the get function.
+        if (title and description and imageUrl and price and category) != "":
 
-        bid = Bid(bid=float(price), user=currentUser)   #CREATE AND SAVE THE BID 
-        bid.save()
+            categoryData = Category.objects.get(categoryName=category)    ##This retrieves the specific category selected by matches the option selected witht he categoryName using the get function.
 
-        newListing = Listing(                              #Adding the information collected to the database
-            owner = currentUser,
-            title = title,
-            description = description,
-            imageUrl = imageUrl,
-            price = bid,
-            category = categoryData 
-        )
+            bid = Bid(bid=float(price), user=currentUser)   #CREATE AND SAVE THE BID 
+            bid.save()
 
-        newListing.save()                                #Saving the database entry and then redirect the user back to the index page
-        id = newListing.id
-        addToWatchlist(request, id)                      #Before being redirected the new listing is added to the current users watchlist.
-        return HttpResponseRedirect(reverse(index))
+            newListing = Listing(                              #Adding the information collected to the database
+                owner = currentUser,
+                title = title,
+                description = description,
+                imageUrl = imageUrl,
+                price = bid,
+                category = categoryData 
+            )
+
+            newListing.save()                                #Saving the database entry and then redirect the user back to the index page
+            id = newListing.id
+            addToWatchlist(request, id)                      #Before being redirected the new listing is added to the current users watchlist.
+            return HttpResponseRedirect(reverse(index))
+
+        else:
+            allCategories = Category.objects.all()
+            return render(request, "auctions/createListing.html", {
+            "categories": allCategories,
+            "emptyField": True,
+            "message": "Make sure all fields are filled in before submitting"      
+        })
 
 
 def selectedCategory(request):
@@ -113,11 +125,13 @@ def selectedCategory(request):
         postedCategory = request.POST['category']
         chosenCategory = Category.objects.get(categoryName = postedCategory)
         activeListings = Listing.objects.filter(isActive=True, category=chosenCategory )
+        counter = activeListings.count()
         allCategories = Category.objects.all()
         return render(request, "auctions/index.html",{
             "listings": activeListings,
             "categories": allCategories,
-            "chosenCategory": chosenCategory
+            "chosenCategory": chosenCategory,
+            "counter": counter
         })
 
 def listing(request, id):

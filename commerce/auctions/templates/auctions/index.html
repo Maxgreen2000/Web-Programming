@@ -1,11 +1,10 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    {% if chosenCategory == ""  %}
-        <h2>Active Listings</h2>
-    {% else %}
-        <h2>{{chosenCategory}}</h2>
-    {% endif %}
+    <div class="row ml-1">
+    <h2>{{chosenCategory}}</h2>
+    <h2 class="ml-2" style="color: lightgray;">({{counter}})</h2>
+    </div>
 
     <div class="row">
         <form action="{% url 'selectedCategory' %}" method="POST">
@@ -28,10 +27,10 @@
         {% for listing in listings %}
            <div class="card m-3" style="width: 23vw;">                                     <!--Bootstrap cards are great for making little eaby or FB marketplace looking listings -->
                 <img class="card-img-top" src="{{ listing.imageUrl }}" alt="{{ listing.title }}">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                 <h5 class="card-title">{{ listing.title }}</h5>
                 <p class="card-text" >{{ listing.description }}</p>   <!--STYLE THIS EVEN MORE!!! MAYBE AS INLINE BLOCK SO MULTIPLE LISTINGS ON ONE ROW!!!!!-->
-                <a href="{% url 'listing' id=listing.id %}" class="align-end btn btn-lg btn-block btn-primary">View Listing</a>
+                <a href="{% url 'listing' id=listing.id %}" class="align-self-end btn btn-lg btn-block btn-primary" style="margin-top: auto;">View Listing</a>
                 </div>
             </div>
         {%  endfor %}

@@ -1,6 +1,15 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+
+<div class="container">                                          
+    {% if emptyField %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% else %}
+    {% endif %}
+</div>
     
     <h2>Create New Listings</h2>
 
