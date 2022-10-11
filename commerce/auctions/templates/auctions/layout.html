@@ -28,6 +28,9 @@
                     <a class="nav-link" href="{% url 'showWatchlist' %}">Watchlist [{{watchlistCounter}}]</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'myListings' %}">My Listings</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                 </li>
             {% else %}

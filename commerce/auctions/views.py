@@ -247,7 +247,7 @@ def addComment(request, id):                                                   #
     else:
         return HttpResponseRedirect(reverse("listing", args=(id, )))
 
-        
+
 def addBid(request, id):
     addToWatchlist(request, id)                                             #WHEN A USER BIDS THE ITEM, WHETHER THEY ARE SUCCESSFUL OR NOT, THEY HAVE BID ON AUTOMATICALLY GETS PUT IN THEIR WATCHLIST
     newBid = request.POST['newBid']
@@ -295,3 +295,29 @@ def endAuction(request, id):
         "update": True,
         "message": "You have ended the auction"
      })
+
+
+def myListings(request):
+    currentUser = request.user
+    watchlist = currentUser.listingWatchlist.all()
+    watchlistCounter = watchlist.count()  
+    if request.method == "POST":
+        statusBool = request.POST['status']
+        if statusBool == "Active":
+            allListings = Listing.objects.filter(owner = currentUser, isActive = True)
+        elif statusBool == "Ended":
+            allListings = Listing.objects.filter(owner = currentUser, isActive = False)
+        else:
+            allListings = Listing.objects.filter(owner = currentUser)
+        return render(request,  "auctions/myListings.html",{
+            "listings": allListings,
+            "watchlistCounter": watchlistCounter,
+            "status": statusBool
+    })
+    else:  
+        allListings = Listing.objects.filter(owner = currentUser)
+        return render(request,  "auctions/myListings.html",{
+            "listings": allListings,
+            "watchlistCounter": watchlistCounter,
+            "status": "All"
+        })
