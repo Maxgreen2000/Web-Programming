@@ -139,29 +139,32 @@ def createListing(request):
 
 def selectedCategory(request):
     if request.method == "POST":
-        postedCategory = request.POST['category']
-        chosenCategory = Category.objects.get(categoryName = postedCategory)
-        activeListings = Listing.objects.filter(isActive=True, category=chosenCategory )
-        counter = activeListings.count()
-        allCategories = Category.objects.all()
-        currentUser = request.user
-        if currentUser.is_authenticated:
-            watchlist = currentUser.listingWatchlist.all()
-            watchlistCounter = watchlist.count()   
-            return render(request, "auctions/index.html",{
-                "listings": activeListings,
-                "categories": allCategories,
-                "chosenCategory": chosenCategory,
-                "counter": counter,
-                "watchlistCounter": watchlistCounter
-            })
-        else:
-            return render(request, "auctions/index.html",{
-                "listings": activeListings,
-                "categories": allCategories,
-                "chosenCategory": chosenCategory,
-                "counter": counter,
-            })
+        postedCategory = request.POST['category']                 
+        if postedCategory == "Active Listings":
+                return HttpResponseRedirect(reverse("index"))
+        else:            
+            allCategories = Category.objects.all()
+            currentUser = request.user
+            chosenCategory = Category.objects.get(categoryName = postedCategory)
+            activeListings = Listing.objects.filter(isActive=True, category=chosenCategory )
+            counter = activeListings.count()
+            if currentUser.is_authenticated:
+                watchlist = currentUser.listingWatchlist.all()
+                watchlistCounter = watchlist.count()   
+                return render(request, "auctions/index.html",{
+                    "listings": activeListings,
+                    "categories": allCategories,
+                    "chosenCategory": chosenCategory,
+                    "counter": counter,
+                    "watchlistCounter": watchlistCounter
+                })
+            else:
+                return render(request, "auctions/index.html",{
+                    "listings": activeListings,
+                    "categories": allCategories,
+                    "chosenCategory": chosenCategory,
+                    "counter": counter,
+                })
 
 
 def listing(request, id):

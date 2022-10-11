@@ -11,6 +11,7 @@
             {% csrf_token %}
             <label for="category" class="ml-3">Category:</label>
                 <select name="category" class="form-select">
+                    <option hidden selected value="{{ chosenCategory }}"> {{chosenCategory}} </option>
                     {% for category in categories %}
                         <option value="{{ category }}">{{ category }}</option>            
                     {% endfor %}
