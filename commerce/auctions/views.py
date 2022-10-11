@@ -192,16 +192,6 @@ def listing(request, id):
 
 
 
-
-
-
-
-
-
-
-
-
-
 def removeFromWatchlist(request, id):
     listingData = Listing.objects.get(pk=id)
     currentUser = request.user
@@ -217,13 +207,30 @@ def addToWatchlist(request, id):
 
 def showWatchlist(request):
     currentUser = request.user
-    allListings = currentUser.listingWatchlist.all()
     watchlist = currentUser.listingWatchlist.all()
     watchlistCounter = watchlist.count()
-    return render(request,  "auctions/watchlist.html",{
-        "listings": allListings,
-        "watchlistCounter": watchlistCounter
-    })
+    if request.method == "POST":
+        statusBool = request.POST['status']
+        if statusBool == "Active":
+            allListings = currentUser.listingWatchlist.filter(isActive = True)
+        elif statusBool == "Ended":
+            allListings = currentUser.listingWatchlist.filter(isActive = False)
+        else:
+            allListings = currentUser.listingWatchlist.all()
+        
+        return render(request,  "auctions/watchlist.html",{
+             "listings": allListings,
+             "watchlistCounter": watchlistCounter,
+             "status": statusBool
+        })
+
+    else:    
+        allListings = currentUser.listingWatchlist.all()
+        return render(request,  "auctions/watchlist.html",{
+            "listings": allListings,
+            "watchlistCounter": watchlistCounter,
+            "status": "All"
+        })
 
 def addComment(request, id):                                                   #CHANGE SO COMMENTS CANNOT BE EMPTY
     currentUser = request.user
