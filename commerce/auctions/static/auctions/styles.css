@@ -2,3 +2,15 @@ body {
     padding: 10px;
 }
 
+.card-text {
+    overflow: hidden;
+    white-space: wrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* number of lines to show */
+            line-clamp: 5; 
+    -webkit-box-orient: vertical;
+}
+
+.card a{
+    margin-top: auto;
+}
