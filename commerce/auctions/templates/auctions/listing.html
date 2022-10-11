@@ -70,11 +70,11 @@
     <p>{{ message }}</p>
 
     <div>
-        {% if user.is_authenticated %}             <!--POSSIBLY ADD A TIMESTAMP.MAKE SURE COMMENTS CANNOT BE EMPTY. WILL ALSO NEED MORE STYLING-->  
+        {% if user.is_authenticated and listing.isActive %}            
             <form action="{% url 'addComment' id=listing.id %}" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
-                     <input type="text" name="newComment" class="form-control" placeholder="Enter a Comment">
+                    <input type="text" name="newComment" class="form-control" placeholder="Enter a Comment">
                     <br>
                     <button type="submit" class="btn btn-warning mb-2">Submit Comment</button>
                 </div>
@@ -85,8 +85,7 @@
 
     <ul class="list-group">
         {% for comment in allComments %}
-            <li class="list-group-item">{{ comment.message }}</li>                       <!--STYLE THIS LATER IT LOOKS HORRIBLE-->
-            <p>{{ comment.author }}</p>
+            <p><b>{{ comment.author }}</b>:  {{ comment.message }}</p>               
         {% endfor %}
     </ul>
 

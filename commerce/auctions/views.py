@@ -236,17 +236,18 @@ def addComment(request, id):                                                   #
     currentUser = request.user
     listingData = Listing.objects.get(pk=id) 
     message = request.POST['newComment']
+    if message != "":
+        newComment = Comment(
+            author = currentUser,
+            listing = listingData,
+            message = message
+        )
+        newComment.save()
+        return HttpResponseRedirect(reverse("listing", args=(id, )))
+    else:
+        return HttpResponseRedirect(reverse("listing", args=(id, )))
 
-    newComment = Comment(
-        author = currentUser,
-        listing = listingData,
-        message = message
-    )
-
-    newComment.save()
-
-    return HttpResponseRedirect(reverse("listing", args=(id, )))
-
+        
 def addBid(request, id):
     addToWatchlist(request, id)                                             #WHEN A USER BIDS THE ITEM, WHETHER THEY ARE SUCCESSFUL OR NOT, THEY HAVE BID ON AUTOMATICALLY GETS PUT IN THEIR WATCHLIST
     newBid = request.POST['newBid']
