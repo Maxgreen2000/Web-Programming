@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container">  
         {% if message %}                                         
-            {% if update %}
+            {% if listing.highestBidder == currentUser %}
                 <div class="alert alert-success" role="alert">
                     {{ message }}
                 </div>
@@ -15,10 +15,14 @@
         {% endif %}
     </div>
 
-    {% if not listing.isActive and user == listing.price.user %}                              <!--THIS DEFINETLY NEEDS SOME WORK-->
+    {% if not listing.isActive and user == listing.highestBidder %}                              <!--THIS DEFINETLY NEEDS SOME WORK-->
         <div class="alert alert-success" role="alert">
             The auction has ended. Congratulations you were the highest bidder. You have won the auction!!
         </div>
+    {% elif not listing.isActive and user != listing.highestBidder %} 
+    <div class="alert alert-danger" role="alert">
+        The auction has ended. Sadly, you did not win this item. Better luck next time.
+    </div>
     {% endif %}
     
     <div class="row ml-1">
@@ -49,8 +53,8 @@
     <img src="{{ listing.imageUrl }}" alt="{{ listing.title }}" height="450px">
     <p>{{ listing.description }} </p>
     <div class="row ml-0">
-        <h6>Starting Price: £{{ listing.price.bid }} </h6>
-        <h6 class="ml-3" style="color: blue;">bids: (X)</h6>
+        <h6>Starting Price: £{{ listing.highestBid }} </h6>
+        <h6 class="ml-3" style="color: blue;">bids: {{ listing.bidCounter }}</h6>
     </div>
     
     {% if isOwner%}
@@ -67,7 +71,6 @@
             </div>
         </form>
     {% endif %}
-    <p>{{ message }}</p>
 
     <div>
         {% if user.is_authenticated and listing.isActive %}            

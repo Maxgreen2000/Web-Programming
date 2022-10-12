@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Category, Listing, Comment, Bid
+from .models import User, Category, Listing, Comment
 
 
 def index(request):
@@ -104,22 +104,22 @@ def createListing(request):
         title = request.POST["title"]      #Getting all the information from the form
         description = request.POST["description"]
         imageUrl = request.POST["imageUrl"]
-        price = request.POST["price"]
+        startingPrice = request.POST["startingPrice"]
         category = request.POST["category"]
 
-        if (title and description and imageUrl and price and category) != "":
+        if (title and description and imageUrl and startingPrice and category) != "":
 
             categoryData = Category.objects.get(categoryName=category)    ##This retrieves the specific category selected by matches the option selected witht he categoryName using the get function.
 
-            bid = Bid(bid=float(price), user=currentUser)   #CREATE AND SAVE THE BID 
-            bid.save()
 
             newListing = Listing(                              #Adding the information collected to the database
                 owner = currentUser,
                 title = title,
                 description = description,
                 imageUrl = imageUrl,
-                price = bid,
+                startingPrice = startingPrice,
+                highestBid = startingPrice,
+                highestBidder = currentUser,
                 category = categoryData 
             )
 
@@ -181,7 +181,9 @@ def listing(request, id):
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
             "isOwner": isOwner,
-            "watchlistCounter": watchlistCounter
+            "watchlistCounter": watchlistCounter,
+            "currentUser": currentUser,
+            "message": "Congratulations, you are the highest bidder",
         })
     else:
         return render(request, "auctions/listing.html", {
@@ -249,24 +251,34 @@ def addComment(request, id):                                                   #
 
 
 def addBid(request, id):
-    addToWatchlist(request, id)                                             #WHEN A USER BIDS THE ITEM, WHETHER THEY ARE SUCCESSFUL OR NOT, THEY HAVE BID ON AUTOMATICALLY GETS PUT IN THEIR WATCHLIST
+    addToWatchlist(request, id)
+    currentUser = request.user                                          #WHEN A USER BIDS THE ITEM, WHETHER THEY ARE SUCCESSFUL OR NOT, THEY HAVE BID ON AUTOMATICALLY GETS PUT IN THEIR WATCHLIST
     newBid = request.POST['newBid']
     listingData = Listing.objects.get(pk=id)
     isListingInWatchlist = request.user in listingData.watchlist.all()
     allComments = Comment.objects.filter(listing=listingData)
     isOwner = request.user.username == listingData.owner.username
-    if int(newBid) > listingData.price.bid:
-        updateBid = Bid(user=request.user, bid=int(newBid))
-        updateBid.save()
-        listingData.price = updateBid
+    if int(newBid) > listingData.highestBid:
+        listingData.highestBid = newBid
+        listingData.highestBidder = currentUser
+        listingData.bidCounter = listingData.bidCounter + 1
         listingData.save()
         return render(request, "auctions/listing.html",{
             "listing": listingData,
-            "message": "Congratulations, your bid was successful. Item has been added to your watchlist",
+            "message": "Congratulations, you are the highest bidder",
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
             "isOwner": isOwner,
-            "update": True
+            "currentUser": currentUser
+         })
+    elif int(newBid) <= listingData.highestBid and currentUser ==  listingData.highestBidder:
+        return render(request, "auctions/listing.html",{
+            "listing": listingData,
+            "message": "Congratulations, you are the highest bidder",
+            "isListingInWatchlist": isListingInWatchlist,
+            "allComments": allComments,
+            "isOwner": isOwner,
+            "currentUser": currentUser
          })
     else:
         return render(request,  "auctions/listing.html",{
@@ -275,7 +287,7 @@ def addBid(request, id):
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
             "isOwner": isOwner,
-            "update": False
+            "currentUser": currentUser
          })
 
 

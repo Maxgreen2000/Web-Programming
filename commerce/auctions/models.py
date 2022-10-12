@@ -11,11 +11,6 @@ from django.db import models
 class User(AbstractUser):
     pass
 
-class Bid(models.Model):
-    bid = models.FloatField(default=0)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="userBid")
-
-
 class Category(models.Model):
     categoryName = models.CharField(max_length=100)
 
@@ -26,7 +21,10 @@ class Listing(models.Model):
     title = models.CharField(max_length=80)  #80 characters is Ebay's limit
     description = models.TextField(max_length=1000) #Ebay doesn't have a max length for descriptions in reality  /   CharField has a max of 255 characters thus use a textfield instead.
     imageUrl = models.TextField(max_length=500) #Need to be a massive length to accomadate very long urls
-    price = models.ForeignKey(Bid, on_delete=models.CASCADE, blank=True, null=True, related_name="bidPrice")
+    startingPrice = models.FloatField(default=0)
+    highestBid = models.FloatField(default=0)
+    highestBidder = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="highestBidder")
+    bidCounter = models.IntegerField(default=0)
     isActive =models.BooleanField(default=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="user")  # on_delete=models.CASCADE means that if the owner is deleted, listing/comments associated etc referencing the owner will be deleted 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True, related_name="category")
