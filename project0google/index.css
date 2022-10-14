@@ -35,26 +35,38 @@ a{
 }
 
 #googlelogo{
-    position: fixed;
-    top: 40%;
+    position: relative;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#googlelogoimages{
+    margin: none;
+    padding: none;
+    position: relative;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
 
 #imagestext{
-    position: fixed;
-    top: 43.5%;
-    left: 55.5%;
-    transform: translate(-50%, -50%);
+    width: 50px;
+    margin: none;
+    padding: none;
     text-align: center;
+    position: relative;
+    top: 38%;
+    left: 50%;
     color: #4285f4;
     font: 16px/16px roboto-regular, arial, sans-serif;
 }
 
 #google-search{
-    position: fixed;
-    top: 50%;
+    position: relative;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
