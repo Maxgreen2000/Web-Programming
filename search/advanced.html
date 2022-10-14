@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="styles.css" rel="stylesheet"> 
+        <title>Search</title>
+        <link rel="icon" type="image/x-icon" href="google.ico">
+    </head>
+    <body>
+        <div>
+            <ul class="nav-bar">
+                <li class="nav-bar-item"><a href="index.html">Google Search</a></li>
+            </ul>
+        </div>
+        <h1 class="advanced-search-title">Advanced Search</h1>
+        <div class="solid-line"></div>
+        <div class="find-pages-with-div">
+            <p class="find-pages-with-text">Find pages with...</p>
+            <form action="https://google.com/search">
+                <div class="whole-input">
+                    <div class="lhs">
+                        <p>all these words:</p>
+                    </div>
+                    <div class="middle">
+                        <input class="advanced-input" type="text" autocomplete="on"  name="as_q"   > 
+                    </div>
+                    <div class="rhs">
+                        <small>Type the important words: tri-colour rat terrier</small>
+                    </div>
+                </div>
+                <div class="whole-input">
+                    <div class="lhs">
+                        <p>this exact word or phrase: </p>
+                    </div>
+                    <div class="middle">
+                        <input class="advanced-input" type="text" autocomplete="on"  name="as_epq"   > 
+                    </div>
+                    <div class="rhs">
+                        <small>exact words in quotes: "rat terrier"</small>
+                    </div>
+                </div>
+                <div class="whole-input">
+                    <div class="lhs">
+                        <p>any of these words:</p>
+                    </div>
+                    <div class="middle">
+                        <input class="advanced-input" type="text" autocomplete="on"  name="as_oq"   > 
+                    </div>
+                    <div class="rhs">
+                        <small>OR between all the words you want: miniature OR standard</small>
+                    </div>
+                </div>
+                <div class="whole-input">
+                    <div class="lhs">
+                        <p>none of these words:</p>
+                    </div>
+                    <div class="middle">
+                        <input class="advanced-input" type="text" autocomplete="on"  name="as_eq"   > 
+                    </div>
+                    <div class="rhs">
+                        <small>a minus sign just before words that you don't want: -rodent, -"Jack Russell"</small>
+                    </div>
+                </div>
+                <button class="advanced-search-button" type="submit">Advanced Search</button>
+            </form>
+        </div>
+    </body>
+</html>
