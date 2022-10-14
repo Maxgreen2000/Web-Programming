@@ -1,4 +1,5 @@
 from ast import Index, Return
+from email import message
 import re
 from turtle import title
 from unicodedata import category
@@ -119,7 +120,7 @@ def createListing(request):
                 imageUrl = imageUrl,
                 startingPrice = startingPrice,
                 highestBid = startingPrice,
-                highestBidder = currentUser,
+                highestBidder = None,
                 category = categoryData 
             )
 
@@ -183,7 +184,6 @@ def listing(request, id):
             "isOwner": isOwner,
             "watchlistCounter": watchlistCounter,
             "currentUser": currentUser,
-            "message": "Congratulations, you are the highest bidder",
         })
     else:
         return render(request, "auctions/listing.html", {
@@ -258,6 +258,8 @@ def addBid(request, id):
     isListingInWatchlist = request.user in listingData.watchlist.all()
     allComments = Comment.objects.filter(listing=listingData)
     isOwner = request.user.username == listingData.owner.username
+    watchlist = currentUser.listingWatchlist.all()
+    watchlistCounter = watchlist.count()
     if int(newBid) > listingData.highestBid:
         listingData.highestBid = newBid
         listingData.highestBidder = currentUser
@@ -265,39 +267,43 @@ def addBid(request, id):
         listingData.save()
         return render(request, "auctions/listing.html",{
             "listing": listingData,
-            "message": "Congratulations, you are the highest bidder",
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
             "isOwner": isOwner,
+            "watchlistCounter": watchlistCounter,
             "currentUser": currentUser
          })
     elif int(newBid) <= listingData.highestBid and currentUser ==  listingData.highestBidder:
         return render(request, "auctions/listing.html",{
             "listing": listingData,
-            "message": "Congratulations, you are the highest bidder",
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
             "isOwner": isOwner,
+            "watchlistCounter": watchlistCounter,
             "currentUser": currentUser
          })
     else:
         return render(request,  "auctions/listing.html",{
             "listing": listingData,
-            "message": "Your bid was unsuccessful, please bid higher. Item has been added to your watchlist",
             "isListingInWatchlist": isListingInWatchlist,
             "allComments": allComments,
             "isOwner": isOwner,
+            "message": "Bid unsuccessful. Please increase bid amount.",
+            "watchlistCounter": watchlistCounter,
             "currentUser": currentUser
          })
 
 
 def endAuction(request, id):
+    currentUser = request.user
     listingData = Listing.objects.get(pk=id)
     listingData.isActive = False
     listingData.save()
-    isOwner = request.user.username == listingData.owner.username
-    isListingInWatchlist = request.user in listingData.watchlist.all()
+    isOwner = currentUser.username == listingData.owner.username
+    isListingInWatchlist = currentUser in listingData.watchlist.all()
     allComments = Comment.objects.filter(listing=listingData)
+    watchlist = currentUser.listingWatchlist.all()
+    watchlistCounter = watchlist.count()
 
     return render(request,  "auctions/listing.html",{
         "listing": listingData,
@@ -305,6 +311,7 @@ def endAuction(request, id):
         "allComments": allComments,
         "isOwner": isOwner,
         "update": True,
+        "watchlistCounter": watchlistCounter,
         "message": "You have ended the auction"
      })
 

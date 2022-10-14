@@ -1,25 +1,30 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <div class="container">  
-        {% if message %}                                         
-            {% if listing.highestBidder == currentUser %}
+
+    <div class="container">
+        {% if currentUser != listing.owner and listing.highestBidder == currentUser %}                                       
                 <div class="alert alert-success" role="alert">
-                    {{ message }}
+                    <b>You are currently the highest bidder!!!!</b>
                 </div>
-            {% else %}
-                <div class="alert alert-danger" role="alert">
-                    {{ message }}
-                </div>
-            {% endif %}
         {% endif %}
     </div>
+
+    {% if message %}
+        <div class="container">                                       
+            <div class="alert alert-danger" role="alert">
+                <b>{{ message }}</b>
+            </div>
+        </div>
+    {% endif %}
+
+
 
     {% if not listing.isActive and user == listing.highestBidder %}                              <!--THIS DEFINETLY NEEDS SOME WORK-->
         <div class="alert alert-success" role="alert">
             The auction has ended. Congratulations you were the highest bidder. You have won the auction!!
         </div>
-    {% elif not listing.isActive and user != listing.highestBidder %} 
+    {% elif not listing.isActive and user != listing.highestBidder and user != listing.owner %} 
     <div class="alert alert-danger" role="alert">
         The auction has ended. Sadly, you did not win this item. Better luck next time.
     </div>
