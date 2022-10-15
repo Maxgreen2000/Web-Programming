@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="styles.css" rel="stylesheet"> 
         <title>Search</title>
         <link rel="icon" type="image/x-icon" href="google.ico">
@@ -10,6 +11,7 @@
             <ul class="nav-bar">
                 <li class="nav-bar-item"><a href="index.html">Google Search</a></li>
             </ul>
+            <a href="index.html"><img src="googlelogo.png" alt="Google" class="google-logo-advanced"></a>
         </div>
         <h1 class="advanced-search-title">Advanced Search</h1>
         <div class="solid-line"></div>
@@ -18,10 +20,10 @@
             <form action="https://google.com/search">
                 <div class="whole-input">
                     <div class="lhs">
-                        <p>all these words:</p>
+                        <p class="advanced-criteria">all these words:</p>
                     </div>
                     <div class="middle">
-                        <input class="advanced-input" type="text" autocomplete="on"  name="as_q"   > 
+                        <input class="form-control" type="text" autocomplete="on"  name="as_q"   > 
                     </div>
                     <div class="rhs">
                         <small>Type the important words: tri-colour rat terrier</small>
@@ -29,10 +31,10 @@
                 </div>
                 <div class="whole-input">
                     <div class="lhs">
-                        <p>this exact word or phrase: </p>
+                        <p class="advanced-criteria">this exact word or phrase: </p>
                     </div>
                     <div class="middle">
-                        <input class="advanced-input" type="text" autocomplete="on"  name="as_epq"   > 
+                        <input class="form-control" type="text" autocomplete="on"  name="as_epq"   > 
                     </div>
                     <div class="rhs">
                         <small>exact words in quotes: "rat terrier"</small>
@@ -40,10 +42,10 @@
                 </div>
                 <div class="whole-input">
                     <div class="lhs">
-                        <p>any of these words:</p>
+                        <p class="advanced-criteria">any of these words:</p>
                     </div>
                     <div class="middle">
-                        <input class="advanced-input" type="text" autocomplete="on"  name="as_oq"   > 
+                        <input class="form-control" type="text" autocomplete="on"  name="as_oq"   > 
                     </div>
                     <div class="rhs">
                         <small>OR between all the words you want: miniature OR standard</small>
@@ -51,16 +53,18 @@
                 </div>
                 <div class="whole-input">
                     <div class="lhs">
-                        <p>none of these words:</p>
+                        <p class="advanced-criteria">none of these words:</p>
                     </div>
                     <div class="middle">
-                        <input class="advanced-input" type="text" autocomplete="on"  name="as_eq"   > 
+                        <input class="form-control" type="text" autocomplete="on"  name="as_eq"   > 
                     </div>
                     <div class="rhs">
                         <small>a minus sign just before words that you don't want: -rodent, -"Jack Russell"</small>
                     </div>
                 </div>
-                <button class="advanced-search-button" type="submit">Advanced Search</button>
+                <div class="button-div">
+                    <button class="advanced-search-button" type="submit">Advanced Search</button>
+                </div>
             </form>
         </div>
     </body>
