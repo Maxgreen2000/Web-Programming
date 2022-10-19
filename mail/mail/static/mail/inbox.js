@@ -179,7 +179,6 @@ function send_email(event) {
   .then(result => {
       // Print result
       console.log(result);
-      load_mailbox('sent');
   });
 }
 
