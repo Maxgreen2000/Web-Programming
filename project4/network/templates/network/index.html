@@ -3,18 +3,18 @@
 
 
 {% block body %}
-    <button class="btn btn-sm btn-outline-primary" id="change-page">Change Page</button>
-    <button class="btn btn-sm btn-outline-primary" id="change-page_2">Change Page 2</button>
-
-    <div id="test-div-1">
-        TEST 1
-    </div>
-
-    <div id="test-div-2">
-        TEST 2
+    <div id="new-post-div">
+        <form id="new-post-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <input disabled hidden class="form-control" id="poster-name" value="{{ request.user.username }}">
+            </div>
+            <textarea class="form-control" id="post-body" placeholder="Enter your post"></textarea>
+            <input type="submit" class="btn btn-outline-primary btn-lg mt-3"/>
+        </form>
     </div>
 {% endblock %}
 
 {% block script %}
-    <script   src="{% static 'network/test.js' %}"></script>
+    <script   src="{% static 'network/network.js' %}"></script>
 {% endblock %}
