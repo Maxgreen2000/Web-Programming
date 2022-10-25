@@ -1,0 +1,16 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div>
+        <h2 id="profile_name">{{ name }}</h2>
+        <img src="{{ image.image.url }}" alt="profile-pic">
+        <h1>I'LL WORRY ABOUT GETTING THE PICTURES RIGHT LATER!!</h1>
+        <button id="follow_button">{{ follow_unfollow }}</button>
+        HELLO
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script   src="{% static 'network/profile.js' %}"></script>
+{% endblock %}

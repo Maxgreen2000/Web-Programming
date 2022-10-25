@@ -17,7 +17,7 @@
         {% for post in allPosts %}
             <div class="card m-3">
                 <div class="card-body d-flex flex-column">
-                    <h1>{{ post.poster }}</h1>
+                    <a href="{% url 'view_profile' profile_owner=post.poster %}"><h1>{{ post.poster }}</h1></a>
                     <h1>{{ post.body }}</h1>
                     <h1>{{ post.likes }}</h1>
                     <h1>{{ post.timestamp }}</h1>

@@ -1,4 +1,5 @@
 from email.policy import default
+from tokenize import blank_re
 from unittest.util import _MAX_LENGTH
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -18,17 +19,18 @@ class Post(models.Model):
 
 
 class Profile(models.Model):
-    profile_owner = models.ForeignKey("User", on_delete=models.CASCADE, related_name="profile_owner")
+    profile_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="profile_owner")
     profile_picture = models.ImageField(default='default.jpg')
-    bio = models.CharField(max_length=200)
+    bio = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.profile_owner.username
 
 
-class Follower(models.Model):
+class Follow(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    another_user = models.ManyToManyField(User, related_name='another_user')
+    following = models.ManyToManyField(User, null=True, blank=True, related_name='following')
+    followers = models.ManyToManyField(User, null=True, blank=True, related_name='follower')
 
     def __str__(self):
         return self.user.username

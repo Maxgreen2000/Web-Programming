@@ -1,4 +1,6 @@
+from ast import Delete
 import json
+import profile
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -8,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
 
-from .models import User, Post, Follower, Profile
+from .models import User, Post, Follow, Profile
 
 
 def index(request):
@@ -82,6 +84,10 @@ def register(request):
                 profile_owner = user
             )
             profile.save()
+            follow = Follow(
+                user = user
+            )
+            follow.save()
         except IntegrityError:
             return render(request, "network/register.html", {
                 "message": "Username already taken."
@@ -90,3 +96,48 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+def view_profile(request, profile_owner):
+    current_user = request.user
+    selected_user= User.objects.get(username = profile_owner)
+    selected_profile = Profile.objects.get(profile_owner = selected_user)
+    name = selected_user.username
+    image = selected_profile.profile_picture
+    selected_follow = Follow.objects.get(user = selected_user)
+    follower_profiles = selected_follow.followers.all()
+    if current_user in follower_profiles:
+        follow_unfollow  = "unfollow"
+    else:
+        follow_unfollow  = "follow"
+    return render(request, "network/profile.html", {
+        "name": name,
+        "image": image,
+        "follow_unfollow": follow_unfollow,
+        "username": selected_user.username
+
+    })
+
+
+def add_follow(request):
+    current_user = request.user
+    data = json.loads(request.body)
+    profile_name = data.get("profile_name")
+    selected_user = User.objects.get(username = profile_name)
+    selected_follow = Follow.objects.get(user = selected_user)
+    follower_profiles = selected_follow.followers.all()
+    current_user_following = Follow.objects.get(user = current_user)
+    if current_user in follower_profiles:
+        selected_follow.followers.delete(current_user)
+        current_user_following.following.delete(selected_user)
+        selected_follow.save()
+        current_user_following.save()
+
+    else:
+        selected_follow.followers.add(current_user)
+        current_user_following.following.add(selected_user)
+        selected_follow.save()
+        current_user_following.save()
+
+    return JsonResponse({"message": "Post successful."}, status=201)
+
+

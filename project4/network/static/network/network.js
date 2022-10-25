@@ -4,9 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-function new_post(event) {
-    event.preventDefault();     
- 
+function new_post() {
+   
     const body = document.querySelector('#post-body').value;
     const poster = document.querySelector('#poster-name').value;
       
@@ -27,4 +26,4 @@ function new_post(event) {
     })
 
 }
-      
+
