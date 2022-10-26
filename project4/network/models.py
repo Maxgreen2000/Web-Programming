@@ -6,7 +6,9 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    followers = models.ManyToManyField('self', symmetrical=False, blank=True, null=True)
+
+
 
 class Post(models.Model):
     poster = models.ForeignKey("User", on_delete=models.CASCADE, related_name="post_user")
@@ -27,13 +29,7 @@ class Profile(models.Model):
         return self.profile_owner.username
 
 
-class Follow(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    following = models.ManyToManyField(User, null=True, blank=True, related_name='following')
-    followers = models.ManyToManyField(User, null=True, blank=True, related_name='follower')
 
-    def __str__(self):
-        return self.user.username
 
 
 

@@ -7,14 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function new_post() {
    
     const body = document.querySelector('#post-body').value;
-    const poster = document.querySelector('#poster-name').value;
       
     //Send data to the back-end
     fetch('/new_posts', {
         method: 'POST',
         body: JSON.stringify({
             body: body,
-            poster: poster
          })
     })
     .then(response => response.json())

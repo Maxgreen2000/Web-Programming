@@ -1,23 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    document.querySelector('#follow_button').addEventListener('click', add_follow);
+    document.querySelector("#followButton").addEventListener('click', addFollow);
 
 });
 
+profile_name = document.querySelector('#profile-name').value;
 
-function add_follow() {
-    profile_name = document.querySelector('#profile_name').value;
 
-    fetch('/add_follow', {
+function addFollow() {
+    fetch('/addFollow', {
         method: 'POST',
-        body: JSON.stringify({
-            profile_name: profile_name
-         })
+        profile_name: profile_name
     })
-    .then(response => response.json())
-    .then(result => {
-        // Print result
-        console.log(result);
-    }) 
+    .then(() => {
+        window.location.reload();      //This reloads the page thus clearing out the new post box , brings the new post up to the top as well as anyone elses.
+    })
 }
-      
