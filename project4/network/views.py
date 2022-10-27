@@ -11,7 +11,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
 
-from .models import User, Post, Profile
+from .models import User, Post, Profile, Follow
+
+def userAisfollowinguserB(userA, userB):
+    if Follow.objects.filter(user_id = userA, following_user_id = userB ).exists():
+        return True
+    else:
+        return False
+
 
 
 def index(request):
@@ -93,14 +100,15 @@ def register(request):
         return render(request, "network/register.html")
 
 def view_profile(request, profile_owner):
+    current_user = request.user
     selected_user= User.objects.get(username = profile_owner)
     selected_profile = Profile.objects.get(profile_owner = selected_user)
     name = selected_user.username
     image = selected_profile.profile_picture
-    if request.user in selected_user.followers.all():
-        follow_button = "Unfollow"
+    if userAisfollowinguserB(current_user, selected_user) == False:
+        follow_button = "follow"
     else:
-        follow_button = "Follow"
+        follow_button = "unfollow"
     return render(request, "network/profile.html", {
         "name": name,
         "image": image,
