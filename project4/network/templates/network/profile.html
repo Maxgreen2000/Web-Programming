@@ -3,11 +3,36 @@
 
 {% block body %}
     <div>
-        <h2 id="profile-name" value="{{ name }}">{{ name }}</h2>
+        <h2 id="profile-name" value="harry">{{ name }}</h2>
         <img src="{{ image.image.url }}" alt="profile-pic">
         <h1>I'LL WORRY ABOUT GETTING THE PICTURES RIGHT LATER!!</h1>
-        <button id="followButton">{{ follow_button }}</button> 
     </div>
+    <div>
+        {% for post in allPosts %}
+            <div class="card m-3">
+                <div class="card-body d-flex flex-column">
+                    <a href="{% url 'view_profile' profile_owner=post.poster %}"><h1>{{ post.poster }}</h1></a>
+                    <h1>{{ post.body }}</h1>
+                    <h1>{{ post.likes }}</h1>
+                    <h1>{{ post.timestamp }}</h1>
+                </div>
+            </div>
+        {% endfor%}
+    </div>
+    {% if user.username !=  name  %}
+        <div id="follow-div">
+            <form id="follow-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input disabled hidden class="form-control" id="poster-name" value="{{ name }}">
+                </div>
+                <button id="followButton" type="submit">{{ follow_button }}</button> 
+            </form>
+        </div>
+    {% endif %}
+
+
+
 
 {% endblock %}
 

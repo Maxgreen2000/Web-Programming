@@ -12,5 +12,5 @@ urlpatterns = [
 
     #API PATHS
     path("new_posts", views.new_post, name="new_post"),
-    path("addFollow", views.addFollow, name="addFollow"),
+    path("createFollows", views.createFollow, name="createFollow"),
 ]

@@ -105,6 +105,7 @@ def view_profile(request, profile_owner):
     selected_profile = Profile.objects.get(profile_owner = selected_user)
     name = selected_user.username
     image = selected_profile.profile_picture
+    allPosts = Post.objects.filter(poster = selected_user)
     if userAisfollowinguserB(current_user, selected_user) == False:
         follow_button = "follow"
     else:
@@ -112,14 +113,29 @@ def view_profile(request, profile_owner):
     return render(request, "network/profile.html", {
         "name": name,
         "image": image,
-        "follow_button": follow_button
+        "follow_button": follow_button,
+        "allPosts": allPosts
     })
 
-def addFollow(request):
+def createFollow(request):
 
-    profile_user = User.objects.get(username = "minnie")
-    profile_user.followers.add(request.user)
-    profile_user.save()
-    return JsonResponse({"message": "Post successful."}, status=201)
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    data = json.loads(request.body)
+    profile_name = data.get("body", "")
+
+    current_user = request.user
+    selected_user= User.objects.get(username = profile_name)
+    if userAisfollowinguserB(current_user, selected_user) == False:
+        selectedfollow = Follow.objects.create(user_id = current_user, following_user_id = selected_user)
+        selectedfollow.save()
+    else:
+        selectedfollow = Follow.objects.get(user_id = current_user, following_user_id = selected_user)
+        selectedfollow.delete()
+
+
+
+    return JsonResponse({"message": "Foloow successful."}, status=201)
 
 
