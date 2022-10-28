@@ -106,6 +106,8 @@ def view_profile(request, profile_owner):
     name = selected_user.username
     image = selected_profile.profile_picture
     allPosts = Post.objects.filter(poster = selected_user)
+    followercount = countfollowers(selected_user)
+    followingcount = countfollowing(selected_user)
     if userAisfollowinguserB(current_user, selected_user) == False:
         follow_button = "follow"
     else:
@@ -114,7 +116,9 @@ def view_profile(request, profile_owner):
         "name": name,
         "image": image,
         "follow_button": follow_button,
-        "allPosts": allPosts
+        "allPosts": allPosts,
+        "followercount": followercount,
+        "followingcount": followingcount
     })
 
 def createFollow(request):
@@ -127,15 +131,23 @@ def createFollow(request):
 
     current_user = request.user
     selected_user= User.objects.get(username = profile_name)
-    if userAisfollowinguserB(current_user, selected_user) == False:
-        selectedfollow = Follow.objects.create(user_id = current_user, following_user_id = selected_user)
-        selectedfollow.save()
+    if current_user != selected_user:
+        if userAisfollowinguserB(current_user, selected_user) == False:
+            selectedfollow = Follow.objects.create(user_id = current_user, following_user_id = selected_user)
+            selectedfollow.save()
+        else:
+            selectedfollow = Follow.objects.get(user_id = current_user, following_user_id = selected_user)
+            selectedfollow.delete()
+
+        return JsonResponse({"message": "Follow successful."}, status=201)
     else:
-        selectedfollow = Follow.objects.get(user_id = current_user, following_user_id = selected_user)
-        selectedfollow.delete()
+        return JsonResponse({"message": "Can't Follow Yourself, Stop trying!!!."}, status=201)
 
 
+def countfollowers(user):
+    followercount = Follow.objects.filter(following_user_id = user).count()
+    return followercount
 
-    return JsonResponse({"message": "Foloow successful."}, status=201)
-
-
+def countfollowing(user):
+    followingcount = Follow.objects.filter(user_id = user).count()
+    return followingcount
