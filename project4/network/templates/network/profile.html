@@ -21,7 +21,7 @@
             </div>
         {% endfor%}
     </div>
-    {% if user.username !=  name  %}
+    {% if user.username !=  name and user.is_authenticated  %}
         <div id="follow-div">
             <form id="follow-form">
                 {% csrf_token %}

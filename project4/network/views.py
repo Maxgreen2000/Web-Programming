@@ -108,18 +108,27 @@ def view_profile(request, profile_owner):
     allPosts = Post.objects.filter(poster = selected_user)
     followercount = countfollowers(selected_user)
     followingcount = countfollowing(selected_user)
-    if userAisfollowinguserB(current_user, selected_user) == False:
-        follow_button = "follow"
+    if current_user.is_authenticated:
+        if userAisfollowinguserB(current_user, selected_user) == False:
+            follow_button = "follow"
+        else:
+            follow_button = "unfollow"
+        return render(request, "network/profile.html", {
+            "name": name,
+            "image": image,
+            "follow_button": follow_button,
+            "allPosts": allPosts,
+            "followercount": followercount,
+            "followingcount": followingcount
+        })
     else:
-        follow_button = "unfollow"
-    return render(request, "network/profile.html", {
-        "name": name,
-        "image": image,
-        "follow_button": follow_button,
-        "allPosts": allPosts,
-        "followercount": followercount,
-        "followingcount": followingcount
-    })
+        return render(request, "network/profile.html", {
+            "name": name,
+            "image": image,
+            "allPosts": allPosts,
+            "followercount": followercount,
+            "followingcount": followingcount
+        })
 
 def createFollow(request):
 
