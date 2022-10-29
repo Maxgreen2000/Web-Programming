@@ -163,11 +163,12 @@ def countfollowing(user):
 
 def showfollowing(request):
     current_user = request.user
-    allFollowing = Follow.following_user_id.filter(user_id = current_user)
-    allPosts = Post.objects.filter()  ####FILTER FOR ONLY POSTER THAT THE USER IS FOLLOWING.
+    allFollowing = Follow.objects.filter(user_id = current_user).values_list('following_user_id')
+    followingPosts = Post.objects.filter(poster__in=allFollowing)
     return render(request, "network/Myfollowing.html", {
         "name": current_user,
-        "allPosts": allPosts
+        "followingPosts": followingPosts
     })
 
     ##NEED TO FILTER ALL POSTS WHO ARE BY PEOPLE CURRENT USER IS FOLLOWING!!!!!!!!!
+    
