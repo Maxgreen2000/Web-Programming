@@ -170,5 +170,4 @@ def showfollowing(request):
         "followingPosts": followingPosts
     })
 
-    ##NEED TO FILTER ALL POSTS WHO ARE BY PEOPLE CURRENT USER IS FOLLOWING!!!!!!!!!
     
