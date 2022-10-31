@@ -9,6 +9,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 
 from .models import User, Post, Profile, Follow
@@ -23,8 +24,13 @@ def userAisfollowinguserB(userA, userB):
 
 def index(request):
     allPosts = Post.objects.all()
+    post_paginator = Paginator(allPosts, 10)
+    page_num = request.GET.get('page')
+    page = post_paginator.get_page(page_num)
+
     return render(request, "network/index.html",{
-        "allPosts": allPosts
+        "count": post_paginator.count,
+        "page": page
     })
 
 @csrf_exempt
@@ -108,6 +114,9 @@ def view_profile(request, profile_owner):
     allPosts = Post.objects.filter(poster = selected_user)
     followercount = countfollowers(selected_user)
     followingcount = countfollowing(selected_user)
+    post_paginator = Paginator(allPosts, 10)
+    page_num = request.GET.get('page')
+    page = post_paginator.get_page(page_num)
     if current_user.is_authenticated:
         if userAisfollowinguserB(current_user, selected_user) == False:
             follow_button = "follow"
@@ -117,7 +126,8 @@ def view_profile(request, profile_owner):
             "name": name,
             "image": image,
             "follow_button": follow_button,
-            "allPosts": allPosts,
+            "count": post_paginator.count,
+            "page": page,
             "followercount": followercount,
             "followingcount": followingcount
         })
@@ -125,9 +135,10 @@ def view_profile(request, profile_owner):
         return render(request, "network/profile.html", {
             "name": name,
             "image": image,
-            "allPosts": allPosts,
             "followercount": followercount,
-            "followingcount": followingcount
+            "followingcount": followingcount,
+            "count": post_paginator.count,
+            "page": page,
         })
 
 def createFollow(request):
@@ -165,9 +176,13 @@ def showfollowing(request):
     current_user = request.user
     allFollowing = Follow.objects.filter(user_id = current_user).values_list('following_user_id')
     followingPosts = Post.objects.filter(poster__in=allFollowing)
+    post_paginator = Paginator(followingPosts, 10)
+    page_num = request.GET.get('page')
+    page = post_paginator.get_page(page_num)
     return render(request, "network/Myfollowing.html", {
         "name": current_user,
-        "followingPosts": followingPosts
+        "count": post_paginator.count,
+        "page": page
     })
 
     

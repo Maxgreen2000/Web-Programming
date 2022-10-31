@@ -9,18 +9,6 @@
         <h1>Followers: {{ followercount }}</h1>
         <h1>Following: {{ followingcount }}</h1>
     </div>
-    <div>
-        {% for post in allPosts %}
-            <div class="card m-3">
-                <div class="card-body d-flex flex-column">
-                    <a href="{% url 'view_profile' profile_owner=post.poster %}"><h1>{{ post.poster }}</h1></a>
-                    <h1>{{ post.body }}</h1>
-                    <h1>Likes: {{ post.likes }}</h1>
-                    <h1>{{ post.timestamp }}</h1>
-                </div>
-            </div>
-        {% endfor%}
-    </div>
     {% if user.username !=  name and user.is_authenticated  %}
         <div id="follow-div">
             <form id="follow-form">
@@ -32,9 +20,27 @@
             </form>
         </div>
     {% endif %}
-
-
-
+    <div>
+        <h1>All {{ name }}'s  Posts:</h1>
+        {% for post in page.object_list %}
+            <div class="card m-3">
+                <div class="card-body d-flex flex-column">
+                    <a href="{% url 'view_profile' profile_owner=post.poster %}"><h1>{{ post.poster }}</h1></a>
+                    <h1>{{ post.body }}</h1>
+                    <h1>Likes: {{ post.likes }}</h1>
+                    <h1>{{ post.timestamp }}</h1>
+                </div>
+            </div>
+        {% endfor%}
+    </div>
+    <div class="page-links">
+        {% if page.has_previous %}
+            <a href="{% url 'view_profile' profile_owner=name  %}?page={{ page.previous_page_number }}">Previous Page</a>
+        {% endif %}
+        {% if page.has_next %}
+            <a href="{% url 'view_profile' profile_owner=name  %}?page={{ page.next_page_number }}">Next Page</a>
+        {% endif %}
+    </div>
 
 {% endblock %}
 
