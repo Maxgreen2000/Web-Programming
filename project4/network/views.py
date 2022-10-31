@@ -21,7 +21,6 @@ def userAisfollowinguserB(userA, userB):
         return False
 
 
-
 def index(request):
     allPosts = Post.objects.all()
     post_paginator = Paginator(allPosts, 10)
@@ -33,8 +32,7 @@ def index(request):
         "page": page
     })
 
-@csrf_exempt
-@login_required
+
 def new_post(request):
 
     if request.method != "POST":
