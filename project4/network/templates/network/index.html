@@ -22,8 +22,12 @@
                     <a href="{% url 'view_profile' profile_owner=post.poster %}"><h1>{{ post.poster }}</h1></a>
                     <h1>{{ post.body }}</h1>
                     <h1>Likes: {{ post.likes }}</h1>
-                    <h1>{{ post.timestamp }}</h1>
+                    <h1>{{ post.timestamp }}</h1> 
+                    {% if post.poster == request.user %}
+                        <button>EDIT</button>
+                    {% endif %}               
                 </div>
+
             </div>
         {% endfor%}
     </div>

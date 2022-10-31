@@ -29,6 +29,9 @@
                     <h1>{{ post.body }}</h1>
                     <h1>Likes: {{ post.likes }}</h1>
                     <h1>{{ post.timestamp }}</h1>
+                    {% if post.poster == request.user %}
+                        <button>EDIT</button>
+                    {% endif %}    
                 </div>
             </div>
         {% endfor%}
