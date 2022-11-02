@@ -5,7 +5,7 @@
     <div>
         <h2 id="profile-name" value="harry">{{ name }}</h2>
         <img src="{{ image.image.url }}" alt="profile-pic">
-        <h1>I'LL WORRY ABOUT GETTING THE PICTURES RIGHT LATER!!</h1>
+        <h1 id="testheading">I'LL WORRY ABOUT GETTING THE PICTURES RIGHT LATER!!</h1>
         <h1>Followers: {{ followercount }}</h1>
         <h1>Following: {{ followingcount }}</h1>
     </div>
@@ -26,11 +26,12 @@
             <div class="card m-3">
                 <div class="card-body d-flex flex-column">
                     <a href="{% url 'view_profile' profile_owner=post.poster %}"><h1>{{ post.poster }}</h1></a>
-                    <h1>{{ post.body }}</h1>
+                    <h1 id="postBody">{{ post.body }}</h1>
+                    <div id="editformdiv"></div>
                     <h1>Likes: {{ post.likes }}</h1>
                     <h1>{{ post.timestamp }}</h1>
                     {% if post.poster == request.user %}
-                        <button>EDIT</button>
+                        <button id="editButton">EDIT</button>
                     {% endif %}    
                 </div>
             </div>
