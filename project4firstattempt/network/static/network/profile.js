@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    document.querySelector("#editButton").addEventListener('click', editPost);
+    document.querySelector("#editform").addEventListener('submit', editPost);
 
     document.querySelector("#followButton").addEventListener('click', createFollow);
 

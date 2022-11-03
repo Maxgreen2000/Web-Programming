@@ -31,7 +31,11 @@
                     <h1>Likes: {{ post.likes }}</h1>
                     <h1>{{ post.timestamp }}</h1>
                     {% if post.poster == request.user %}
-                        <button id="editButton">EDIT</button>
+                    <form id="editform">
+                        <input disabled hidden value="{{ post.id }}">
+                        <button type="submit"> POST:{{ post.id }}</button>
+
+                    </form>
                     {% endif %}    
                 </div>
             </div>
