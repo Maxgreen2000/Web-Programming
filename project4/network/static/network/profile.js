@@ -33,6 +33,7 @@ function editPost() {
     editform.setAttribute("method", "post");
 
     var FN = document.createElement("input");
+    FN.value = "hello"
     FN.setAttribute("type", "text");
     FN.setAttribute("name", "body");
     FN.setAttribute("placeholder", "Full Name");
@@ -46,7 +47,5 @@ function editPost() {
     editformdiv = document.getElementById( 'editformdiv' );
     editformdiv.appendChild( editform );
     editform.id = 'editform_id' ;
-
-
 
 }

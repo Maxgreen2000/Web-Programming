@@ -20,7 +20,6 @@ def userAisfollowinguserB(userA, userB):
     else:
         return False
 
-
 def index(request):
     allPosts = Post.objects.all()
     post_paginator = Paginator(allPosts, 10)
@@ -31,7 +30,6 @@ def index(request):
         "count": post_paginator.count,
         "page": page
     })
-
 
 def new_post(request):
 
@@ -67,11 +65,9 @@ def login_view(request):
     else:
         return render(request, "network/login.html")
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":
@@ -161,7 +157,6 @@ def createFollow(request):
     else:
         return JsonResponse({"message": "Can't Follow Yourself, Stop trying!!!."}, status=201)
 
-
 def countfollowers(user):
     followercount = Follow.objects.filter(following_user_id = user).count()
     return followercount
@@ -183,4 +178,3 @@ def showfollowing(request):
         "page": page
     })
 
-    

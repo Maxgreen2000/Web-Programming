@@ -14,4 +14,5 @@ urlpatterns = [
     #API PATHS
     path("new_posts", views.new_post, name="new_post"),
     path("createFollows", views.createFollow, name="createFollow"),
+
 ]
