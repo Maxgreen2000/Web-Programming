@@ -1,5 +1,18 @@
 {% extends "network/layout.html" %}
+{% load static %}
 
 {% block body %}
-    TODO
+    {% if user.is_authenticated  %}
+        <div id="newpostdiv">
+            <form id="newpostform">
+                {% csrf_token %}
+                <textarea class="form-control" id="newpostbody" placeholder="Enter your post"></textarea>
+                <input id="newpostsubmit" type="submit" class="btn btn-outline-primary btn-lg mt-3"/>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'network/network.js' %}"></script>
 {% endblock %}
