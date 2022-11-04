@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelector("#newpostform").addEventListener('submit', new_post);
-    document.querySelector('#allpostsbutton').addEventListener('click', () => load_page('allposts'));
-    document.querySelector('#profilebutton').addEventListener('click', () => load_page('profile'));
+    document.querySelector('#allpostsbutton').addEventListener('click', () => load_posts('0','allposts'));
+    document.querySelector('#profilebutton').addEventListener('click', () => load_posts('1','profile'));
 
     // By default, load the inbox
-    load_page('allposts');
+    indexpage('0', 'allposts');
 
 });
 
@@ -31,16 +31,26 @@ function new_post() {
 
 }
 
-function load_page(page) {        //RENAME THIS TO LOAD POSTS , WE ARE NOT LOADING THE PAGES SIMPLY POSTING A SET AMOUNT OF POSTS TO YOUR SELECTED PAGE
+function indexpage(userid, page) {
+
     document.querySelector('#posts-view').style.display = 'block';
+    document.querySelector('#following-view').style.display = 'block';
     document.querySelector('#profile-view').style.display = 'none';
     document.querySelector('#following-view').style.display = 'none';
+
+    load_posts('0','allposts')
+
+}
+
+
+
+function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE NOT LOADING THE PAGES SIMPLY POSTING A SET AMOUNT OF POSTS TO YOUR SELECTED PAGE
 
     document.querySelector('#pageselected').innerHTML = `<h3>${page.charAt(0).toUpperCase() + page.slice(1)}</h3>`;
     document.querySelector('#posts-view').innerHTML = "";
 
   //Display all the posts for a particular user
-  fetch(`/load/${page}`)
+  fetch(`/load/${userid}/${page}`)
   .then(response => response.json())
   .then(posts => {
     // Print emails by looping through them all and follow the hint given
@@ -72,3 +82,9 @@ function load_page(page) {        //RENAME THIS TO LOAD POSTS , WE ARE NOT LOADI
 });
 }
 
+function view_profile(userid) {
+
+
+    load_posts('profile')
+
+}
