@@ -14,6 +14,15 @@ class Post(models.Model):
     def __str__(self):
         return f"{self.poster} posted at: {self.timestamp}"
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "poster": self.poster.username,
+            "body": self.body,
+            "likes": self.likes,
+            "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
+        }
+
 
 class Profile(models.Model):
     profile_owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile_owner")

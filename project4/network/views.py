@@ -79,3 +79,23 @@ def new_post(request):
     )
     new_post.save()
     return JsonResponse({"message": "Post successful."}, status=201)
+
+def loadpage(request, page):
+
+    # Filter emails returned based on page
+    if page == "allposts":
+        posts = Post.objects.all()
+    #elif page == "sent":
+        #emails = Email.objects.filter(
+            #user=request.user, sender=request.user
+        #)
+    #elif page == "archive":
+        #emails = Email.objects.filter(
+            #user=request.user, recipients=request.user, archived=True
+        #)
+    else:
+        return JsonResponse({"error": "Invalid page."}, status=400)
+
+    # Return emails in reverse chronologial order
+    posts = posts.order_by("-timestamp").all()
+    return JsonResponse([post.serialize() for post in posts], safe=False)

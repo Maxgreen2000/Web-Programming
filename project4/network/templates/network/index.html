@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block body %}
-    {% if user.is_authenticated  %}
+    <div id="newpostbar">
+        {% if user.is_authenticated  %}
         <div id="newpostdiv">
             <form id="newpostform">
                 {% csrf_token %}
@@ -10,7 +11,18 @@
                 <input id="newpostsubmit" type="submit" class="btn btn-outline-primary btn-lg mt-3"/>
             </form>
         </div>
-    {% endif %}
+        {% endif %}
+    </div>
+    <div id="allposts-view">
+
+    </div>  
+
+
+    <div id="profile-view">
+    </div>
+
+    <div id="following-view">
+    </div>
 {% endblock %}
 
 {% block script %}
