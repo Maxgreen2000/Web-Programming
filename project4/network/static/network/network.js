@@ -31,7 +31,7 @@ function new_post() {
 
 }
 
-function load_page(page) {
+function load_page(page) {        //RENAME THIS TO LOAD POSTS , WE ARE NOT LOADING THE PAGES SIMPLY POSTING A SET AMOUNT OF POSTS TO YOUR SELECTED PAGE
     document.querySelector('#posts-view').style.display = 'block';
     document.querySelector('#profile-view').style.display = 'none';
     document.querySelector('#following-view').style.display = 'none';
@@ -53,20 +53,22 @@ function load_page(page) {
       const newPost = document.createElement('div');
       newPost.className="list-group-item";
       newPost.innerHTML =`
-        <h6>Poster: ${singlePost.poster}</h6>
+        <a href="#" id="postername">Poster: ${singlePost.poster}</a>
         <h5>Body: ${singlePost.body}</h5>
         <h5>Likes: ${singlePost.likes}</h5>
         <p>${singlePost.timestamp}</p>    
       `;
 
+      newPost.addEventListener('click', function() {
+        alert(`${singlePost.poster}`);
+      });
+
       document.querySelector('#posts-view').append(newPost);
 
+
+
     })
-
-    if(page == 'profile'){
-        document.querySelector('#newpostbar').style.display = 'none';
-    }
-
     
 });
 }
+
