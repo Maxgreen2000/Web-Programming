@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelector("#newpostform").addEventListener('submit', new_post);
     document.querySelector('#allpostsbutton').addEventListener('click', () => load_page('allposts'));
+    document.querySelector('#profilebutton').addEventListener('click', () => load_page('profile'));
 
     // By default, load the inbox
     load_page('allposts');
@@ -31,13 +32,14 @@ function new_post() {
 }
 
 function load_page(page) {
-    document.querySelector('#allposts-view').style.display = 'block';
+    document.querySelector('#posts-view').style.display = 'block';
     document.querySelector('#profile-view').style.display = 'none';
     document.querySelector('#following-view').style.display = 'none';
 
-    document.querySelector('#allposts-view').innerHTML = `<h3>${page.charAt(0).toUpperCase() + page.slice(1)}</h3>`;
+    document.querySelector('#pageselected').innerHTML = `<h3>${page.charAt(0).toUpperCase() + page.slice(1)}</h3>`;
+    document.querySelector('#posts-view').innerHTML = "";
 
-  //Display all the emails for a particular user
+  //Display all the posts for a particular user
   fetch(`/load/${page}`)
   .then(response => response.json())
   .then(posts => {
@@ -47,19 +49,23 @@ function load_page(page) {
       console.log(singlePost);
 
       //creates a div for each email for any of the views we are on
+      
       const newPost = document.createElement('div');
       newPost.className="list-group-item";
       newPost.innerHTML =`
         <h6>Poster: ${singlePost.poster}</h6>
         <h5>Body: ${singlePost.body}</h5>
         <h5>Likes: ${singlePost.likes}</h5>
-        <p>${singlePost.timestamp}</p>
-      
+        <p>${singlePost.timestamp}</p>    
       `;
 
-      document.querySelector('#allposts-view').append(newPost);
+      document.querySelector('#posts-view').append(newPost);
 
     })
+
+    if(page == 'profile'){
+        document.querySelector('#newpostbar').style.display = 'none';
+    }
 
     
 });

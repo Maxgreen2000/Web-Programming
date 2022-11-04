@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block body %}
+    <div id="pageselected">
+    </div>
     <div id="newpostbar">
         {% if user.is_authenticated  %}
         <div id="newpostdiv">
@@ -13,7 +15,7 @@
         </div>
         {% endif %}
     </div>
-    <div id="allposts-view">
+    <div id="posts-view">
 
     </div>  
 

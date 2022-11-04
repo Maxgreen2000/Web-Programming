@@ -85,10 +85,8 @@ def loadpage(request, page):
     # Filter emails returned based on page
     if page == "allposts":
         posts = Post.objects.all()
-    #elif page == "sent":
-        #emails = Email.objects.filter(
-            #user=request.user, sender=request.user
-        #)
+    elif page == "profile":
+        posts = Post.objects.filter(poster = request.user)  
     #elif page == "archive":
         #emails = Email.objects.filter(
             #user=request.user, recipients=request.user, archived=True
