@@ -80,13 +80,15 @@ def new_post(request):
     new_post.save()
     return JsonResponse({"message": "Post successful."}, status=201)
 
-def loadpage(request, userid, page):
+def loadpage(request, id, page):
 
     # Filter emails returned based on page
-    if page == "allposts" and userid == 0:
+    if page == "allposts" and id == 0:
         posts = Post.objects.all()
+    elif page == "currentuserprofile" and id == 0:
+        posts = Post.objects.filter(poster = request.user)
     elif page == "profile":
-        user = User.objects.get(pk=userid)
+        user = Post.objects.get(id=id).poster
         posts = Post.objects.filter(poster = user)  
     #elif page == "archive":
         #emails = Email.objects.filter(

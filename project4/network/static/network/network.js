@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelector("#newpostform").addEventListener('submit', new_post);
     document.querySelector('#allpostsbutton').addEventListener('click', () => load_posts('0','allposts'));
-    document.querySelector('#profilebutton').addEventListener('click', () => load_posts('1','profile'));
+    document.querySelector('#profilebutton').addEventListener('click', () => load_posts('0','currentuserprofile')); // THE NUMBER 1 HAS TO BE REPLACED WITH THE USER ID OF THE CURRENT USER.
 
     // By default, load the inbox
     indexpage('0', 'allposts');
@@ -63,18 +63,21 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
       const newPost = document.createElement('div');
       newPost.className="list-group-item";
       newPost.innerHTML =`
-        <a href="#" id="postername">Poster: ${singlePost.poster}</a>
         <h5>Body: ${singlePost.body}</h5>
         <h5>Likes: ${singlePost.likes}</h5>
-        <p>${singlePost.timestamp}</p>    
+        <p>${singlePost.timestamp}</p>
       `;
 
-      newPost.addEventListener('click', function() {
-        alert(`${singlePost.poster}`);
-      });
+      const posterProfile = document.createElement("a");
+      posterProfile.setAttribute("href", "#");
+      posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
+      newPost.prepend(posterProfile);
 
       document.querySelector('#posts-view').append(newPost);
 
+      posterProfile.addEventListener('click', function() {
+        view_profile(singlePost.id)
+      });
 
 
     })
@@ -82,9 +85,9 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
 });
 }
 
-function view_profile(userid) {
+function view_profile(id) {
 
 
-    load_posts('profile')
+  load_posts(id,'profile')
 
 }

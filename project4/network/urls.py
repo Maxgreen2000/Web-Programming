@@ -11,5 +11,5 @@ urlpatterns = [
 
     #API ROUTES
     path("new_posts", views.new_post, name="new_post"),
-    path("load/<int:userid>/<str:page>", views.loadpage, name="loadpage"),
+    path("load/<int:id>/<str:page>", views.loadpage, name="loadpage"),
 ]
