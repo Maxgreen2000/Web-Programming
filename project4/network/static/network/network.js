@@ -110,3 +110,7 @@ function view_profile(id) {
   load_posts(id,'profile')
 
 }
+
+
+
+//THE NEXT THING IS TO MAKE A BOOL IN VIEWS TO SEE IF THE CURRENT USER IS FOLLOWING THE VIEWED USER

@@ -105,7 +105,7 @@ def loadprofiles(request, id):
     if id == 0:
         selectedUser = request.user
     else:
-        selectedUser = User.objects.get(id=2)
+        selectedUser = Post.objects.get(pk=id).poster
 
     selectedProfile = Profile.objects.get(profile_owner = selectedUser)
     return JsonResponse(selectedProfile.serialize())
