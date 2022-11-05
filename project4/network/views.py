@@ -80,12 +80,12 @@ def new_post(request):
     new_post.save()
     return JsonResponse({"message": "Post successful."}, status=201)
 
-def loadpage(request, id, page):
+def loadposts(request, id, page):
 
     # Filter emails returned based on page
     if page == "allposts" and id == 0:
         posts = Post.objects.all()
-    elif page == "currentuserprofile" and id == 0:
+    elif page == "profile" and id == 0:
         posts = Post.objects.filter(poster = request.user)
     elif page == "profile":
         user = Post.objects.get(id=id).poster
@@ -100,3 +100,13 @@ def loadpage(request, id, page):
     # Return emails in reverse chronologial order
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
+
+def loadprofiles(request, id):
+    if id == 0:
+        selectedUser = request.user
+    else:
+        selectedUser = User.objects.get(id=2)
+
+    selectedProfile = Profile.objects.get(profile_owner = selectedUser)
+    return JsonResponse(selectedProfile.serialize())
+

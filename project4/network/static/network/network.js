@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.querySelector("#newpostform").addEventListener('submit', new_post);
     document.querySelector('#allpostsbutton').addEventListener('click', () => load_posts('0','allposts'));
-    document.querySelector('#profilebutton').addEventListener('click', () => load_posts('0','currentuserprofile')); // THE NUMBER 1 HAS TO BE REPLACED WITH THE USER ID OF THE CURRENT USER.
+    document.querySelector('#profilebutton').addEventListener('click', () => view_profile('0','currentuserprofile')); // THE NUMBER 1 HAS TO BE REPLACED WITH THE USER ID OF THE CURRENT USER.
 
     // By default, load the inbox
     indexpage('0', 'allposts');
@@ -50,7 +50,7 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
     document.querySelector('#posts-view').innerHTML = "";
 
   //Display all the posts for a particular user
-  fetch(`/load/${userid}/${page}`)
+  fetch(`/loadposts/${userid}/${page}`)
   .then(response => response.json())
   .then(posts => {
     // Print emails by looping through them all and follow the hint given
@@ -66,6 +66,7 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
         <h5>Body: ${singlePost.body}</h5>
         <h5>Likes: ${singlePost.likes}</h5>
         <p>${singlePost.timestamp}</p>
+        <p>ID: ${singlePost.id}</p>
       `;
 
       const posterProfile = document.createElement("a");
@@ -87,7 +88,25 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
 
 function view_profile(id) {
 
+  document.querySelector('#posts-view').style.display = 'block';
+  document.querySelector('#following-view').style.display = 'none';
+  document.querySelector('#profile-view').style.display = 'block';
+  document.querySelector('#newpostbar').style.display = 'none';
 
+  fetch(`/loadprofile/${id}`)
+  .then(response => response.json())
+  .then(selectedProfile => {
+    const profileinfo = document.createElement('div');
+    profileinfo.className="list-group-item";
+    profileinfo.innerHTML =`
+      <h5>id: ${selectedProfile.id}</h5>
+      <h5>User: ${selectedProfile.profile_owner}</h5>
+      <h5>Bio: ${selectedProfile.bio}</h5>
+    `;
+
+
+  document.querySelector('#profile-view').append(profileinfo);
+  });
   load_posts(id,'profile')
 
 }

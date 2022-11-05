@@ -32,6 +32,13 @@ class Profile(models.Model):
     def __str__(self):
         return self.profile_owner.username
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "profile_owner": self.profile_owner.username,
+            "bio": self.bio
+        }
+
 class Follow(models.Model):
     user_id = models.ForeignKey(User, null=True, related_name="following", on_delete=models.CASCADE)
     following_user_id = models.ForeignKey(User, null=True, related_name="followers", on_delete=models.CASCADE)
