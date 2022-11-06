@@ -110,3 +110,24 @@ def loadprofiles(request, id):
     selectedProfile = Profile.objects.get(profile_owner = selectedUser)
     return JsonResponse(selectedProfile.serialize())
 
+def userAisfollowinguserB(userA, userB):
+    if Follow.objects.filter(user_id = userA, following_user_id = userB ).exists():
+        return True
+    else:
+        return False
+
+
+
+
+def followbutton(request, id):
+    currentUser = request.user
+    profileUser = Post.objects.get(pk=id).poster
+    if userAisfollowinguserB(currentUser, profileUser) == False:
+        followbuttoncontents= { "value": "Follow"}
+        return JsonResponse(followbuttoncontents)
+    else:
+        followbuttoncontents= { "value": "unFollow"}
+        return JsonResponse(followbuttoncontents)
+
+
+

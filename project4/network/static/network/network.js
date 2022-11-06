@@ -66,7 +66,6 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
         <h5>Body: ${singlePost.body}</h5>
         <h5>Likes: ${singlePost.likes}</h5>
         <p>${singlePost.timestamp}</p>
-        <p>ID: ${singlePost.id}</p>
       `;
 
       const posterProfile = document.createElement("a");
@@ -103,10 +102,23 @@ function view_profile(id) {
       <h5>User: ${selectedProfile.profile_owner}</h5>
       <h5>Bio: ${selectedProfile.bio}</h5>
     `;
-
-
+  
   document.querySelector('#profile-view').append(profileinfo);
+  
   });
+
+  fetch(`/followbtn/${id}`)
+  .then(response => response.json())
+  .then(followbuttoncontents => {
+    const followbutton = document.createElement('button');
+    followbutton.innerHTML = `${followbuttoncontents.value}`;
+    document.querySelector('#profile-view').append(followbutton);
+  
+
+  });
+
+
+
   load_posts(id,'profile')
 
 }
