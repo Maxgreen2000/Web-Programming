@@ -130,4 +130,24 @@ def followbutton(request, id):
         return JsonResponse(followbuttoncontents)
 
 
+def addfollow(request):
+
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    data = json.loads(request.body)
+    profilename = data.get("body", "")
+
+    currentUser = request.user
+    selectedUser = User.objects.get(username = "ron")
+
+    if userAisfollowinguserB(currentUser, selectedUser) == False:
+        selectedfollow = Follow.objects.create(user_id = currentUser, following_user_id = selectedUser)
+        selectedfollow.save()
+    else:
+        selectedfollow = Follow.objects.get(user_id = currentUser, following_user_id = selectedUser)
+        selectedfollow.delete()
+    
+    return JsonResponse({"message": "Follow successful."}, status=201)
+
 

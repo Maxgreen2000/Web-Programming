@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#profilebutton').addEventListener('click', () => view_profile('0','currentuserprofile')); // THE NUMBER 1 HAS TO BE REPLACED WITH THE USER ID OF THE CURRENT USER.
 
     // By default, load the inbox
-    indexpage('0', 'allposts');
+    indexpage();
 
 });
 
@@ -31,7 +31,7 @@ function new_post() {
 
 }
 
-function indexpage(userid, page) {
+function indexpage() {
 
     document.querySelector('#posts-view').style.display = 'block';
     document.querySelector('#following-view').style.display = 'block';
@@ -99,7 +99,7 @@ function view_profile(id) {
     profileinfo.className="list-group-item";
     profileinfo.innerHTML =`
       <h5>id: ${selectedProfile.id}</h5>
-      <h5>User: ${selectedProfile.profile_owner}</h5>
+      <h5 id="profileusername">User: ${selectedProfile.profile_owner}</h5>
       <h5>Bio: ${selectedProfile.bio}</h5>
     `;
   
@@ -107,15 +107,28 @@ function view_profile(id) {
   
   });
 
-  fetch(`/followbtn/${id}`)
-  .then(response => response.json())
-  .then(followbuttoncontents => {
-    const followbutton = document.createElement('button');
-    followbutton.innerHTML = `${followbuttoncontents.value}`;
-    document.querySelector('#profile-view').append(followbutton);
-  
-
-  });
+  if(id != 0 ){
+    fetch(`/followbtn/${id}`)
+    .then(response => response.json())
+    .then(followbuttoncontents => {
+      const followbutton = document.createElement('button');
+      followbutton.innerHTML = `${followbuttoncontents.value}`;
+      document.querySelector('#profile-view').append(followbutton);
+      body = document.querySelector('#profileusername').value;
+    
+      followbutton.addEventListener('click', function() {
+        fetch('/createfollow', {
+          method: 'POST',
+          body: JSON.stringify({
+              body: body, 
+           })
+      }) .then(() => {
+        window.location.reload();    
+      })
+      
+      });
+    });
+  }
 
 
 
@@ -124,5 +137,3 @@ function view_profile(id) {
 }
 
 
-
-//THE NEXT THING IS TO MAKE A BOOL IN VIEWS TO SEE IF THE CURRENT USER IS FOLLOWING THE VIEWED USER
