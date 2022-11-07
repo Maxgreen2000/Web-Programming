@@ -65,6 +65,27 @@ def register(request):
         return render(request, "network/register.html")
 
 
+def view_profile(request, username):
+
+    currentUser = request.user
+    selectedUser = User.objects.get(username = username)
+    UserID = selectedUser.id
+    selectedProfile = Profile.objects.get(profile_owner = selectedUser)
+
+    if userAisfollowinguserB(currentUser, selectedUser) == False:
+        follow_button = "Follow"
+    else:
+        follow_button = "Unfollow"
+
+
+    return render(request, "network/profile.html", {
+        "message": username,
+        "UserID": UserID,
+        "profileData": selectedProfile,
+        "follow_unfollow": follow_button
+    })
+
+
 def new_post(request):
 
     if request.method != "POST":
@@ -88,7 +109,7 @@ def loadposts(request, id, page):
     elif page == "profile" and id == 0:
         posts = Post.objects.filter(poster = request.user)
     elif page == "profile":
-        user = Post.objects.get(id=id).poster
+        user = User.objects.get(id=id)
         posts = Post.objects.filter(poster = user)  
     #elif page == "archive":
         #emails = Email.objects.filter(
@@ -101,14 +122,6 @@ def loadposts(request, id, page):
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
-def loadprofiles(request, id):
-    if id == 0:
-        selectedUser = request.user
-    else:
-        selectedUser = Post.objects.get(pk=id).poster
-
-    selectedProfile = Profile.objects.get(profile_owner = selectedUser)
-    return JsonResponse(selectedProfile.serialize())
 
 def userAisfollowinguserB(userA, userB):
     if Follow.objects.filter(user_id = userA, following_user_id = userB ).exists():
@@ -116,38 +129,18 @@ def userAisfollowinguserB(userA, userB):
     else:
         return False
 
-
-
-
-def followbutton(request, id):
+def addFollow(request, userid):
     currentUser = request.user
-    profileUser = Post.objects.get(pk=id).poster
-    if userAisfollowinguserB(currentUser, profileUser) == False:
-        followbuttoncontents= { "value": "Follow"}
-        return JsonResponse(followbuttoncontents)
-    else:
-        followbuttoncontents= { "value": "unFollow"}
-        return JsonResponse(followbuttoncontents)
+    selectedUser = User.objects.get(pk = userid)
+    if currentUser != selectedUser:
+        if userAisfollowinguserB(currentUser, selectedUser) == False:
+            selectedfollow = Follow.objects.create(user_id = currentUser, following_user_id = selectedUser)
+            selectedfollow.save()
+        else:
+            selectedfollow = Follow.objects.get(user_id = currentUser, following_user_id = selectedUser)
+            selectedfollow.delete()
 
+    return JsonResponse({"message": "follow successful."}, status=201)
 
-def addfollow(request):
-
-    if request.method != "POST":
-        return JsonResponse({"error": "POST request required."}, status=400)
-    
-    data = json.loads(request.body)
-    profilename = data.get("body", "")
-
-    currentUser = request.user
-    selectedUser = User.objects.get(username = "ron")
-
-    if userAisfollowinguserB(currentUser, selectedUser) == False:
-        selectedfollow = Follow.objects.create(user_id = currentUser, following_user_id = selectedUser)
-        selectedfollow.save()
-    else:
-        selectedfollow = Follow.objects.get(user_id = currentUser, following_user_id = selectedUser)
-        selectedfollow.delete()
-    
-    return JsonResponse({"message": "Follow successful."}, status=201)
 
 
