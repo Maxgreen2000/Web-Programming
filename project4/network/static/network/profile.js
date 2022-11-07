@@ -34,7 +34,7 @@ function load_posts(userid, page) {
       `;
 
       const posterProfile = document.createElement("a");
-      posterProfile.setAttribute("href", `view_profile/${singlePost.poster}`);
+      posterProfile.setAttribute("href", "");
       posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
       newPost.prepend(posterProfile);
 

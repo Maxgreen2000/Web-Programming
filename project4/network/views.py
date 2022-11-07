@@ -71,11 +71,13 @@ def view_profile(request, username):
     selectedUser = User.objects.get(username = username)
     UserID = selectedUser.id
     selectedProfile = Profile.objects.get(profile_owner = selectedUser)
-
     if userAisfollowinguserB(currentUser, selectedUser) == False:
         follow_button = "Follow"
+    elif currentUser == selectedUser:
+        follow_button = "currentuser"
     else:
         follow_button = "Unfollow"
+    
 
 
     return render(request, "network/profile.html", {

@@ -11,7 +11,9 @@
         
     </div>
     <div>
-        <button id="follow_button">{{ follow_unfollow }}</button>
+        {% if follow_unfollow == "currentuser" %}
+            <button id="follow_button">{{ follow_unfollow }}</button>
+        {% endif %}
     </div>
 
     <div id="profileinfo">
