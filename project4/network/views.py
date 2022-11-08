@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 
 from .models import User, Post, Profile, Follow
@@ -70,7 +71,7 @@ def view_profile(request, username):
     selectedUser = User.objects.get(username = username)
     UserID = selectedUser.id
     selectedProfile = Profile.objects.get(profile_owner = selectedUser)
-    if currentUser.is_authenticated and currentUser != selectedUser:
+    if currentUser.is_authenticated:
         if currentUser == selectedUser:
             follow_button = "currentuser"
         elif userAisfollowinguserB(currentUser, selectedUser) == False:
@@ -127,7 +128,6 @@ def loadposts(request, id, page):
     # Return emails in reverse chronologial order
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
-
 
 
 def myFollowing(request):
