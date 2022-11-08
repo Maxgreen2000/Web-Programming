@@ -44,7 +44,6 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
 
     document.querySelector('#pageselected').innerHTML = `<h3>${page.charAt(0).toUpperCase() + page.slice(1)}</h3>`;
     document.querySelector('#posts-view').innerHTML = "";
-    currentusername = document.querySelector('#currentusername').innerHTML;
 
   //Display all the posts for a particular user
   fetch(`/loadposts/${userid}/${page}`)
@@ -72,13 +71,17 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
         newPost.prepend(posterProfile);
 
         document.querySelector('#posts-view').append(newPost);
-
-        editButton = document.createElement("button");
-        editButton.innerHTML =`Edit`;
-        if( currentusername == `${singlePost.poster}` )
+        if (document.getElementById("currentusername")){
+            editButton = document.createElement("button");
+            editButton.innerHTML =`Edit`;
+            if( document.querySelector('#currentusername').innerHTML == `${singlePost.poster}` )
             newPost.append(editButton);
-        })
+        }
+    })
+    
     
 });
 }
+
+
 

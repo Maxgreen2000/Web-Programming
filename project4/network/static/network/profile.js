@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function load_posts(userid, page) {    
 
   document.querySelector('#posts-view').innerHTML = "";
-  currentusername = document.querySelector('#currentusername').innerHTML;
+  
 
   //Display all the posts for a particular user
   fetch(`/loadposts/${userid}/${page}`)
@@ -46,6 +46,7 @@ function load_posts(userid, page) {
 
       document.querySelector('#posts-view').append(newPost);
 
+      currentusername = document.querySelector('#currentusername').innerHTML;
       editButton = document.createElement("button");
       editButton.innerHTML =`Edit`;
       if( currentusername == `${singlePost.poster}` )
