@@ -116,11 +116,11 @@ def loadposts(request, id, page):
         posts = Post.objects.filter(poster = request.user)
     elif page == "profile":
         user = User.objects.get(id=id)
-        posts = Post.objects.filter(poster = user)  
-    #elif page == "archive":
-        #emails = Email.objects.filter(
-            #user=request.user, recipients=request.user, archived=True
-        #)
+        posts = Post.objects.filter(poster = user) 
+    elif page == "following" and id == 0: 
+        current_user = request.user
+        allFollowing = Follow.objects.filter(user_id = current_user).values_list('following_user_id')
+        posts = Post.objects.filter(poster__in=allFollowing)
     else:
         return JsonResponse({"error": "Invalid page."}, status=400)
 
@@ -128,6 +128,10 @@ def loadposts(request, id, page):
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
+
+
+def myFollowing(request):
+    return render(request, "network/following.html") 
 
 def userAisfollowinguserB(userA, userB):
     if Follow.objects.filter(user_id = userA, following_user_id = userB ).exists():
