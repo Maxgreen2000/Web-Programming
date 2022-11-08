@@ -3,7 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
     userid = document.querySelector('#profile-userid').innerHTML
     load_posts(userid, 'profile')
 
-    document.querySelector('#follow_button').addEventListener('click', () => addFollow(userid));
+    //document.querySelector('#follow_button').addEventListener('click', () => addFollow(userid));
+  
+    var element = document.querySelector("#follow_button");
+
+    if (element)
+    element.addEventListener('click', () => addFollow(userid));
 
 });
 

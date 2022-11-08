@@ -4,8 +4,8 @@
 {% block body %}
     <div id="pageselected">
     </div>
+    {% if user.is_authenticated  %}
     <div id="newpostbar">
-        {% if user.is_authenticated  %}
         <div id="newpostdiv">
             <form id="newpostform">
                 {% csrf_token %}
@@ -13,9 +13,8 @@
                 <input id="newpostsubmit" type="submit" class="btn btn-outline-primary btn-lg mt-3"/>
             </form>
         </div>
-        {% endif %}
     </div>
-
+    {% endif %}
     <div id="posts-view">
     </div>  
 {% endblock %}

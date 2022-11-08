@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    document.querySelector("#newpostform").addEventListener('submit', new_post);
+    var element = document.querySelector("#newpostform");
+
+    if (element)
+    element.addEventListener('submit', new_post);
 
     // By default, load the inbox
     indexpage();

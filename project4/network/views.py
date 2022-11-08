@@ -66,26 +66,30 @@ def register(request):
 
 
 def view_profile(request, username):
-
     currentUser = request.user
     selectedUser = User.objects.get(username = username)
     UserID = selectedUser.id
     selectedProfile = Profile.objects.get(profile_owner = selectedUser)
-    if currentUser == selectedUser:
-        follow_button = "currentuser"
-    elif userAisfollowinguserB(currentUser, selectedUser) == False:
-        follow_button = "Follow"
+    if currentUser.is_authenticated and currentUser != selectedUser:
+        if currentUser == selectedUser:
+            follow_button = "currentuser"
+        elif userAisfollowinguserB(currentUser, selectedUser) == False:
+            follow_button = "Follow"
+        else:
+            follow_button = "Unfollow"
+
+        return render(request, "network/profile.html", {
+            "message": username,
+            "UserID": UserID,
+            "profileData": selectedProfile,
+            "follow_unfollow": follow_button
+        })
     else:
-        follow_button = "Unfollow"
-    
-
-
-    return render(request, "network/profile.html", {
-        "message": username,
-        "UserID": UserID,
-        "profileData": selectedProfile,
-        "follow_unfollow": follow_button
-    })
+        return render(request, "network/profile.html", {
+            "message": username,
+            "UserID": UserID,
+            "profileData": selectedProfile,
+        })
 
 
 def new_post(request):
