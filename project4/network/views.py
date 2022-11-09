@@ -153,4 +153,5 @@ def addFollow(request, userid):
     return JsonResponse({"message": "follow successful."}, status=201)
 
 
-
+def editpost(request, postid):
+    #####ADD EDITPOST FUNCTION HERE

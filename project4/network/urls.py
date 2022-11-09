@@ -16,5 +16,6 @@ urlpatterns = [
     path("new_posts", views.new_post, name="new_post"),
     path("loadposts/<int:id>/<str:page>", views.loadposts, name="loadposts"),
     path("addFollow/<int:userid>", views.addFollow, name="addFollow"),
+    path("editposts/<int:postid>", views.editpost, name="editpost"),
 
 ]
