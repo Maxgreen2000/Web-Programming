@@ -155,3 +155,15 @@ def addFollow(request, userid):
 
 def editpost(request, postid):
     #####ADD EDITPOST FUNCTION HERE
+
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    data = json.loads(request.body)
+    body = data.get("body", "")
+
+    posttoedit = Post.objects.get(pk=postid)
+    posttoedit.body = body
+    posttoedit.save()
+
+    return JsonResponse({"message": "Edit successful."}, status=201)

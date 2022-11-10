@@ -76,34 +76,46 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
             editButton = document.createElement("button");
             editButton.innerHTML =`Edit`;   
             if( document.querySelector('#currentusername').innerHTML == `${singlePost.poster}` ){
-                editButton.addEventListener('click', function() {
+                
+                    editButton.addEventListener('click', function() {
+
+                        var editform = document.createElement("form");
+                        editform.setAttribute("method", "post");
+                        
                     
-                    var editform = document.createElement("form");
-                    editform.setAttribute("method", "post");
-                
-                    var FN = document.createElement("input");
-                    FN.value = `${singlePost.body}`
-                    FN.setAttribute("type", "text");
-                    FN.setAttribute("name", "body");
-                    FN.setAttribute("placeholder", "Full Name");
-                
-                    var s = document.createElement("input");
-                    s.setAttribute("type", "submit");
-                    s.setAttribute("value", "Submit");
-                    s.addEventListener('click', function() {
-                        fetch(`/editposts/${singlePost.id}`,{
-                            method: 'POST',
-                            body: JSON.stringify({
-                                body: s.value, 
-                             })
-                        })  //This is where we fetch the edit function!!!!!
+                        var FN = document.createElement("input");
+                        FN.value = `${singlePost.body}`
+                        FN.setAttribute("type", "textarea");
+                        FN.setAttribute("name", "body");
+                        FN.setAttribute("placeholder", "Full Name");
+                    
+                        var s = document.createElement("input");
+                        s.setAttribute("type", "submit");
+                        s.setAttribute("value", "Submit");
+
+                        s.addEventListener('click', function() {
+                            fetch(`/editposts/${singlePost.id}`,{
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    body: FN.value, 
+                                })
+                            })  
+                            .then(response => response.json())
+                            .then(result => {
+                                console.log(result);
+                            }) 
+                            
+                        })
+                        const editformelement = document.getElementById('editform_id');
+                        if (!(editformelement)){
+                            editform.appendChild(FN);
+                            editform.appendChild(s);
+                            newPost.appendChild( editform );
+                            editform.id = 'editform_id' ;
+                        }
+                    
                     });
-                     
-                    editform.appendChild(FN);
-                    editform.appendChild(s);
-                    newPost.appendChild( editform );
-                    editform.id = 'editform_id' ;
-                });
+                
                 newPost.append(editButton);
             }
 
