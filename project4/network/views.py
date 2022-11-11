@@ -75,6 +75,8 @@ def view_profile(request, username):
     selectedUser = User.objects.get(username = username)
     UserID = selectedUser.id
     selectedProfile = Profile.objects.get(profile_owner = selectedUser)
+    followercount = countfollowers(selectedUser)   
+    followingcount = countfollowing(selectedUser)
     if currentUser.is_authenticated:
         if currentUser == selectedUser:
             follow_button = "currentuser"
@@ -87,13 +89,17 @@ def view_profile(request, username):
             "message": username,
             "UserID": UserID,
             "profileData": selectedProfile,
-            "follow_unfollow": follow_button
+            "follow_unfollow": follow_button,
+            "followercount": followercount,
+            "followingcount": followingcount
         })
     else:
         return render(request, "network/profile.html", {
             "message": username,
             "UserID": UserID,
             "profileData": selectedProfile,
+            "followercount": followercount,
+            "followingcount": followingcount
         })
 
 
@@ -171,3 +177,12 @@ def editpost(request, postid):
     posttoedit.save()
 
     return JsonResponse({"message": "Edit successful."}, status=201)
+
+
+def countfollowers(user):
+    followercount = Follow.objects.filter(following_user_id = user).count()
+    return followercount
+
+def countfollowing(user):
+    followingcount = Follow.objects.filter(user_id = user).count()
+    return followingcount
