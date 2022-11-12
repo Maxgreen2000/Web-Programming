@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 
 
-from .models import User, Post, Profile, Follow
+from .models import User, Post, Profile, Follow, Like
 
 
 def index(request):
@@ -186,3 +186,46 @@ def countfollowers(user):
 def countfollowing(user):
     followingcount = Follow.objects.filter(user_id = user).count()
     return followingcount
+
+def postisliked(currentUser, selectedPost):
+    if Like.objects.filter(liker = currentUser, liked_Post = selectedPost ).exists():
+        return True
+    else:
+        return False
+
+
+def determinebutton(request, postid):
+    currentUser = request.user
+    selectedPost = Post.objects.get(pk = postid)
+    if postisliked(currentUser, selectedPost) == False:
+        buttontext = {"text":"Like"}
+        return JsonResponse(buttontext)
+    else:
+        buttontext = {"text":"Unlike"}
+        return JsonResponse(buttontext)
+
+
+
+
+
+
+
+
+
+
+
+def likepost(request, postid):
+    currentUser = request.user
+    selectedPost = Post.objects.get(pk = postid)
+    likebuttonhtml = {}
+    if postisliked(currentUser, selectedPost) == False:
+        selectedLike = Like.objects.create(liker = currentUser, liked_Post = selectedPost)
+        selectedLike.save()
+    else:
+        selectedLike = Like.objects.get(liker = currentUser, liked_Post = selectedPost)
+        selectedLike.delete()
+
+#DEPENDING ON WHETHER IT IS L;IKE/UNLIKE SEND BACK A JSON VALUE AND THAT VALUE WILL BE MADE THE INNER HTML OF THE BUTTON. CHECK WHETHER LIKE IN VIEWPROFILE FUNCBTION AS WELL.
+
+
+    return JsonResponse({"message": "Like successful."}, status=201)
