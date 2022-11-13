@@ -205,25 +205,21 @@ def determinebutton(request, postid):
         return JsonResponse(buttontext)
 
 
-
-
-
-
-
-
-
-
-
 def likepost(request, postid):
     currentUser = request.user
     selectedPost = Post.objects.get(pk = postid)
-    likebuttonhtml = {}
     if postisliked(currentUser, selectedPost) == False:
         selectedLike = Like.objects.create(liker = currentUser, liked_Post = selectedPost)
         selectedLike.save()
+        ##ADD A LIKE TO THE LIKE COUNTER FOR A CERTAIN POST
+        selectedPost.likes += 1
+        selectedPost.save()
     else:
         selectedLike = Like.objects.get(liker = currentUser, liked_Post = selectedPost)
         selectedLike.delete()
+        selectedPost.likes -= 1
+        selectedPost.save()
+
 
 #DEPENDING ON WHETHER IT IS L;IKE/UNLIKE SEND BACK A JSON VALUE AND THAT VALUE WILL BE MADE THE INNER HTML OF THE BUTTON. CHECK WHETHER LIKE IN VIEWPROFILE FUNCBTION AS WELL.
 
