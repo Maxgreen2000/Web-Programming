@@ -51,7 +51,8 @@ function load_posts(userid, page) {
             likeButton.innerHTML =`${buttontext.text}`;  
             likeButton.addEventListener('click', function() {
                 fetch(`/likeposts/${singlePost.id}`)
-                likeButton.value = "hello"                   //LIKING WORKS BUT CANT GET THE INNERHTML OF THE BUTTON TO CHANGE
+                load_posts(userid, page);
+                
             })
             newPost.append(likeButton);
         })
