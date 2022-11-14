@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function(e) {
 
     userid = document.querySelector('#profile-userid').innerHTML
     load_posts(userid, 'profile')
@@ -10,117 +10,123 @@ document.addEventListener('DOMContentLoaded', function() {
     if (element)
     element.addEventListener('click', () => addFollow(userid));
 
+    e.preventDefault();
+
 });
 document.querySelector('#posts-view').innerHTML = "";
 
 
-function load_posts(userid, page) {    
+function load_posts(userid, page) { 
 
-  document.querySelector('#posts-view').innerHTML = "";
+    document.querySelector('#posts-view').innerHTML = "";
   
 
-  //Display all the posts for a particular user
-  fetch(`/loadposts/${userid}/${page}`)
-  .then(response => response.json())
-  .then(posts => {
-    // Print emails by looping through them all and follow the hint given
-    posts.forEach(singlePost => {
+    //Display all the posts for a particular user
+    fetch(`/loadposts/${userid}/${page}`)
+    .then(response => response.json())
+    .then(posts => {
+        // Print emails by looping through them all and follow the hint given
+        slicedposts = posts.slice(0,10)
+        slicedposts.forEach(singlePost => {
 
-        console.log(singlePost);
+            console.log(singlePost);
 
-        //creates a div for each email for any of the views we are on
-        
-        const newPost = document.createElement('div');
-        newPost.className="list-group-item";
-        newPost.innerHTML =`
-            <h5>Body: ${singlePost.body}</h5>
-            <h5>Likes: ${singlePost.likes}</h5>
-            <p>${singlePost.timestamp}</p>
+            //creates a div for each email for any of the views we are on
             
-        `;
-
-        const posterProfile = document.createElement("a");
-        posterProfile.setAttribute("href", "");
-        posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
-        newPost.prepend(posterProfile);
-
-        fetch(`/determinebutton/${singlePost.id}`)
-        .then(response => response.json())
-        .then(buttontext => {
-            likeButton = document.createElement("button"); 
-            likeButton.innerHTML =`${buttontext.text}`;  
-            likeButton.addEventListener('click', function() {
+            const newPost = document.createElement('div');
+            newPost.className="list-group-item";
+            newPost.innerHTML =`
+                <h5>Body: ${singlePost.body}</h5>
+                <h5>Likes: ${singlePost.likes}</h5>
+                <p>${singlePost.timestamp}</p>
                 
-                fetch(`/likeposts/${singlePost.id}`)
-                .then(response => response.json())
-                .then(result => {
-                    // Print result
-                    (load_posts(userid, page))
-                    console.log(result)
+            `;
+
+            const posterProfile = document.createElement("a");
+            posterProfile.setAttribute("href", "");
+            posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
+            newPost.prepend(posterProfile);
+
+            fetch(`/determinebutton/${singlePost.id}`)
+            .then(response => response.json())
+            .then(buttontext => {
+                likeButton = document.createElement("button"); 
+                likeButton.innerHTML =`${buttontext.text}`;  
+                likeButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    fetch(`/likeposts/${singlePost.id}`)
+                    .then(response => response.json())
+                    .then(result => {
+                        // Print result
+                        (load_posts(userid, page))
+                        console.log(result)
+                    })
+                    
                 })
-                
+                newPost.append(likeButton);
             })
-            newPost.append(likeButton);
-        })
 
 
-        
+            
 
-        document.querySelector('#posts-view').append(newPost);
-        if (document.getElementById("currentusername")){
-            editButton = document.createElement("button");
-            editButton.innerHTML =`Edit`;   
-            if( document.querySelector('#currentusername').innerHTML == `${singlePost.poster}` ){
-                
-                    editButton.addEventListener('click', function() {
-
-                        var editform = document.createElement("form");
-                        editform.setAttribute("method", "post");
-                        
+            document.querySelector('#posts-view').append(newPost);
+            if (document.getElementById("currentusername")){
+                editButton = document.createElement("button");
+                editButton.setAttribute("type", "button");
+                editButton.innerHTML =`Edit`;   
+                if( document.querySelector('#currentusername').innerHTML == `${singlePost.poster}` ){
                     
-                        var FN = document.createElement("input");
-                        FN.value = `${singlePost.body}`
-                        FN.setAttribute("type", "textarea");
-                        FN.setAttribute("name", "body");
-                        FN.setAttribute("placeholder", "Full Name");
-                    
-                        var s = document.createElement("input");
-                        s.setAttribute("type", "submit");
-                        s.setAttribute("value", "Submit");
+                        editButton.addEventListener('click', function(e) {
+                            e.preventDefault();
 
-                        s.addEventListener('click', function() {
-                            fetch(`/editposts/${singlePost.id}`,{
-                                method: 'POST',
-                                body: JSON.stringify({
-                                    body: FN.value, 
-                                })
-                            })  
-                            .then(response => response.json())
-                            .then(result => {
-                                console.log(result);
-                            }) 
+                            var editform = document.createElement("form");
+                            editform.setAttribute("method", "post");
                             
-                        })
-                        const editformelement = document.getElementById('editform_id');
-                        if (!(editformelement)){
-                            editform.appendChild(FN);
-                            editform.appendChild(s);
-                            newPost.appendChild( editform );
-                            editform.id = 'editform_id';
-                        }
+                        
+                            var FN = document.createElement("input");
+                            FN.value = `${singlePost.body}`
+                            FN.setAttribute("type", "textarea");
+                            FN.setAttribute("name", "body");
+                            
+                        
+                            var s = document.createElement("input");
+                            s.setAttribute("type", "button");
+
+                            s.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                fetch(`/editposts/${singlePost.id}`,{
+                                    method: 'POST',
+                                    body: JSON.stringify({
+                                        body: FN.value, 
+                                    })
+                                })  
+                                .then(response => response.json())
+                                .then(result => {
+                                    console.log(result);
+                                }) 
+                                
+                            })
+                            const editformelement = document.getElementById('editform_id');
+                            if (!(editformelement)){
+                                editform.appendChild(FN);
+                                editform.appendChild(s);
+                                newPost.appendChild( editform );
+                                editform.id = 'editform_id';
+                            }
+                        
+                        });
                     
-                    });
-                
-                newPost.append(editButton);
+                    newPost.append(editButton);
+                }
+
             }
 
-        }
 
 
 
-
-      })
-    });
+        })
+        });
 }
 
 function addFollow(userid){

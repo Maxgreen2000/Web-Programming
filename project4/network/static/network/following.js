@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE NOT LOADING THE PAGES SIMPLY POSTING A SET AMOUNT OF POSTS TO YOUR SELECTED PAGE
-
+  load_posts.preventDefault();
     document.querySelector('#pageselected').innerHTML = `<h3>${page.charAt(0).toUpperCase() + page.slice(1)}</h3>`;
     document.querySelector('#posts-view').innerHTML = "";
 
@@ -37,6 +37,24 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
       newPost.prepend(posterProfile);
 
       document.querySelector('#posts-view').append(newPost);
+
+      fetch(`/determinebutton/${singlePost.id}`)
+      .then(response => response.json())
+      .then(buttontext => {
+          likeButton = document.createElement("button"); 
+          likeButton.innerHTML =`${buttontext.text}`;  
+          likeButton.addEventListener('click', function() {
+              fetch(`/likeposts/${singlePost.id}`)
+              .then(response => response.json())
+              .then(result => {
+                  // Print result
+                  (load_posts(userid, page))
+                  console.log(result)
+              })
+            
+          })
+          newPost.append(likeButton);
+      })
 
     })
     

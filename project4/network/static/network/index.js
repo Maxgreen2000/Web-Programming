@@ -71,6 +71,26 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
         posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
         newPost.prepend(posterProfile);
 
+        fetch(`/determinebutton/${singlePost.id}`)
+        .then(response => response.json())
+        .then(buttontext => {
+            likeButton = document.createElement("button"); 
+            likeButton.innerHTML =`${buttontext.text}`;  
+            likeButton.addEventListener('click', function() {
+                
+                fetch(`/likeposts/${singlePost.id}`)
+                .then(response => response.json())
+                .then(result => {
+                    // Print result
+                    (load_posts(userid, page))
+                    console.log(result)
+                })
+                
+            })
+            newPost.append(likeButton);
+        })
+
+
         document.querySelector('#posts-view').append(newPost);
         if (document.getElementById("currentusername")){
             editButton = document.createElement("button");
