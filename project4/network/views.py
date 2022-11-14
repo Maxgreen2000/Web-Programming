@@ -212,16 +212,14 @@ def likepost(request, postid):
         selectedLike = Like.objects.create(liker = currentUser, liked_Post = selectedPost)
         selectedLike.save()
         ##ADD A LIKE TO THE LIKE COUNTER FOR A CERTAIN POST
-        selectedPost.likes += 1
+        selectedPost.likes = selectedPost.likes + 1
         selectedPost.save()
+        return JsonResponse({"message": "Like successful."}, status=201)
     else:
         selectedLike = Like.objects.get(liker = currentUser, liked_Post = selectedPost)
         selectedLike.delete()
-        selectedPost.likes -= 1
+        selectedPost.likes = selectedPost.likes - 1                   #HAVE TO REFERESH THE PAGE TO GET HE LIKES TO UPDATE NOT GOOD!!!!!!!!!!!!!!
         selectedPost.save()
+        return JsonResponse({"message": "Unlike successful."}, status=201)
 
 
-#DEPENDING ON WHETHER IT IS L;IKE/UNLIKE SEND BACK A JSON VALUE AND THAT VALUE WILL BE MADE THE INNER HTML OF THE BUTTON. CHECK WHETHER LIKE IN VIEWPROFILE FUNCBTION AS WELL.
-
-
-    return JsonResponse({"message": "Like successful."}, status=201)

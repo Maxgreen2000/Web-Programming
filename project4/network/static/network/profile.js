@@ -50,25 +50,20 @@ function load_posts(userid, page) {
             likeButton = document.createElement("button"); 
             likeButton.innerHTML =`${buttontext.text}`;  
             likeButton.addEventListener('click', function() {
+                
                 fetch(`/likeposts/${singlePost.id}`)
-                load_posts(userid, page);
+                .then(response => response.json())
+                .then(result => {
+                    // Print result
+                    (load_posts(userid, page))
+                    console.log(result)
+                })
                 
             })
             newPost.append(likeButton);
         })
 
 
-
-
-        
-       // likeButton = document.createElement("button"); 
-        //likeButton.innerHTML ="Like";           //NEED TO FIND WHAT THE INNERHTML SHOULD BE???
-        //likeButton.addEventListener('click', function() {
-            //fetch(`/likeposts/${singlePost.id}`)
-            //likeButton.innerHTML = "Unlike";
-
-        //})
-        //newPost.append(likeButton);
         
 
         document.querySelector('#posts-view').append(newPost);
