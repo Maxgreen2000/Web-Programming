@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function(e) {
     userid = document.querySelector('#profile-userid').innerHTML
     load_posts(userid, 'profile')
 
-    //document.querySelector('#follow_button').addEventListener('click', () => addFollow(userid));
   
     var element = document.querySelector("#follow_button");
 
@@ -16,20 +15,22 @@ document.addEventListener('DOMContentLoaded', function(e) {
 document.querySelector('#posts-view').innerHTML = "";
 
 
-function load_posts(userid, page,) { 
+
+
+
+
+function load_posts(userid, page, pagenumber) { 
 
     document.querySelector('#posts-view').innerHTML = "";
-    pagenumber = document.getElementById("page-number").innerHTML;
+
+    
 
     //Display all the posts for a particular user
     fetch(`/loadposts/${userid}/${page}`)
     .then(response => response.json())
     .then(posts => {
-        // Print emails by looping through them all and follow the hint given
-        count = posts.length;
-        document.getElementById("counterposts").innerHTML = `Total: ${count}`;
-        slicedposts = posts.slice((pagenumber-1)*5,pagenumber*5)
-        slicedposts.forEach(singlePost => {
+
+        posts.forEach(singlePost => {
 
             console.log(singlePost);
 

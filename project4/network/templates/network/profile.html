@@ -24,12 +24,18 @@
     <div id="posts-view">
     </div>  
 
-    <div id = "page-view">
-        <br><br>
-        <h1>Page number:</h1><h1 id="page-number">1</h1> 
-    </div>
-    <div id="counterposts">
-    </div>
+    <div>
+        Page: {{ posts.number }}
+        Number of Pages: {{ posts.paginator.num_pages}}
+
+        {% if posts.has_previous %}
+            <a href="{% url 'view_profile' username=profileData.profile_owner  %}?page={{ posts.previous_page_number }}">Previous Page</a>
+        {% endif %}
+        {% if posts.has_next %}
+            <a href="{% url 'view_profile' username=profileData.profile_owner  %}?page={{ posts.next_page_number }}">Next Page</a>
+        {% endif %}
+
+
 {% endblock %}
 
 {% block script %}

@@ -77,6 +77,14 @@ def view_profile(request, username):
     selectedProfile = Profile.objects.get(profile_owner = selectedUser)
     followercount = countfollowers(selectedUser)   
     followingcount = countfollowing(selectedUser)
+
+    #Pagination buttons
+    user = User.objects.get(username = username)
+    posts = Post.objects.filter(poster = user) 
+    p = Paginator(posts, 2)
+    page = request.GET.get('page')    
+    posts = p.get_page(page)
+
     if currentUser.is_authenticated:
         if currentUser == selectedUser:
             follow_button = "currentuser"
@@ -91,7 +99,8 @@ def view_profile(request, username):
             "profileData": selectedProfile,
             "follow_unfollow": follow_button,
             "followercount": followercount,
-            "followingcount": followingcount
+            "followingcount": followingcount,
+            "posts": posts
         })
     else:
         return render(request, "network/profile.html", {
@@ -99,7 +108,8 @@ def view_profile(request, username):
             "UserID": UserID,
             "profileData": selectedProfile,
             "followercount": followercount,
-            "followingcount": followingcount
+            "followingcount": followingcount,
+            "posts": posts
         })
 
 
