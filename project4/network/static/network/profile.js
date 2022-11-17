@@ -19,7 +19,7 @@ document.querySelector('#posts-view').innerHTML = "";
 
 
 
-function load_posts(userid, page, pagenumber) { 
+function load_posts(userid, page) { 
 
     document.querySelector('#posts-view').innerHTML = "";
 
@@ -44,11 +44,15 @@ function load_posts(userid, page, pagenumber) {
             const newPost = document.createElement('div');
             newPost.className="list-group-item";
             newPost.innerHTML =`
-                <h5>Body: ${singlePost.body}</h5>
                 <h5>Likes: ${singlePost.likes}</h5>
                 <p>${singlePost.timestamp}</p>
                 
             `;
+
+            const bodydiv = document.createElement('div');
+            bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
+            newPost.prepend(bodydiv);
+            
 
             const posterProfile = document.createElement("a");
             posterProfile.setAttribute("href", "");
@@ -85,47 +89,47 @@ function load_posts(userid, page, pagenumber) {
                 editButton.innerHTML =`Edit`;   
                 if( document.querySelector('#currentusername').innerHTML == `${singlePost.poster}` ){
                     
-                        editButton.addEventListener('click', function(e) {
-                            e.preventDefault();
+                    editButton.addEventListener('click', function() {
+                        
 
-                            var editform = document.createElement("form");
-                            editform.setAttribute("method", "post");
-                            
+                        var editform = document.createElement("form");
+                        editform.setAttribute("method", "post");
                         
-                            var FN = document.createElement("input");
-                            FN.value = `${singlePost.body}`
-                            FN.setAttribute("type", "textarea");
-                            FN.setAttribute("name", "body");
-                            
-                        
-                            var s = document.createElement("input");
-                            s.setAttribute("type", "button");
-
-                            s.addEventListener('click', function(e) {
-                                e.preventDefault();
-                                fetch(`/editposts/${singlePost.id}`,{
-                                    method: 'POST',
-                                    body: JSON.stringify({
-                                        body: FN.value, 
-                                    })
-                                })  
-                                .then(response => response.json())
-                                .then(result => {
-                                    console.log(result);
-                                }) 
-                                
-                            })
-                            const editformelement = document.getElementById('editform_id');
-                            if (!(editformelement)){
-                                editform.appendChild(FN);
-                                editform.appendChild(s);
-                                newPost.appendChild( editform );
-                                editform.id = 'editform_id';
-                            }
-                        
-                        });
                     
-                    newPost.append(editButton);
+                        var FN = document.createElement("input");
+                        FN.value = `${singlePost.body}`
+                        FN.setAttribute("type", "textarea");
+                        FN.setAttribute("name", "body");
+                        FN.setAttribute("placeholder", "Full Name");
+                    
+                        var s = document.createElement("button");
+                        s.innerHTML = "Save";
+
+                        s.addEventListener('click', function() {
+                            fetch(`/editposts/${singlePost.id}`,{
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    body: FN.value, 
+                                })
+                            })  
+                            .then(response => response.json())
+                            .then(result => {
+                                console.log(result);
+                            }) 
+                            
+                        })
+                        const editformelement = document.getElementById('editform_id');
+                        if (!(editformelement)){
+                            editform.appendChild(FN);
+                            editform.appendChild(s);
+                            bodydiv.innerHTML="";
+                            bodydiv.append( editform );
+                            editform.id = 'editform_id' ;
+                        }
+                    
+                    });
+                
+                newPost.append(editButton);
                 }
 
             }

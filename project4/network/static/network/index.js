@@ -64,15 +64,18 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
         const newPost = document.createElement('div');
         newPost.className="list-group-item";
         newPost.innerHTML =`
-            <h5>Body: ${singlePost.body}</h5>
             <h5>Likes: ${singlePost.likes}</h5>
             <p>${singlePost.timestamp}</p>
             
         `;
 
+        const bodydiv = document.createElement('div');
+        bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
+        newPost.prepend(bodydiv);
+        
 
         const posterProfile = document.createElement("a");
-        posterProfile.setAttribute("href", `view_profile/${singlePost.poster}`);
+        posterProfile.setAttribute("href", "");
         posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
         newPost.prepend(posterProfile);
 
@@ -82,12 +85,12 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
             likeButton = document.createElement("button"); 
             likeButton.innerHTML =`${buttontext.text}`;  
             likeButton.addEventListener('click', function() {
-                
+                likeButton.innerHTML = "";
                 fetch(`/likeposts/${singlePost.id}`)
                 .then(response => response.json())
                 .then(result => {
                     // Print result
-                    (load_posts(userid, page))
+                    //(load_posts(userid, page))
                     console.log(result)
                 })
                 
@@ -114,9 +117,9 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
                         FN.setAttribute("name", "body");
                         FN.setAttribute("placeholder", "Full Name");
                     
-                        var s = document.createElement("input");
-                        s.setAttribute("type", "submit");
-                        s.setAttribute("value", "Submit");
+                        var s = document.createElement("button");
+                        s.innerHTML = "Save";
+
 
                         s.addEventListener('click', function() {
                             fetch(`/editposts/${singlePost.id}`,{
@@ -135,7 +138,8 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
                         if (!(editformelement)){
                             editform.appendChild(FN);
                             editform.appendChild(s);
-                            newPost.appendChild( editform );
+                            bodydiv.innerHTML="";
+                            bodydiv.append( editform );
                             editform.id = 'editform_id' ;
                         }
                     

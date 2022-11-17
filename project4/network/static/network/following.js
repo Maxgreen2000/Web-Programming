@@ -29,11 +29,14 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
       const newPost = document.createElement('div');
       newPost.className="list-group-item";
       newPost.innerHTML =`
-        <h5>Body: ${singlePost.body}</h5>
-        <h5>Likes: ${singlePost.likes}</h5>
-        <p>${singlePost.timestamp}</p>
-        
+          <h5>Likes: ${singlePost.likes}</h5>
+          <p>${singlePost.timestamp}</p>
+          
       `;
+
+      const bodydiv = document.createElement('div');
+      bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
+      newPost.prepend(bodydiv);
 
       const posterProfile = document.createElement("a");
       posterProfile.setAttribute("href", `view_profile/${singlePost.poster}`);
