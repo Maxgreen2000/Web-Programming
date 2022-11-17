@@ -25,7 +25,7 @@
     </div>  
 
     <div>
-        Page: {{ posts.number }}
+        <h1 id="pagenumber">{{ posts.number }}</h1>
         Number of Pages: {{ posts.paginator.num_pages}}
 
         {% if posts.has_previous %}

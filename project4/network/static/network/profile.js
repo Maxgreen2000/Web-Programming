@@ -30,7 +30,12 @@ function load_posts(userid, page, pagenumber) {
     .then(response => response.json())
     .then(posts => {
 
-        posts.forEach(singlePost => {
+        paginateby = 2;
+        pagenumber = document.getElementById('pagenumber').innerHTML;
+
+        slicedposts = posts.slice(((pagenumber-1) * paginateby), (pagenumber * paginateby));
+
+        slicedposts.forEach(singlePost => {
 
             console.log(singlePost);
 
