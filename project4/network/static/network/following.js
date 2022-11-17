@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE NOT LOADING THE PAGES SIMPLY POSTING A SET AMOUNT OF POSTS TO YOUR SELECTED PAGE
-  load_posts.preventDefault();
     document.querySelector('#pageselected').innerHTML = `<h3>${page.charAt(0).toUpperCase() + page.slice(1)}</h3>`;
     document.querySelector('#posts-view').innerHTML = "";
 
@@ -16,7 +15,12 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
   .then(response => response.json())
   .then(posts => {
     // Print emails by looping through them all and follow the hint given
-    posts.forEach(singlePost => {
+    paginateby = 10;
+    pagenumber = document.getElementById('pagenumber').innerHTML;
+
+    slicedposts = posts.slice(((pagenumber-1) * paginateby), (pagenumber * paginateby));
+
+    slicedposts.forEach(singlePost => {
 
       console.log(singlePost);
 

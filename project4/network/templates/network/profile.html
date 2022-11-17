@@ -25,8 +25,7 @@
     </div>  
 
     <div>
-        <h1 id="pagenumber">{{ posts.number }}</h1>
-        Number of Pages: {{ posts.paginator.num_pages}}
+        <h1 id="pagenumber" hidden>{{ posts.number }}</h1>
 
         {% if posts.has_previous %}
             <a href="{% url 'view_profile' username=profileData.profile_owner  %}?page={{ posts.previous_page_number }}">Previous Page</a>
@@ -34,6 +33,7 @@
         {% if posts.has_next %}
             <a href="{% url 'view_profile' username=profileData.profile_owner  %}?page={{ posts.next_page_number }}">Next Page</a>
         {% endif %}
+    </div>
 
 
 {% endblock %}

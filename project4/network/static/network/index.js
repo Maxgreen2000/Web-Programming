@@ -49,8 +49,13 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
   fetch(`/loadposts/${userid}/${page}`)
   .then(response => response.json())
   .then(posts => {
+
+    paginateby = 10;
+    pagenumber = document.getElementById('pagenumber').innerHTML;
+
+    slicedposts = posts.slice(((pagenumber-1) * paginateby), (pagenumber * paginateby));
     // Print emails by looping through them all and follow the hint given
-    posts.forEach(singlePost => {
+    slicedposts.forEach(singlePost => {
 
         console.log(singlePost);
 

@@ -17,6 +17,16 @@
     {% endif %}
     <div id="posts-view">
     </div>  
+    <div>
+        <h1 id="pagenumber" hidden>{{ posts.number }}</h1>
+
+        {% if posts.has_previous %}
+            <a href="{% url 'index' %}?page={{ posts.previous_page_number }}">Previous Page</a>
+        {% endif %}
+        {% if posts.has_next %}
+            <a href="{% url 'index' %}?page={{ posts.next_page_number }}">Next Page</a>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block script %}

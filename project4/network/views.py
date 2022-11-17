@@ -11,7 +11,13 @@ from .models import User, Post, Profile, Follow, Like
 
 
 def index(request):
-    return render(request, "network/index.html")
+    posts = Post.objects.all()
+    p = Paginator(posts, 10)
+    page = request.GET.get('page')    
+    posts = p.get_page(page)
+    return render(request, "network/index.html", {
+        "posts": posts
+    })
 
 
 def login_view(request):
@@ -81,7 +87,7 @@ def view_profile(request, username):
     #Pagination buttons
     user = User.objects.get(username = username)
     posts = Post.objects.filter(poster = user) 
-    p = Paginator(posts, 2)
+    p = Paginator(posts, 10)
     page = request.GET.get('page')    
     posts = p.get_page(page)
 
@@ -151,7 +157,15 @@ def loadposts(request, id, page):
 
 
 def myFollowing(request):
-    return render(request, "network/following.html") 
+    current_user = request.user
+    allFollowing = Follow.objects.filter(user_id = current_user).values_list('following_user_id')
+    posts = Post.objects.filter(poster__in=allFollowing)
+    p = Paginator(posts, 10)
+    page = request.GET.get('page')    
+    posts = p.get_page(page)
+    return render(request, "network/following.html", {
+        "posts": posts
+    }) 
 
 def userAisfollowinguserB(userA, userB):
     if Follow.objects.filter(user_id = userA, following_user_id = userB ).exists():
