@@ -52,31 +52,36 @@ function load_posts(userid, page) {
             const bodydiv = document.createElement('div');
             bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
             newPost.prepend(bodydiv);
+
+            const likediv = document.createElement('div');
+            newPost.prepend(bodydiv);
             
 
             const posterProfile = document.createElement("a");
             posterProfile.setAttribute("href", "");
             posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
             newPost.prepend(posterProfile);
+            
 
             fetch(`/determinebutton/${singlePost.id}`)
             .then(response => response.json())
             .then(buttontext => {
+
                 likeButton = document.createElement("button"); 
-                likeButton.innerHTML =`${buttontext.text}`;  
-                likeButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
+                likeButton.textContent =`${buttontext.text}`;       //MAYBE HAVE TWO BUTTONS UNLIKE AND LIKE THAT DO THE SAME THING. DETERMINE BUTTON JUST DECIDES WHICH ONE TO HIDE.
+                
+                
+                likeButton.addEventListener('click', function() {
+                    likediv.innerHTML=""
                     fetch(`/likeposts/${singlePost.id}`)
                     .then(response => response.json())
                     .then(result => {
-                        // Print result
-                        (load_posts(userid, page))
                         console.log(result)
                     })
                     
                 })
-                newPost.append(likeButton);
+                likediv.append(likeButton);
+                newPost.append(likediv);
             })
 
 
@@ -151,3 +156,5 @@ function addFollow(userid){
         window.location.reload();      //This reloads the page thus clearing out the new post box , brings the new post up to the top as well as anyone elses.
     })
 }
+
+
