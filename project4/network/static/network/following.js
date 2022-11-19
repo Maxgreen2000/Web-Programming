@@ -22,46 +22,79 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
 
     slicedposts.forEach(singlePost => {
 
-      console.log(singlePost);
+        console.log(singlePost);
 
-      //creates a div for each email for any of the views we are on
-      
-      const newPost = document.createElement('div');
-      newPost.className="list-group-item";
-      newPost.innerHTML =`
-          <h5>Likes: ${singlePost.likes}</h5>
-          <p>${singlePost.timestamp}</p>
-          
-      `;
-
-      const bodydiv = document.createElement('div');
-      bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
-      newPost.prepend(bodydiv);
-
-      const posterProfile = document.createElement("a");
-      posterProfile.setAttribute("href", `view_profile/${singlePost.poster}`);
-      posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
-      newPost.prepend(posterProfile);
-
-      document.querySelector('#posts-view').append(newPost);
-
-      fetch(`/determinebutton/${singlePost.id}`)
-      .then(response => response.json())
-      .then(buttontext => {
-          likeButton = document.createElement("button"); 
-          likeButton.innerHTML =`${buttontext.text}`;  
-          likeButton.addEventListener('click', function() {
-              fetch(`/likeposts/${singlePost.id}`)
-              .then(response => response.json())
-              .then(result => {
-                  // Print result
-                  (load_posts(userid, page))
-                  console.log(result)
-              })
+        //creates a div for each email for any of the views we are on
+        
+        const newPost = document.createElement('div');
+        newPost.className="list-group-item";
+        newPost.innerHTML =`
+            <h5>Likes: ${singlePost.likes}</h5>
+            <p>${singlePost.timestamp}</p>
             
-          })
-          newPost.append(likeButton);
-      })
+        `;
+
+        const bodydiv = document.createElement('div');
+        bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
+        newPost.prepend(bodydiv);
+
+        const posterProfile = document.createElement("a");
+        posterProfile.setAttribute("href", `view_profile/${singlePost.poster}`);
+        posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
+        newPost.prepend(posterProfile);
+
+        document.querySelector('#posts-view').append(newPost);
+
+        //Make both divs and buttons then choose which is hidden
+        const likediv = document.createElement('div');
+        const unlikediv = document.createElement('div');
+        likeButton = document.createElement("button"); 
+        likeButton.textContent = "Like";    
+        likediv.style.display = "none";
+        unlikeButton = document.createElement("button"); 
+        unlikeButton.textContent = "Unlike"; 
+        unlikediv.style.display = "none";
+
+        likeButton.addEventListener('click', function() {
+            likediv.style.display = "none";
+            unlikediv.style.display = "block";
+            fetch(`/likeposts/${singlePost.id}`)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+            })
+            
+        })
+
+        unlikeButton.addEventListener('click', function() {
+            likediv.style.display = "block";
+            unlikediv.style.display = "none";
+            fetch(`/likeposts/${singlePost.id}`)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+            })
+            
+        })
+        likediv.append(likeButton);
+        unlikediv.append(unlikeButton);
+        newPost.append(likediv);
+        newPost.append(unlikediv);
+
+
+
+        fetch(`/determinebutton/${singlePost.id}`)
+        .then(response => response.json())
+        .then(buttontext => {
+            if(`${buttontext.text}` == "Like" ){
+                likediv.style.display = "block";
+            }
+            if(`${buttontext.text}` == "Unlike" ){
+                unlikediv.style.display = "block";
+            }
+        })
+
+
 
     })
     
