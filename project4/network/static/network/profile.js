@@ -53,8 +53,6 @@ function load_posts(userid, page) {
             bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
             newPost.prepend(bodydiv);
 
-            const likediv = document.createElement('div');
-            newPost.prepend(bodydiv);
             
 
             const posterProfile = document.createElement("a");
@@ -63,25 +61,53 @@ function load_posts(userid, page) {
             newPost.prepend(posterProfile);
             
 
+            //Make both divs and buttons then choose which is hidden
+            const likediv = document.createElement('div');
+            const unlikediv = document.createElement('div');
+            likeButton = document.createElement("button"); 
+            likeButton.textContent = "Like";    
+            likediv.style.display = "none";
+            unlikeButton = document.createElement("button"); 
+            unlikeButton.textContent = "Unlike"; 
+            unlikediv.style.display = "none";
+
+            likeButton.addEventListener('click', function() {
+                likediv.style.display = "none";
+                unlikediv.style.display = "block";
+                fetch(`/likeposts/${singlePost.id}`)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result)
+                })
+                
+            })
+
+            unlikeButton.addEventListener('click', function() {
+                likediv.style.display = "block";
+                unlikediv.style.display = "none";
+                fetch(`/likeposts/${singlePost.id}`)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result)
+                })
+                
+            })
+            likediv.append(likeButton);
+            unlikediv.append(unlikeButton);
+            newPost.append(likediv);
+            newPost.append(unlikediv);
+
+
+
             fetch(`/determinebutton/${singlePost.id}`)
             .then(response => response.json())
             .then(buttontext => {
-
-                likeButton = document.createElement("button"); 
-                likeButton.textContent =`${buttontext.text}`;       //MAYBE HAVE TWO BUTTONS UNLIKE AND LIKE THAT DO THE SAME THING. DETERMINE BUTTON JUST DECIDES WHICH ONE TO HIDE.
-                
-                
-                likeButton.addEventListener('click', function() {
-                    likediv.innerHTML=""
-                    fetch(`/likeposts/${singlePost.id}`)
-                    .then(response => response.json())
-                    .then(result => {
-                        console.log(result)
-                    })
-                    
-                })
-                likediv.append(likeButton);
-                newPost.append(likediv);
+                if(`${buttontext.text}` == "Like" ){
+                    likediv.style.display = "block";
+                }
+                if(`${buttontext.text}` == "Unlike" ){
+                    unlikediv.style.display = "block";
+                }
             })
 
 
