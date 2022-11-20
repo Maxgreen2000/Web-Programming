@@ -147,14 +147,17 @@ function load_posts(userid, page) {
                             .then(result => {
                                 console.log(result);
                             }) 
-                            
+                            bodydiv.innerHTML="";
+                            singlePost.body = FN.value;
+                            bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
+
                         })
                         const editformelement = document.getElementById('editform_id');
                         if (!(editformelement)){
                             editform.appendChild(FN);
-                            editform.appendChild(s);
                             bodydiv.innerHTML="";
                             bodydiv.append( editform );
+                            bodydiv.append(s)
                             editform.id = 'editform_id' ;
                         }
                     
