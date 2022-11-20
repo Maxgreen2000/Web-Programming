@@ -64,10 +64,13 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
         const newPost = document.createElement('div');
         newPost.className="list-group-item";
         newPost.innerHTML =`
-            <h5>Likes: ${singlePost.likes}</h5>
             <p>${singlePost.timestamp}</p>
             
         `;
+
+        const likecountdiv = document.createElement('div');
+        likecountdiv.innerHTML = `<h5>Likes: ${singlePost.likes}</h5>`;
+        newPost.prepend(likecountdiv);
 
         const bodydiv = document.createElement('div');
         bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
@@ -97,7 +100,9 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
             .then(result => {
                 console.log(result)
             })
-            
+            singlePost.likes = singlePost.likes + 1;
+            likecountdiv.innerHTML = "";
+            likecountdiv.innerHTML =`<h5>Likes: ${singlePost.likes}</h5>`;
         })
 
         unlikeButton.addEventListener('click', function() {
@@ -108,7 +113,9 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
             .then(result => {
                 console.log(result)
             })
-            
+            singlePost.likes = singlePost.likes - 1;
+            likecountdiv.innerHTML = "";
+            likecountdiv.innerHTML =`<h5>Likes: ${singlePost.likes}</h5>`;
         })
         likediv.append(likeButton);
         unlikediv.append(unlikeButton);
@@ -164,7 +171,9 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
                             .then(result => {
                                 console.log(result);
                             }) 
-                            
+                            bodydiv.innerHTML="";
+                            singlePost.body = FN.value;
+                            bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
                         })
                         const editformelement = document.getElementById('editform_id');
                         if (!(editformelement)){
