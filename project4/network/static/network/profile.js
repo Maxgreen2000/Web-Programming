@@ -68,7 +68,7 @@ function load_posts(userid, page) {
             fetch("/userauthenicated")
             .then(response => response.json())
             .then(authenicated => {
-                if(authenicated == "True"){
+                if(authenicated.authenticated == "True"){
 
                     //Make both divs and buttons then choose which is hidden
                     const likediv = document.createElement('div');
