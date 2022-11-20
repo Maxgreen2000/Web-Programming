@@ -26,8 +26,6 @@ class Post(models.Model):
 
 class Profile(models.Model):
     profile_owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile_owner")
-    profile_picture = models.ImageField(default='default.jpg')
-    bio = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.profile_owner.username
@@ -36,7 +34,6 @@ class Profile(models.Model):
         return {
             "id": self.id,
             "profile_owner": self.profile_owner.username,
-            "bio": self.bio
         }
 
 class Follow(models.Model):

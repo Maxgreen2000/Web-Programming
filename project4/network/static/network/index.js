@@ -82,114 +82,123 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
         posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
         newPost.prepend(posterProfile);
 
-        //Make both divs and buttons then choose which is hidden
-        const likediv = document.createElement('div');
-        const unlikediv = document.createElement('div');
-        likeButton = document.createElement("button"); 
-        likeButton.textContent = "Like";    
-        likediv.style.display = "none";
-        unlikeButton = document.createElement("button"); 
-        unlikeButton.textContent = "Unlike"; 
-        unlikediv.style.display = "none";
-
-        likeButton.addEventListener('click', function() {
-            likediv.style.display = "none";
-            unlikediv.style.display = "block";
-            fetch(`/likeposts/${singlePost.id}`)
-            .then(response => response.json())
-            .then(result => {
-                console.log(result)
-            })
-            singlePost.likes = singlePost.likes + 1;
-            likecountdiv.innerHTML = "";
-            likecountdiv.innerHTML =`<h5>Likes: ${singlePost.likes}</h5>`;
-        })
-
-        unlikeButton.addEventListener('click', function() {
-            likediv.style.display = "block";
-            unlikediv.style.display = "none";
-            fetch(`/likeposts/${singlePost.id}`)
-            .then(response => response.json())
-            .then(result => {
-                console.log(result)
-            })
-            singlePost.likes = singlePost.likes - 1;
-            likecountdiv.innerHTML = "";
-            likecountdiv.innerHTML =`<h5>Likes: ${singlePost.likes}</h5>`;
-        })
-        likediv.append(likeButton);
-        unlikediv.append(unlikeButton);
-        newPost.append(likediv);
-        newPost.append(unlikediv);
-
-
-
-        fetch(`/determinebutton/${singlePost.id}`)
-        .then(response => response.json())
-        .then(buttontext => {
-            if(`${buttontext.text}` == "Like" ){
-                likediv.style.display = "block";
-            }
-            if(`${buttontext.text}` == "Unlike" ){
-                unlikediv.style.display = "block";
-            }
-        })
-
-
-
-
         document.querySelector('#posts-view').append(newPost);
-        if (document.getElementById("currentusername")){
-            editButton = document.createElement("button");
-            editButton.innerHTML =`Edit`;   
-            if( document.querySelector('#currentusername').innerHTML == `${singlePost.poster}` ){
-                
-                    editButton.addEventListener('click', function() {
 
-                        var editform = document.createElement("form");
-                        editform.setAttribute("method", "post");
+        fetch("/userauthenicated")
+        .then(response => response.json())
+        .then(authenicated => {
+            if(authenicated == "True"){
+
+                //Make both divs and buttons then choose which is hidden
+                const likediv = document.createElement('div');
+                const unlikediv = document.createElement('div');
+                likeButton = document.createElement("button"); 
+                likeButton.textContent = "Like";    
+                likediv.style.display = "none";
+                unlikeButton = document.createElement("button"); 
+                unlikeButton.textContent = "Unlike"; 
+                unlikediv.style.display = "none";
+
+                likeButton.addEventListener('click', function() {
+                    likediv.style.display = "none";
+                    unlikediv.style.display = "block";
+                    fetch(`/likeposts/${singlePost.id}`)
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result)
+                    })
+                    singlePost.likes = singlePost.likes + 1;
+                    likecountdiv.innerHTML = "";
+                    likecountdiv.innerHTML =`<h5>Likes: ${singlePost.likes}</h5>`;
+                })
+
+                unlikeButton.addEventListener('click', function() {
+                    likediv.style.display = "block";
+                    unlikediv.style.display = "none";
+                    fetch(`/likeposts/${singlePost.id}`)
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result)
+                    })
+                    singlePost.likes = singlePost.likes - 1;
+                    likecountdiv.innerHTML = "";
+                    likecountdiv.innerHTML =`<h5>Likes: ${singlePost.likes}</h5>`;
+                })
+                likediv.append(likeButton);
+                unlikediv.append(unlikeButton);
+                newPost.append(likediv);
+                newPost.append(unlikediv);
+
+
+
+                fetch(`/determinebutton/${singlePost.id}`)
+                .then(response => response.json())
+                .then(buttontext => {
+                    if(`${buttontext.text}` == "Like" ){
+                        likediv.style.display = "block";
+                    }
+                    if(`${buttontext.text}` == "Unlike" ){
+                        unlikediv.style.display = "block";
+                    }
+                })
+
+
+
+
+                
+                if (document.getElementById("currentusername")){
+                    editButton = document.createElement("button");
+                    editButton.innerHTML =`Edit`;   
+                    if( document.querySelector('#currentusername').innerHTML == `${singlePost.poster}` ){
                         
-                    
-                        var FN = document.createElement("input");
-                        FN.value = `${singlePost.body}`
-                        FN.setAttribute("type", "textarea");
-                        FN.setAttribute("name", "body");
-                        FN.setAttribute("placeholder", "Full Name");
-                    
-                        var s = document.createElement("button");
-                        s.innerHTML = "Save";
+                            editButton.addEventListener('click', function() {
+
+                                var editform = document.createElement("form");
+                                editform.setAttribute("method", "post");
+                                
+                            
+                                var FN = document.createElement("input");
+                                FN.value = `${singlePost.body}`
+                                FN.setAttribute("type", "textarea");
+                                FN.setAttribute("name", "body");
+                                FN.setAttribute("placeholder", "Full Name");
+                            
+                                var s = document.createElement("button");
+                                s.innerHTML = "Save";
 
 
-                        s.addEventListener('click', function() {
-                            fetch(`/editposts/${singlePost.id}`,{
-                                method: 'POST',
-                                body: JSON.stringify({
-                                    body: FN.value, 
+                                s.addEventListener('click', function() {
+                                    fetch(`/editposts/${singlePost.id}`,{
+                                        method: 'POST',
+                                        body: JSON.stringify({
+                                            body: FN.value, 
+                                        })
+                                    })  
+                                    .then(response => response.json())
+                                    .then(result => {
+                                        console.log(result);
+                                    }) 
+                                    bodydiv.innerHTML="";
+                                    singlePost.body = FN.value;
+                                    bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
                                 })
-                            })  
-                            .then(response => response.json())
-                            .then(result => {
-                                console.log(result);
-                            }) 
-                            bodydiv.innerHTML="";
-                            singlePost.body = FN.value;
-                            bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
-                        })
-                        const editformelement = document.getElementById('editform_id');
-                        if (!(editformelement)){
-                            editform.appendChild(FN);
-                            editform.appendChild(s);
-                            bodydiv.innerHTML="";
-                            bodydiv.append( editform );
-                            editform.id = 'editform_id' ;
-                        }
-                    
-                    });
-                
-                newPost.append(editButton);
-            }
+                                const editformelement = document.getElementById('editform_id');
+                                if (!(editformelement)){
+                                    editform.appendChild(FN);
+                                    editform.appendChild(s);
+                                    bodydiv.innerHTML="";
+                                    bodydiv.append( editform );
+                                    editform.id = 'editform_id' ;
+                                }
+                            
+                            });
+                        
+                        newPost.append(editButton);
+                    }
 
-        }
+                }
+            }
+        })
     })
     
     

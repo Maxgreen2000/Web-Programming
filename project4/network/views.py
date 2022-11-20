@@ -77,6 +77,7 @@ def register(request):
 
 
 def view_profile(request, username):
+
     currentUser = request.user
     selectedUser = User.objects.get(username = username)
     UserID = selectedUser.id
@@ -245,5 +246,15 @@ def likepost(request, postid):
         selectedPost.likes = selectedPost.likes - 1                   #HAVE TO REFERESH THE PAGE TO GET HE LIKES TO UPDATE NOT GOOD!!!!!!!!!!!!!!
         selectedPost.save()
         return JsonResponse({"message": "Unlike successful."}, status=201)
+
+
+def userauthenicated(request):
+    currentUser = request.user
+    if currentUser.is_authenticated:
+        authenticated = {"authenticated":"True"}
+        return JsonResponse(authenticated)
+    else:
+        authenticated = {"authenticated":"False"}
+        return JsonResponse(authenticated)
 
 
