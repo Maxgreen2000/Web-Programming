@@ -23,14 +23,14 @@
     <div id="posts-view">
     </div>  
 
-    <div>
+    <div class="page-selection-div">
         <h1 id="pagenumber" hidden>{{ posts.number }}</h1>
 
         {% if posts.has_previous %}
-            <a href="{% url 'view_profile' username=profileData.profile_owner  %}?page={{ posts.previous_page_number }}">Previous Page</a>
+            <a class="pagenumberid" href="{% url 'view_profile' username=profileData.profile_owner  %}?page={{ posts.previous_page_number }}">Previous Page</a>
         {% endif %}
         {% if posts.has_next %}
-            <a href="{% url 'view_profile' username=profileData.profile_owner  %}?page={{ posts.next_page_number }}">Next Page</a>
+            <a class="pagenumberid" href="{% url 'view_profile' username=profileData.profile_owner  %}?page={{ posts.next_page_number }}">Next Page</a>
         {% endif %}
     </div>
 

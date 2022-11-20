@@ -70,6 +70,9 @@ function load_posts(userid, page) {
             .then(authenicated => {
                 if(authenicated.authenticated == "True"){
 
+                    const buttondiv = document.createElement('div');
+                    buttondiv.id = 'buttondiv';
+
                     //Make both divs and buttons then choose which is hidden
                     const likediv = document.createElement('div');
                     const unlikediv = document.createElement('div');
@@ -109,8 +112,9 @@ function load_posts(userid, page) {
                     })
                     likediv.append(likeButton);
                     unlikediv.append(unlikeButton);
-                    newPost.append(likediv);
-                    newPost.append(unlikediv);
+                    buttondiv.append(likediv);
+                    buttondiv.append(unlikediv);
+                    newPost.append(buttondiv);
 
 
 
@@ -176,7 +180,7 @@ function load_posts(userid, page) {
                             
                             });
                         
-                        newPost.append(editButton);
+                        buttondiv.append(editButton);
                         }
 
                     }
