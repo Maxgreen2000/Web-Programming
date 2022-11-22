@@ -189,9 +189,7 @@ function load_posts(userid, page) {
                                 }
                             
                             });
-                        
-                            //editButtondiv.append(editButton);
-                            //buttondiv.append(editButtondiv);
+
                             
                         }
 

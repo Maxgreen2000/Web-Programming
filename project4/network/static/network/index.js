@@ -79,7 +79,8 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
 
         const posterProfile = document.createElement("a");
         posterProfile.setAttribute("href", `view_profile/${singlePost.poster}`);
-        posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
+        posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`;
+        posterProfile.id = "profile-link";
         newPost.prepend(posterProfile);
 
         document.querySelector('#posts-view').append(newPost);
@@ -89,13 +90,18 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
         .then(authenicated => {
             if(authenicated.authenticated == "True"){
 
+                const buttondiv = document.createElement('div');
+                buttondiv.id = 'buttondiv';
+
                 //Make both divs and buttons then choose which is hidden
                 const likediv = document.createElement('div');
                 const unlikediv = document.createElement('div');
                 likeButton = document.createElement("button"); 
+                likeButton.setAttribute("class", "btn btn-outline-danger")
                 likeButton.textContent = "Like";    
                 likediv.style.display = "none";
                 unlikeButton = document.createElement("button"); 
+                unlikeButton.setAttribute("class", "btn btn-outline-danger")
                 unlikeButton.textContent = "Unlike"; 
                 unlikediv.style.display = "none";
 
@@ -109,7 +115,9 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
                     })
                     singlePost.likes = singlePost.likes + 1;
                     likecountdiv.innerHTML = "";
-                    likecountdiv.innerHTML =`<h5>Likes: ${singlePost.likes}</h5>`;
+                    likecountdiv.innerHTML =`<h5>Likes ${singlePost.likes}</h5>`;
+
+                    
                 })
 
                 unlikeButton.addEventListener('click', function() {
@@ -122,13 +130,13 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
                     })
                     singlePost.likes = singlePost.likes - 1;
                     likecountdiv.innerHTML = "";
-                    likecountdiv.innerHTML =`<h5>Likes: ${singlePost.likes}</h5>`;
+                    likecountdiv.innerHTML =`<h5>Likes ${singlePost.likes}</h5>`;
                 })
                 likediv.append(likeButton);
                 unlikediv.append(unlikeButton);
-                newPost.append(likediv);
-                newPost.append(unlikediv);
-
+                buttondiv.append(likediv);
+                buttondiv.append(unlikediv);
+                newPost.append(buttondiv);
 
 
                 fetch(`/determinebutton/${singlePost.id}`)
@@ -142,62 +150,71 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
                     }
                 })
 
-
-
-
-                
                 if (document.getElementById("currentusername")){
-                    editButton = document.createElement("button");
-                    editButton.innerHTML =`Edit`;   
+
                     if( document.querySelector('#currentusername').innerHTML == `${singlePost.poster}` ){
+                        editButtondiv = document.createElement("div");
                         
-                            editButton.addEventListener('click', function() {
-
-                                var editform = document.createElement("form");
-                                editform.setAttribute("method", "post");
-                                
-                            
-                                var FN = document.createElement("input");
-                                FN.value = `${singlePost.body}`
-                                FN.setAttribute("type", "textarea");
-                                FN.setAttribute("name", "body");
-                                FN.setAttribute("placeholder", "Full Name");
-                            
-                                var s = document.createElement("button");
-                                s.setAttribute("class", "btn btn-outline-primary");
-                                s.innerHTML = "Save";
-
-
-                                s.addEventListener('click', function() {
-                                    fetch(`/editposts/${singlePost.id}`,{
-                                        method: 'POST',
-                                        body: JSON.stringify({
-                                            body: FN.value, 
-                                        })
-                                    })  
-                                    .then(response => response.json())
-                                    .then(result => {
-                                        console.log(result);
-                                    }) 
-                                    bodydiv.innerHTML="";
-                                    singlePost.body = FN.value;
-                                    bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
-                                })
-                                const editformelement = document.getElementById('editform_id');
-                                if (!(editformelement)){
-                                    editform.appendChild(FN);
-                                    editform.appendChild(s);
-                                    bodydiv.innerHTML="";
-                                    bodydiv.append( editform );
-                                    editform.id = 'editform_id' ;
-                                }
-                            
-                            });
                         
-                        newPost.append(editButton);
+                        const editButton = document.createElement("button");
+                        editButton.setAttribute("class", "btn btn-outline-primary")
+                        editButton.innerHTML ="Edit";
+                        editButtondiv.append(editButton);
+                        buttondiv.append(editButtondiv);
+                        
+                        editButton.addEventListener('click', function() {
+                            editButton.style.display = "none";
+                            var editform = document.createElement("form");
+                            
+                            var FN = document.createElement("textarea");
+                            FN.value = `${singlePost.body}`
+                            FN.setAttribute("class", "form-control")
+                            FN.setAttribute("name", "body");
+                            FN.setAttribute("placeholder", "Full Name");
+                        
+                            var s = document.createElement("button");
+                            s.setAttribute("class", "btn btn-outline-primary");
+                            s.innerHTML = "Save Edit";
+
+                            s.addEventListener('click', function() {
+                                fetch(`/editposts/${singlePost.id}`,{
+                                    method: 'POST',
+                                    body: JSON.stringify({
+                                        body: FN.value, 
+                                    })
+                                })  
+                                .then(response => response.json())
+                                .then(result => {
+                                    console.log(result);
+                                }) 
+                                bodydiv.innerHTML="";
+                                singlePost.body = FN.value;
+                                bodydiv.innerHTML = `<h5>Body: ${singlePost.body}</h5>`
+                                editButton.style.display = "block";
+                                s.style.display = "none";
+
+
+                            })
+                            const editformelement = document.getElementById('editform_id');
+                            if (!(editformelement)){
+                                editform.appendChild(FN);
+                                buttondiv.innerhtml = "";
+                                buttondiv.append(s);
+                                bodydiv.innerHTML="";
+                                bodydiv.append( editform );
+                                editform.id = 'editform_id'
+                            }
+                        
+                        });
+
+                        
                     }
 
                 }
+
+
+
+
             }
         })
     })

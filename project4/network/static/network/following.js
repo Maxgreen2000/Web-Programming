@@ -43,18 +43,24 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
 
         const posterProfile = document.createElement("a");
         posterProfile.setAttribute("href", `view_profile/${singlePost.poster}`);
-        posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`
+        posterProfile.innerHTML = `<h5>Poster: ${singlePost.poster}</h5>`;
+        posterProfile.id = "profile-link";
         newPost.prepend(posterProfile);
 
         document.querySelector('#posts-view').append(newPost);
+
+        const buttondiv = document.createElement('div');
+        buttondiv.id = 'buttondiv';
 
         //Make both divs and buttons then choose which is hidden
         const likediv = document.createElement('div');
         const unlikediv = document.createElement('div');
         likeButton = document.createElement("button"); 
+        likeButton.setAttribute("class", "btn btn-outline-danger")
         likeButton.textContent = "Like";    
         likediv.style.display = "none";
         unlikeButton = document.createElement("button"); 
+        unlikeButton.setAttribute("class", "btn btn-outline-danger")
         unlikeButton.textContent = "Unlike"; 
         unlikediv.style.display = "none";
 
@@ -68,7 +74,9 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
             })
             singlePost.likes = singlePost.likes + 1;
             likecountdiv.innerHTML = "";
-            likecountdiv.innerHTML =`<h5>Likes: ${singlePost.likes}</h5>`;
+            likecountdiv.innerHTML =`<h5>Likes ${singlePost.likes}</h5>`;
+
+            
         })
 
         unlikeButton.addEventListener('click', function() {
@@ -81,12 +89,13 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
             })
             singlePost.likes = singlePost.likes - 1;
             likecountdiv.innerHTML = "";
-            likecountdiv.innerHTML =`<h5>Likes: ${singlePost.likes}</h5>`;
+            likecountdiv.innerHTML =`<h5>Likes ${singlePost.likes}</h5>`;
         })
         likediv.append(likeButton);
         unlikediv.append(unlikeButton);
-        newPost.append(likediv);
-        newPost.append(unlikediv);
+        buttondiv.append(likediv);
+        buttondiv.append(unlikediv);
+        newPost.append(buttondiv);
 
 
 
@@ -99,8 +108,8 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
             if(`${buttontext.text}` == "Unlike" ){
                 unlikediv.style.display = "block";
             }
+            
         })
-
 
 
     })
