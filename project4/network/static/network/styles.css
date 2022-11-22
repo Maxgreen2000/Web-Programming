@@ -10,7 +10,10 @@
 
 .body{
     margin-inline: 10px;
+    word-wrap: break-word
+
 }
+
 
 #buttondiv {
     display: flex;
@@ -20,4 +23,31 @@
 
 #buttondiv button{
     margin-inline: 5px;
+}
+
+.profile-information{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.followerinfo {
+    display: flex;
+    justify-content: center;
+
+}
+
+.followerinfo h1{
+    margin: 10px;
+}
+
+.followbuttondiv {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    margin-bottom: 30px;
+}
+
+#profile-link {
+    text-decoration: none;
 }

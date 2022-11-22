@@ -164,6 +164,7 @@ function load_posts(userid, page) {        //RENAME THIS TO LOAD POSTS , WE ARE 
                                 FN.setAttribute("placeholder", "Full Name");
                             
                                 var s = document.createElement("button");
+                                s.setAttribute("class", "btn btn-outline-primary");
                                 s.innerHTML = "Save";
 
 
