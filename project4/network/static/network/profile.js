@@ -137,6 +137,7 @@ function load_posts(userid, page) {
 
                         if( document.querySelector('#currentusername').innerHTML == `${singlePost.poster}` ){
                             editButtondiv = document.createElement("div");
+                            editButtondiv.id = "editbuttondiv";
                             
                             
                             const editButton = document.createElement("button");
@@ -146,7 +147,8 @@ function load_posts(userid, page) {
                             buttondiv.append(editButtondiv);
                             
                             editButton.addEventListener('click', function() {
-                                editButton.style.display = "none";
+
+
                                 var editform = document.createElement("form");
                                 
                                 var FN = document.createElement("textarea");
@@ -158,6 +160,21 @@ function load_posts(userid, page) {
                                 var s = document.createElement("button");
                                 s.setAttribute("class", "btn btn-outline-primary");
                                 s.innerHTML = "Save Edit";
+
+                                const editformelement = document.getElementById('editform_id');
+                                if (!(editformelement)){
+                                    editform.appendChild(FN);
+                                    buttondiv.innerhtml = "";
+                                    buttondiv.append(s);
+                                    bodydiv.innerHTML="";
+                                    bodydiv.append( editform );
+                                    editform.id = 'editform_id'
+                                }
+
+                                
+                                if (!(editformelement)) {
+                                    editButton.style.display = "none";
+                                }
 
                                 s.addEventListener('click', function() {
                                     fetch(`/editposts/${singlePost.id}`,{
@@ -178,15 +195,7 @@ function load_posts(userid, page) {
 
 
                                 })
-                                const editformelement = document.getElementById('editform_id');
-                                if (!(editformelement)){
-                                    editform.appendChild(FN);
-                                    buttondiv.innerhtml = "";
-                                    buttondiv.append(s);
-                                    bodydiv.innerHTML="";
-                                    bodydiv.append( editform );
-                                    editform.id = 'editform_id'
-                                }
+
                             
                             });
 

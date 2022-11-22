@@ -2,15 +2,13 @@
 {% load static %}
 
 {% block body %}
-    <div id="pageselected">
-    </div>
     {% if user.is_authenticated  %}
     <div id="newpostbar">
         <div id="newpostdiv">
             <form id="newpostform">
                 {% csrf_token %}
                 <textarea class="form-control" id="newpostbody" placeholder="Enter your post"></textarea>
-                <input id="newpostsubmit" type="submit" class="btn btn-outline-primary btn-lg mt-3"/>
+                <input id="newpostsubmit" type="submit" class="btn btn-outline-primary btn-lg my-3"/>
             </form>
         </div>
     </div>

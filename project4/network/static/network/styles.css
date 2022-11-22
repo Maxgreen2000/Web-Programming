@@ -14,6 +14,11 @@
 
 }
 
+.body textarea{
+    height: 5rem;
+    resize: none;
+
+}
 
 #buttondiv {
     display: flex;
@@ -51,3 +56,4 @@
 #profile-link {
     text-decoration: none;
 }
+
