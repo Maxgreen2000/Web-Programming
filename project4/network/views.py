@@ -169,11 +169,6 @@ def myFollowing(request):
             "posts": posts
         }) 
     else:
-        #return HttpResponseNotFound('<h1>Page not found</h1>')
-        #raise Http404("TO VIEW YOUR FOLLOWING, PLEASE SIGN IN OR REGISTER")
-        #login_view(request)
-        #register(request)
-        #return render(request, "network/register.html")
         return render(request, "network/login.html")
 
 def userAisfollowinguserB(userA, userB):
