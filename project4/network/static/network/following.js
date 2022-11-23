@@ -1,8 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-
-    // By default, load the inbox
-    load_posts('0', 'following')
+    fetch("/userauthenicated")
+    .then(response => response.json())
+    .then(authenicated => {
+        if(authenicated.authenticated == "True"){
+            load_posts('0', 'following')
+        }
+    })
+    
 
 });
 

@@ -1,7 +1,7 @@
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator
@@ -159,14 +159,22 @@ def loadposts(request, id, page):
 
 def myFollowing(request):
     current_user = request.user
-    allFollowing = Follow.objects.filter(user_id = current_user).values_list('following_user_id')
-    posts = Post.objects.filter(poster__in=allFollowing)
-    p = Paginator(posts, 10)
-    page = request.GET.get('page')    
-    posts = p.get_page(page)
-    return render(request, "network/following.html", {
-        "posts": posts
-    }) 
+    if current_user.is_authenticated:
+        allFollowing = Follow.objects.filter(user_id = current_user).values_list('following_user_id')
+        posts = Post.objects.filter(poster__in=allFollowing)
+        p = Paginator(posts, 10)
+        page = request.GET.get('page')    
+        posts = p.get_page(page)
+        return render(request, "network/following.html", {
+            "posts": posts
+        }) 
+    else:
+        #return HttpResponseNotFound('<h1>Page not found</h1>')
+        #raise Http404("TO VIEW YOUR FOLLOWING, PLEASE SIGN IN OR REGISTER")
+        #login_view(request)
+        #register(request)
+        #return render(request, "network/register.html")
+        return render(request, "network/login.html")
 
 def userAisfollowinguserB(userA, userB):
     if Follow.objects.filter(user_id = userA, following_user_id = userB ).exists():
