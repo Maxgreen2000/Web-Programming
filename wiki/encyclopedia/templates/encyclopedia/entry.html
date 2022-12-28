@@ -8,4 +8,12 @@
     
     {{ content }}
 
+    <form action="{% url 'editpage' %}" method="POST">
+        {% csrf_token %}
+        <input hidden type="text" name="edittitle" value="{{ title }}">
+        <input hidden name="editbody" value="{{ content }}">
+        <button type="submit">Edit Page</button>
+    </form>
+
+
 {% endblock %}
