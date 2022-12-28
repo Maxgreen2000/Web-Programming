@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from . import util
+from random import *
 
 
 def index(request):
@@ -103,3 +104,13 @@ def saveedit(request):
         return render(request, "encyclopedia/error.html", {
             "message": "Error: GO FIND A PAGE TO EDIT FIRST"
         })
+
+def random(request):
+    allEntries= util.list_entries()
+
+    randomtitle = random.choice(allEntries)
+    content = util.get_entry(randomtitle)
+    return render(request, "encyclopedia/entry.html", {
+        "title": randomtitle,
+        "content": content
+    })
