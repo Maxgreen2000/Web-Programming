@@ -1,0 +1,42 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="profile-information">
+        <h1 id="profile-userid"  hidden disabled>{{ UserID }}</h1>
+        <h1 id="currentusername">{{ profileData.profile_owner }}</h1>
+    </div>
+        
+    <div class="followerinfo">
+        <h1>Followers: {{ followercount }}</h1>
+        <h1>Following: {{ followingcount }}</h1>
+    </div>
+
+
+    <div class="followbuttondiv">
+        {% if follow_unfollow != "currentuser" and user.is_authenticated %}
+            <button id="follow_button" class="btn btn-outline-danger">{{ follow_unfollow }}</button>
+        {% endif %}
+    </div>
+
+
+    <div id="posts-view">
+    </div>  
+
+    <div class="page-selection-div">
+        <h1 id="pagenumber" hidden>{{ posts.number }}</h1>
+
+        {% if posts.has_previous %}
+            <a class="pagenumberid" href="{% url 'view_profile' username=profileData.profile_owner  %}?page={{ posts.previous_page_number }}">Previous Page</a>
+        {% endif %}
+        {% if posts.has_next %}
+            <a class="pagenumberid" href="{% url 'view_profile' username=profileData.profile_owner  %}?page={{ posts.next_page_number }}">Next Page</a>
+        {% endif %}
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'network/profile.js' %}"></script>
+{% endblock %}

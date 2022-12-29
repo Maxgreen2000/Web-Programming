@@ -1,0 +1,59 @@
+.page-selection-div{
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.pagenumberid{
+    margin: 5px;
+}
+
+.body{
+    margin-inline: 10px;
+    word-wrap: break-word
+
+}
+
+.body textarea{
+    height: 5rem;
+    resize: none;
+
+}
+
+#buttondiv {
+    display: flex;
+    flex-direction: row;
+    
+}
+
+#buttondiv button{
+    margin-inline: 5px;
+}
+
+.profile-information{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.followerinfo {
+    display: flex;
+    justify-content: center;
+
+}
+
+.followerinfo h1{
+    margin: 10px;
+}
+
+.followbuttondiv {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    margin-bottom: 30px;
+}
+
+#profile-link {
+    text-decoration: none;
+}
+
