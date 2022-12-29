@@ -9,5 +9,5 @@ urlpatterns = [
     path("createpage/", views.createpage, name="createpage"),
     path("editpage/", views.editpage, name="editpage"),
     path("saveedit/", views.saveedit, name="saveedit"),
-    path("random/", views.random, name="random"),
+    path("rand/", views.rand, name="rand"),  #HAS TO BE NAMED RAND BECAUSE THE RANDOM LIBRARY INTERFERRES!!!!!!!
 ]

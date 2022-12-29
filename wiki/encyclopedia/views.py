@@ -1,7 +1,9 @@
 from django.shortcuts import render
 
 from . import util
-from random import *
+
+import random
+from markdown2 import Markdown
 
 
 def index(request):
@@ -12,7 +14,7 @@ def index(request):
 
 def viewentry(request, title):
 
-    content = util.get_entry(title)
+    content = MarkdownConverter(title)
     if content == None:
         return render(request, "encyclopedia/error.html", {
             "message": "Error: No Entry Found"
@@ -26,7 +28,7 @@ def viewentry(request, title):
 def search(request):
     if request.method == "POST":
         searchquery = request.POST['q']
-        content = util.get_entry(searchquery)
+        content = MarkdownConverter(searchquery)
         if content == None:
             searchresults = []
             allentries = util.list_entries()
@@ -68,13 +70,11 @@ def createpage(request):
                     }) 
             else:
                 util.save_entry(title, body)
+                content = MarkdownConverter(title)
                 return render(request, "encyclopedia/entry.html", {
                     "title": title,
-                    "content": body
+                    "content": content
                 })
-            
-
-
     else:
         return render(request, "encyclopedia/createpage.html")
 
@@ -96,6 +96,7 @@ def saveedit(request):
         title = request.POST.get('edittitle')
         content = request.POST.get('editcontent')
         util.save_entry(title, content)
+        content = MarkdownConverter(title)
         return render(request, "encyclopedia/entry.html", {
             "title": title,
             "content": content
@@ -105,12 +106,20 @@ def saveedit(request):
             "message": "Error: GO FIND A PAGE TO EDIT FIRST"
         })
 
-def random(request):
+def rand(request):
     allEntries= util.list_entries()
 
-    randomtitle = random.choice(allEntries)
-    content = util.get_entry(randomtitle)
+    randtitle = random.choice(allEntries)
+    content = MarkdownConverter(randtitle)
     return render(request, "encyclopedia/entry.html", {
-        "title": randomtitle,
+        "title": randtitle,
         "content": content
     })
+
+def MarkdownConverter(title):
+    markdowntext = util.get_entry(title)
+    markdowner = Markdown()
+    if markdowntext == None: 
+        return None
+    else:
+        return markdowner.convert(markdowntext)

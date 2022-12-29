@@ -6,7 +6,7 @@
 
 {% block body %}
     
-    {{ content }}
+    {{ content|safe }}
 
     <form action="{% url 'editpage' %}" method="POST">
         {% csrf_token %}
