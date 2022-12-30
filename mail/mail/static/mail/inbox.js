@@ -41,12 +41,20 @@ function load_mailbox(mailbox) {
         //Make the email styling for each email in inbox
         const createdemail = document.createElement('div');
         createdemail.className="list-group-item";
-        createdemail.id='emaildiv';
         createdemail.innerHTML =`
           <h1>From: ${email.sender}</h1>
           <h2>Subject: ${email.subject}</h2>
           <p>${email.timestamp}</p>
         `;
+
+        if(email.read == 'read'){
+          createdemail.id = 'read'
+        }
+        else{
+          createdemail.id = 'unread'
+        }
+
+
         document.querySelector('#emails-view').append(createdemail);
       })
   });

@@ -2,7 +2,33 @@ textarea {
     min-height: 400px;
 }
 
-#emaildiv {
+#read {
     margin-bottom: 1rem;
     border:1px solid black;
 }
+
+#unread {
+    margin-bottom: 1rem;
+    border:1px solid black;
+}
+
+#unread h2 {
+    font-weight: bold;
+}
+
+#unread h1 {
+    font-weight: bold;
+    color: blue;
+}
+
+#unread p {
+    color: lightgray;
+}
+
+#read p {
+    color: lightgray;
+}
+
+.read:hover,.unread:hover {
+    background-color: whitesmoke;
+  }
