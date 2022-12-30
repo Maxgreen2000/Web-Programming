@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
+  document.querySelector("#compose-form").addEventListener('submit', send_email);
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -30,5 +31,48 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-  document.querySelector('#emails-view').innerHTML = "HELLO"
+
+  //Need to load the appropriate emails for whatever mailbox is being viewed
+  fetch(`/emails/${mailbox}`)
+  .then(response => response.json())
+  .then(emails => {
+      emails.forEach(email => { //We can loop through the whole array emails an email at a time using forEach
+        //THIS IS SELECTED JUST ONE OF THE EMAILS
+        //Make the email styling for each email in inbox
+        const createdemail = document.createElement('div');
+        createdemail.className="list-group-item";
+        createdemail.id='emaildiv';
+        createdemail.innerHTML =`
+          <h1>From: ${email.sender}</h1>
+          <h2>Subject: ${email.subject}</h2>
+          <p>${email.timestamp}</p>
+        `;
+        document.querySelector('#emails-view').append(createdemail);
+      })
+  });
+
+}
+
+function send_email(event) {
+  event.preventDefault(); // STOP THE SUBMITTING OF THE FORM RELOADING PAGE. SHOULD TAKE US TO THE SEND PAGE
+
+  //Save values from each input in the compose form
+  const recipients = document.querySelector('#compose-recipients').value;
+  const subject = document.querySelector('#compose-subject').value;
+  const body = document.querySelector('#compose-body').value;
+  //Send data to the back-end
+  fetch('/emails', {
+    method: 'POST',
+    body: JSON.stringify({
+        recipients: recipients,
+        subject: subject,
+        body: body
+    })
+  })
+  .then(response => response.json())
+  .then(result => {
+      // Print result
+      console.log(result);
+      load_mailbox('sent');
+  });
 }
