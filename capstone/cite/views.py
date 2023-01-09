@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 
 
-from .models import User
+from .models import User, Article
 
 def index(request):
     return render(request, "cite/index.html")
@@ -63,3 +63,15 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "cite/register.html")
+
+def userauthenicated(request):
+    currentUser = request.user
+    if currentUser.is_authenticated:
+        authenticated = {"authenticated":"True"}
+        return JsonResponse(authenticated)
+    else:
+        authenticated = {"authenticated":"False"}
+        return JsonResponse(authenticated)
+
+def search(request):
+    return render(request, "cite/searchpage.html")
