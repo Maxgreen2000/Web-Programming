@@ -4,46 +4,37 @@
 {% block body %}
 
     {% if user.is_authenticated %}
-        <h1>WELCOME TO SEARCH</h1>
-        <form>
-            <div class="form-group">
-                <label for="inputAddress">Title</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+      <div id="searchform">
+          <div class="form-group">
+            <label for="inputTitle">Title</label>
+            <input type="text" class="form-control" id="inputTitle">
+          </div>
+          <div class="form-group">
+            <label for="inputAuthor">Author</label>
+            <input type="text" class="form-control" id="inputAuthor">
+          </div>
+          <div class="form-group">
+            <label for="inputPublisher">Publisher</label>
+            <input type="text" class="form-control" id="inputPublisher">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <label for="inputYearFrom">Year From</label>
+              <input type="text" class="form-control" id="inputYearFrom">
             </div>
-            <div class="form-group">
-              <label for="inputAddress">Author</label>
-              <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+            <div class="form-group col-md-2">
+              <label for="inputYearTo">Year To</label>
+              <input type="text" class="form-control" id="inputYearTo">
             </div>
-            <div class="form-group">
-                <label for="inputAddress">Journal</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-            </div>
-            <div class="form-group">
-                <label for="inputAddress">Publisher</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-            </div>
-            <div class="form-group">
-              <label for="inputAddress2">Keywords</label>
-              <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-2">
-                <label for="inputState">Year From</label>
-                <input type="text" class="form-control" id="inputZip">
-              </div>
-              <div class="form-group col-md-2">
-                <label for="inputZip">Year To</label>
-                <input type="text" class="form-control" id="inputZip">
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-        <div id="results-view">
-        </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="searchbutton">Search</button>
+      </div>
+      <div id="results-view">
+      </div>
     {% else %}
-        <div id="welcomediv">
-            <h1>Please sign in</h1>
-        </div>
+      <div id="welcomediv">
+        <h1>Please sign in</h1>
+      </div>
     {% endif %}
 </body>
 {% endblock %}

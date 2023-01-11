@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http40
 from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
 
 
 from .models import User, Article
@@ -75,3 +76,11 @@ def userauthenicated(request):
 
 def search(request):
     return render(request, "cite/searchpage.html")
+
+@csrf_exempt
+def searchresult(request):
+    articles = Article.objects.all()
+    articles = articles.order_by("year").all()
+    return JsonResponse([article.serialize() for article in articles], safe=False)
+    
+

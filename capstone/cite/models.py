@@ -16,3 +16,16 @@ class Article(models.Model):
 
     def __str__(self):
         return f"{self.title}, {self.author}"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "author": self.author,
+            "publisher": self.publisher,
+            "day": self.day,
+            "month": self.month,
+            "year": self.year,
+            "journal": self.journal,
+            "content": self.content,
+        }
