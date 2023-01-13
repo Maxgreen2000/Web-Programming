@@ -79,7 +79,17 @@ def search(request):
 
 @csrf_exempt
 def searchresult(request):
-    articles = Article.objects.all()
+    data = json.loads(request.body) 
+    searchTitle = data.get("title")
+    searchAuthor = data.get("author")
+    searchPublisher = data.get("publisher")
+    searchYearFrom = data.get("yearfrom")
+    if searchYearFrom == "":
+        searchYearFrom = -100000000000
+    searchYearTo = data.get("yearto")
+    if searchYearTo == "":
+        searchYearTo = 1000000000000000000
+    articles = Article.objects.filter(title__icontains=searchTitle, author__icontains=searchAuthor, publisher__icontains=searchPublisher, year__gte=searchYearFrom, year__lte=searchYearTo )
     articles = articles.order_by("year").all()
     return JsonResponse([article.serialize() for article in articles], safe=False)
     

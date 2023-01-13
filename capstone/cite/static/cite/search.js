@@ -14,7 +14,23 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function searchform() {
+    document.querySelector('#results-view').innerHTML = "";
     document.querySelector('#searchform').style.display = 'none';
+    document.querySelector('#results-view').style.display = 'block';
+
+
+
+    //Add a link that goes back to search filters
+    const returntofilters = document.createElement('button');
+    returntofilters.innerHTML = "Back to search filters"
+    returntofilters.addEventListener('click', function() {
+        document.querySelector('#searchform').style.display = 'block';
+        document.querySelector('#results-view').style.display = 'none';
+    })
+    resultsview = document.getElementById('results-view')
+    resultsview.append(returntofilters)
+
+
 
     const title = document.querySelector('#inputTitle').value;
     const author = document.querySelector('#inputAuthor').value;
@@ -42,7 +58,6 @@ function searchform() {
               <span>${singleArticle.author}</span>
               <span>${singleArticle.year}</span>
             `;
-            resultsview = document.getElementById('results-view')
             resultsview.append(articleResult)
             console.log(singleArticle);
         })
