@@ -94,3 +94,21 @@ def searchresult(request):
     return JsonResponse([article.serialize() for article in articles], safe=False)
     
 
+def article(request, article_id):
+
+    # Query for requested email
+    try:
+        article = Article.objects.get(pk=article_id)
+    except Article.DoesNotExist:
+        return JsonResponse({"error": "Article not found."}, status=404)
+
+    # Return email contents
+    if request.method == "GET":
+        return JsonResponse(article.serialize())
+
+    # Article must be done via GET 
+    else:
+        return JsonResponse({
+            "error": "GET request required."
+        }, status=400)
+

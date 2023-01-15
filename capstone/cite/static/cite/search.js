@@ -17,6 +17,7 @@ function searchform() {
     document.querySelector('#results-view').innerHTML = "";
     document.querySelector('#searchform').style.display = 'none';
     document.querySelector('#results-view').style.display = 'block';
+    document.querySelector('#article-view').style.display = 'none';
 
 
 
@@ -58,9 +59,45 @@ function searchform() {
               <span>${singleArticle.author}</span>
               <span>${singleArticle.year}</span>
             `;
+            articleResult.addEventListener('click', function() {
+                view_article(singleArticle.id)
+            });
             resultsview.append(articleResult)
-            console.log(singleArticle);
         })
     })
 }
-   
+
+function view_article(id) {
+    articleview = document.getElementById('article-view')
+    document.querySelector('#article-view').innerHTML = "";
+    document.querySelector('#searchform').style.display = 'none';
+    document.querySelector('#results-view').style.display = 'none';
+    document.querySelector('#article-view').style.display = 'block';
+
+    //Add a link that goes back to search filters
+    const returntoresults = document.createElement('button');
+    returntoresults.innerHTML = "Back to results"
+    returntoresults.addEventListener('click', function() {
+        document.querySelector('#article-view').style.display = 'none';
+        document.querySelector('#results-view').style.display = 'block';
+    })
+
+
+
+    articleview.innerHTML = `${id}`
+    fetch(`/article/${id}`)
+    .then(response => response.json())
+    .then(article => {
+      articleview.innerHTML = `
+        <ul class="list-group">
+            <li class="list-group-item">ID: ${article.id}</li>
+            <li class="list-group-item">TITLE: ${article.title}</li>
+            <li class="list-group-item">AUTHOR: ${article.author}</li>
+            <li class="list-group-item">PUBLISHER: ${article.publisher}</li>
+            <li class="list-group-item">YEAR: ${article.year}</li>
+            <li class="list-group-item"><p>Content: ${article.content}</p></li>
+        </ul>`
+    articleview.prepend(returntoresults)
+    })
+
+}
