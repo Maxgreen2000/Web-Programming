@@ -23,3 +23,15 @@ class Article(models.Model):
             "year": self.year,
             "content": self.content,
         }
+
+class Project(models.Model):
+    title = models.CharField(max_length=255)
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="projects")
+    articles = models.ManyToManyField("Article", related_name="emails_received")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user": self.sender.username,
+            "articles": [article.id for article in self.articles.all()],
+        }
