@@ -31,8 +31,6 @@ function searchform() {
     resultsview = document.getElementById('results-view')
     resultsview.append(returntofilters)
 
-
-
     const title = document.querySelector('#inputTitle').value;
     const author = document.querySelector('#inputAuthor').value;
     const publisher = document.querySelector('#inputPublisher').value;
@@ -72,7 +70,7 @@ function view_article(id) {
     document.querySelector('#article-view').innerHTML = "";
     document.querySelector('#searchform').style.display = 'none';
     document.querySelector('#results-view').style.display = 'none';
-    document.querySelector('#article-view').style.display = 'block';
+    document.querySelector('#article-view').style.display = 'block'
 
     //Add a link that goes back to search filters
     const returntoresults = document.createElement('button');
@@ -82,9 +80,14 @@ function view_article(id) {
         document.querySelector('#results-view').style.display = 'block';
     })
 
+    //Add a button that brings up a menu of all projects
+    const selectproject = document.createElement('button');
+    selectproject.innerHTML = "Add citation"
+    selectproject.addEventListener('click', function() {
+        document.querySelector('#article-view').style.display = 'none';
+        load_projects(id)
+    })
 
-
-    articleview.innerHTML = `${id}`
     fetch(`/article/${id}`)
     .then(response => response.json())
     .then(article => {
@@ -97,7 +100,37 @@ function view_article(id) {
             <li class="list-group-item">YEAR: ${article.year}</li>
             <li class="list-group-item"><p>Content: ${article.content}</p></li>
         </ul>`
+    articleview.prepend(selectproject)
     articleview.prepend(returntoresults)
     })
 
+}
+
+function load_projects(article_id) {
+    document.querySelector('#projects-view').style.display = 'block';
+    projectsview = document.getElementById('projects-view')
+    projectsview.innerHTML = "<h1>Select Project To Add Citation<h1>"
+    fetch('/loadprojects')
+    .then(response => response.json())
+    .then(projects => {
+        projects.forEach(singleProject => {
+            const projectResult = document.createElement('div');
+            projectResult.className="list-group-item";
+            projectResult.innerHTML =`
+            <span>${singleProject.title}</span>
+            <span>${singleProject.user}</span>
+            `;
+            projectResult.addEventListener('click', function() {
+                add_citation(article_id, singleProject.id)
+            });
+            projectsview.append(projectResult)
+        })
+    })
+}
+
+function add_citation(article_id, project_id) {
+    fetch(`/add_citation/${article_id}/${project_id}`)
+    document.querySelector('#searchform').style.display = 'none';
+    document.querySelector('#article-view').style.display = 'block';
+    document.querySelector('#projects-view').style.display = 'none';
 }

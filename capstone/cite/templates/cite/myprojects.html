@@ -1,0 +1,20 @@
+{% extends "cite/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}
+        <h1>My Projects</h1>
+        <div id="projects-view"></div>
+        <div id="singleproject-view"></div>
+    {% else %}
+      <div id="welcomediv">
+        <h1>Please sign in</h1>
+      </div>
+    {% endif %}
+</body>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'cite/projects.js' %}"></script>
+{% endblock %}

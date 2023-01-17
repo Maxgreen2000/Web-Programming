@@ -10,4 +10,8 @@ urlpatterns = [
     path("userauthenicated", views.userauthenicated, name="userauthenicated"),
     path("searchresult", views.searchresult, name="searchresult"),
     path("article/<int:article_id>", views.article, name="article"),
+    path("myprojects", views.myprojects, name="myprojects"),
+    path("loadprojects", views.loadprojects, name="loadprojects"),
+    path("project/<int:project_id>", views.project, name="project"),
+    path("add_citation/<int:article_id>/<int:project_id>", views.add_citation, name="add_citation"),
 ]

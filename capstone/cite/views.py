@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 
 
-from .models import User, Article
+from .models import User, Article, Project
 
 def index(request):
     return render(request, "cite/index.html")
@@ -112,3 +112,38 @@ def article(request, article_id):
             "error": "GET request required."
         }, status=400)
 
+def myprojects(request):
+    return render(request, "cite/myprojects.html")
+
+
+def loadprojects(request):
+    currentUser = request.user
+    try:
+        projects = Project.objects.filter(user=currentUser)
+        projects = projects.order_by("-timestamp").all()
+        return JsonResponse([project.serialize() for project in projects], safe=False)
+    except Project.DoesNotExist:
+        return JsonResponse({"error": "Project not found."}, status=404)
+
+def project(request, project_id):
+    # Query for requested email
+    try:
+        project = Project.objects.get(pk=project_id)
+    except Project.DoesNotExist:
+        return JsonResponse({"error": "Project not found."}, status=404)
+
+    # Return email contents
+    if request.method == "GET":
+        return JsonResponse(project.serialize())
+
+    # Project must be done via GET 
+    else:
+        return JsonResponse({
+            "error": "GET request required."
+        }, status=400)
+
+def add_citation(request, article_id, project_id):
+    selectedProject = Project.objects.get(pk=project_id)
+    selectedArticle = Article.objects.get(pk=article_id)
+    selectedProject.articles.add(selectedArticle)
+    return JsonResponse({"success": "Citation added."}, status=200)
