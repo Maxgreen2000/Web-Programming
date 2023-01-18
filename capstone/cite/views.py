@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 
 
-from .models import User, Article, Project
+from .models import User, Article, Project, Citation
 
 def index(request):
     return render(request, "cite/index.html")
@@ -143,7 +143,12 @@ def project(request, project_id):
         }, status=400)
 
 def add_citation(request, article_id, project_id):
-    selectedProject = Project.objects.get(pk=project_id)
+    currentUser = request.user
     selectedArticle = Article.objects.get(pk=article_id)
-    selectedProject.articles.add(selectedArticle)
+    pagefrom = 1
+    pageto = 2
+    new_cite = Citation(user=currentUser, article=selectedArticle, pagefrom=pagefrom, pageto=pageto)
+    new_cite.save()
+    selectedProject = Project.objects.get(pk=project_id) 
+    selectedProject.citations.add(new_cite)
     return JsonResponse({"success": "Citation added."}, status=200)

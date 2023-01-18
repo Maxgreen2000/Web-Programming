@@ -55,7 +55,7 @@ function view_project(id) {
             <li class="list-group-item">ID: ${project.id}</li>
             <li class="list-group-item">TITLE: ${project.title}</li>
             <li class="list-group-item">AUTHOR: ${project.user}</li>
-            <li class="list-group-item">PUBLISHER: ${project.articles}</li>
+            <li class="list-group-item">PUBLISHER: ${project.citations}</li>
             <li class="list-group-item">YEAR: ${project.timestamp}</li>
         </ul>`
     projectview.prepend(returntoresults)

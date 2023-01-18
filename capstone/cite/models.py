@@ -27,7 +27,7 @@ class Article(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=255)
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="projects")
-    articles = models.ManyToManyField("Article", related_name="articles", blank=True)
+    citations = models.ManyToManyField("Citation", related_name="citations", blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -38,6 +38,15 @@ class Project(models.Model):
             "id": self.id,
             "title": self.title,
             "user": self.user.username,
-            "articles": [article.id for article in self.articles.all()],
+            "citations": [citation.id for citation in self.citations.all()],
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
         }
+
+class Citation(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="user")
+    article = models.ForeignKey("Article", on_delete=models.CASCADE, related_name="article", blank=True)
+    pagefrom = models.IntegerField(null=True)
+    pageto = models.IntegerField(null=True)
+
+    def __str__(self):
+        return f"{self.article}, {self.pagefrom}-{self.pageto}"
