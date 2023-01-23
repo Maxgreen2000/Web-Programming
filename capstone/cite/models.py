@@ -38,7 +38,6 @@ class Project(models.Model):
             "id": self.id,
             "title": self.title,
             "user": self.user.username,
-            "citations": [citation.article.title for citation in self.citations.all()],
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
         }
 
@@ -47,6 +46,17 @@ class Citation(models.Model):
     article = models.ForeignKey("Article", on_delete=models.CASCADE, related_name="article", blank=True)
     pagefrom = models.IntegerField(null=True)
     pageto = models.IntegerField(null=True)
+    project = models.ForeignKey("Project", on_delete=models.CASCADE, related_name="project", blank=True, null=True)
 
     def __str__(self):
         return f"{self.article}, {self.pagefrom}-{self.pageto}"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user": self.user.username,
+            "article": self.article.id,
+            "pagefrom": self.pagefrom,
+            "pageto": self.pageto,
+            "project": self.project.title
+        }

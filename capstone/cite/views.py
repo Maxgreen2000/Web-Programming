@@ -147,7 +147,8 @@ def add_citation(request, article_id, project_id):
     selectedArticle = Article.objects.get(pk=article_id)
     pagefrom = 1
     pageto = 2
-    new_cite = Citation(user=currentUser, article=selectedArticle, pagefrom=pagefrom, pageto=pageto)
+    selectedProject = Project.objects.get(pk=project_id) 
+    new_cite = Citation(user=currentUser, article=selectedArticle, pagefrom=pagefrom, pageto=pageto, project=selectedProject)
     new_cite.save()
     selectedProject = Project.objects.get(pk=project_id) 
     selectedProject.citations.add(new_cite)
@@ -160,3 +161,12 @@ def create_project(request):
     new_project = Project(title=title, user=request.user)
     new_project.save()
     return JsonResponse({"success": "Project added."}, status=200)
+
+def load_citations(request, project_id):
+    currentUser = request.user
+    try:
+        selectedProject = Project.objects.get(pk=project_id) 
+        citations = Citation.objects.filter(user=currentUser, project=selectedProject)
+        return JsonResponse([citation.serialize() for citation in citations], safe=False)
+    except Citation.DoesNotExist:
+        return JsonResponse({"error": "Citation not found."}, status=404)

@@ -71,11 +71,39 @@ function view_project(id) {
             <li class="list-group-item">ID: ${project.id}</li>
             <li class="list-group-item">TITLE: ${project.title}</li>
             <li class="list-group-item">AUTHOR: ${project.user}</li>
-            <li class="list-group-item">PUBLISHER: ${project.citations.author}</li>
             <li class="list-group-item">YEAR: ${project.timestamp}</li>
         </ul>`
     projectview.prepend(returntoresults)
     })
+
+    //LIST ALL CITATIONS WITH A LINK TO EACH
+    citationsview = document.getElementById('citations-view')
+    fetch(`/citations/${id}`)
+    .then(response => response.json())
+    .then(citations => {
+        citations.forEach(singleProjectCitation => {
+            const citationResult = document.createElement('div');
+            citationResult.className="list-group-item";
+            citationResult.innerHTML =`
+              <span>${singleProjectCitation.user}</span>
+              <span>${singleProjectCitation.article}</span>
+              <span>${singleProjectCitation.pagefrom}</span>
+              <span>${singleProjectCitation.pageto}</span>
+            `;
+            citationResult.addEventListener('click', function() {
+                document.getElementById('citations-view').innerHTML = ""
+            });
+            citationsview.append(citationResult)
+        })
+    })
+
+
+
+
+
+
+
+
 }
 
 function add_project() {

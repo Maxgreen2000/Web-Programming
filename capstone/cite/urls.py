@@ -15,5 +15,5 @@ urlpatterns = [
     path("project/<int:project_id>", views.project, name="project"),
     path("add_citation/<int:article_id>/<int:project_id>", views.add_citation, name="add_citation"),
     path("create_project", views.create_project, name="create_project"),
-
+    path("citations/<int:project_id>", views.load_citations, name="load_citations"),
 ]
