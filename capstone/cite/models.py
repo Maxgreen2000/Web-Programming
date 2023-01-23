@@ -38,7 +38,7 @@ class Project(models.Model):
             "id": self.id,
             "title": self.title,
             "user": self.user.username,
-            "citations": [citation.id for citation in self.citations.all()],
+            "citations": [citation.article.title for citation in self.citations.all()],
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
         }
 

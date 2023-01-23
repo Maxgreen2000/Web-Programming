@@ -152,3 +152,11 @@ def add_citation(request, article_id, project_id):
     selectedProject = Project.objects.get(pk=project_id) 
     selectedProject.citations.add(new_cite)
     return JsonResponse({"success": "Citation added."}, status=200)
+
+@csrf_exempt
+def create_project(request):
+    data = json.loads(request.body) 
+    title = data.get("title")
+    new_project = Project(title=title, user=request.user)
+    new_project.save()
+    return JsonResponse({"success": "Project added."}, status=200)
