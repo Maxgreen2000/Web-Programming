@@ -1,6 +1,7 @@
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.shortcuts import render
 from django.urls import reverse
@@ -83,6 +84,9 @@ def searchresult(request):
     searchTitle = data.get("title")
     searchAuthor = data.get("author")
     searchPublisher = data.get("publisher")
+    searchKeywords1 = data.get("keywords").split(",")
+    searchKeywords2 = data.get("keywords").split(" ")
+    searchKeywords = searchKeywords1 + searchKeywords2
     searchYearFrom = data.get("yearfrom")
     if searchYearFrom == "":
         searchYearFrom = -100000000000
@@ -90,6 +94,7 @@ def searchresult(request):
     if searchYearTo == "":
         searchYearTo = 1000000000000000000
     articles = Article.objects.filter(title__icontains=searchTitle, author__icontains=searchAuthor, publisher__icontains=searchPublisher, year__gte=searchYearFrom, year__lte=searchYearTo )
+    articles = articles.filter(Q(title__in=searchKeywords) | Q(author__in=searchKeywords) | Q(publisher__in=searchKeywords) | Q(content__in=searchKeywords))
     articles = articles.order_by("year").all()
     return JsonResponse([article.serialize() for article in articles], safe=False)
     
@@ -170,3 +175,8 @@ def load_citations(request, project_id):
         return JsonResponse([citation.serialize() for citation in citations], safe=False)
     except Citation.DoesNotExist:
         return JsonResponse({"error": "Citation not found."}, status=404)
+
+def delete_project(request, project_id):
+    Project.objects.filter(pk=project_id).delete()
+    return JsonResponse({"success": "Project Deleted."}, status=200)
+    

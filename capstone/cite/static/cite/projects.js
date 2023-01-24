@@ -58,8 +58,19 @@ function view_project(id) {
     returntoresults.innerHTML = "Back to projects"
     returntoresults.addEventListener('click', function() {
         document.querySelector('#singleproject-view').style.display = 'none';
+        document.querySelector('#citations-view').style.display = 'none';
         document.querySelector('#projects-view').style.display = 'block';
         document.getElementById('add_project_button').style.display = 'block';
+    })
+
+    //Add a button that deletes the selected project
+    const deleteproject = document.createElement('button');
+    deleteproject.innerHTML = "Delete Project"
+    deleteproject.addEventListener('click', function() {
+        projectsview.innerHTML = ""
+        fetch(`/delete_project/${id}`)
+        returntoresults.click()
+        location.reload();
     })
 
 
@@ -73,6 +84,7 @@ function view_project(id) {
             <li class="list-group-item">AUTHOR: ${project.user}</li>
             <li class="list-group-item">YEAR: ${project.timestamp}</li>
         </ul>`
+    projectview.prepend(deleteproject)
     projectview.prepend(returntoresults)
     })
 
@@ -91,19 +103,11 @@ function view_project(id) {
               <span>${singleProjectCitation.pageto}</span>
             `;
             citationResult.addEventListener('click', function() {
-                document.getElementById('citations-view').innerHTML = ""
+                view_article(singleProjectCitation.article)
             });
             citationsview.append(citationResult)
         })
     })
-
-
-
-
-
-
-
-
 }
 
 function add_project() {
@@ -129,4 +133,40 @@ function add_project() {
     addprojectdiv = document.getElementById('add_project_div')
     addprojectdiv.append(name_project)
     addprojectdiv.append(create_project)
+}
+
+function view_article(id) {
+    articleview = document.getElementById('article-view')
+    document.querySelector('#article-view').innerHTML = "";
+    document.querySelector('#add_project_div').style.display = 'none';
+    document.querySelector('#projects-view').style.display = 'none';
+    document.querySelector('#singleproject-view').style.display = 'none'
+    document.querySelector('#citations-view').style.display = 'none';
+    document.querySelector('#article-view').style.display = 'block'
+
+    //Add a link that goes back to search filters
+    const returntoresults = document.createElement('button');
+    returntoresults.innerHTML = "Back to Project"
+    returntoresults.addEventListener('click', function() {
+        document.querySelector('#article-view').style.display = 'none';
+        document.querySelector('#singleproject-view').style.display = 'block'
+        document.querySelector('#citations-view').style.display = 'block';
+    })
+
+
+    fetch(`/article/${id}`)
+    .then(response => response.json())
+    .then(article => {
+      articleview.innerHTML = `
+        <ul class="list-group">
+            <li class="list-group-item">ID: ${article.id}</li>
+            <li class="list-group-item">TITLE: ${article.title}</li>
+            <li class="list-group-item">AUTHOR: ${article.author}</li>
+            <li class="list-group-item">PUBLISHER: ${article.publisher}</li>
+            <li class="list-group-item">YEAR: ${article.year}</li>
+            <li class="list-group-item"><p>Content: ${article.content}</p></li>
+        </ul>`
+    articleview.prepend(returntoresults)
+    })
+
 }

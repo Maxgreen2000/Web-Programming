@@ -34,6 +34,7 @@ function searchform() {
     const title = document.querySelector('#inputTitle').value;
     const author = document.querySelector('#inputAuthor').value;
     const publisher = document.querySelector('#inputPublisher').value;
+    const keywords = document.querySelector('#inputKeywords').value;
     const yearfrom = document.querySelector('#inputYearFrom').value;
     const yearto = document.querySelector('#inputYearTo').value;
 
@@ -43,6 +44,7 @@ function searchform() {
             title: title,
             author: author,
             publisher: publisher,
+            keywords: keywords,
             yearfrom: yearfrom,
             yearto: yearto
         })
