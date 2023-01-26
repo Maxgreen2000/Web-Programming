@@ -7,6 +7,7 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path("search", views.search, name="search"),
+    path("howitworks", views.howitworks, name="howitworks"),
     path("userauthenicated", views.userauthenicated, name="userauthenicated"),
     path("searchresult", views.searchresult, name="searchresult"),
     path("article/<int:article_id>", views.article, name="article"),

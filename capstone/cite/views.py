@@ -179,4 +179,6 @@ def load_citations(request, project_id):
 def delete_project(request, project_id):
     Project.objects.filter(pk=project_id).delete()
     return JsonResponse({"success": "Project Deleted."}, status=200)
-    
+
+def howitworks(request):
+    return render(request, "cite/howitworks.html")
