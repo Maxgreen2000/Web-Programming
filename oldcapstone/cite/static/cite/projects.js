@@ -97,6 +97,7 @@ function view_project(id) {
             const citationResult = document.createElement('div');
             citationResult.className="list-group-item";
             citationResult.innerHTML =`
+            <span>${singleProjectCitation.article}</span>
               <span>${singleProjectCitation.user}</span>
               <span>${singleProjectCitation.article}</span>
               <span>${singleProjectCitation.pagefrom}</span>
