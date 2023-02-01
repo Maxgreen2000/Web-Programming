@@ -1,0 +1,14 @@
+#welcomediv h1 {
+    color: whitesmoke;
+}
+
+#welcomediv {
+    display: flex;
+    justify-content: center;
+    margin: 50px;
+}
+
+#indexbody {
+    background-color:darkblue;
+}
+

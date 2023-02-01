@@ -1,0 +1,26 @@
+{% extends "wmi/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}
+        <h1>My Projects</h1>
+        <div id="add_project_button"></div>
+        <div id="add_project_div"></div>
+        <div id="projects-view"></div>
+        <div id="singleproject-view"></div>
+        <br>
+        <div id="citations-view"></div>
+        <div id="article-view"></div>
+
+    {% else %}
+      <div id="welcomediv">
+        <h1>Please sign in</h1>
+      </div>
+    {% endif %}
+</body>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'wmi/projects.js' %}"></script>
+{% endblock %}

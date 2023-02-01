@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import User, Manuscript
 
 def index(request):
-    return render(request, "cite/index.html")
+    return render(request, "wmi/index.html")
 
 
 def login_view(request):
@@ -28,11 +28,11 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "cite/login.html", {
+            return render(request, "wmi/login.html", {
                 "message": "Invalid username and/or password."
             })
     else:
-        return render(request, "cite/login.html")
+        return render(request, "wmi/login.html")
 
 
 def logout_view(request):
@@ -49,7 +49,7 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "cite/register.html", {
+            return render(request, "wmi/register.html", {
                 "message": "Passwords must match."
             })
 
@@ -58,13 +58,13 @@ def register(request):
             user = User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
-            return render(request, "cite/register.html", {
+            return render(request, "wmi/register.html", {
                 "message": "Username already taken."
             })
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "cite/register.html")
+        return render(request, "wmi/register.html")
 
 def userauthenicated(request):
     currentUser = request.user

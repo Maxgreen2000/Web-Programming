@@ -1,0 +1,24 @@
+{% extends "wmi/layout.html" %}
+{% load static %}
+
+{% block body %}
+<body id="indexbody">
+    <div id="welcomediv">
+        <h1>WMI</h1> 
+    </div>
+    <div id="welcomediv">
+        <form action="#">
+            <button class="btn btn-outline-warning btn-lg">How it Works</button>
+        </form>
+    </div>
+    {% if not user.is_authenticated %}
+        <div id="welcomediv">
+            <h1>Log in to experience</h1>
+        </div>
+    {% endif %}
+</body>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'wmi/search.js' %}"></script>
+{% endblock %}
