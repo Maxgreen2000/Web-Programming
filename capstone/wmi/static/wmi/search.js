@@ -32,8 +32,8 @@ function searchform() {
     resultsview.append(returntofilters)
 
     const title = document.querySelector('#inputTitle').value;
-    const author = document.querySelector('#inputAuthor').value;
-    const publisher = document.querySelector('#inputPublisher').value;
+    const location = document.querySelector('#inputLocation').value;
+    const tags = document.querySelector('#inputTags').value;
     const keywords = document.querySelector('#inputKeywords').value;
     const yearfrom = document.querySelector('#inputYearFrom').value;
     const yearto = document.querySelector('#inputYearTo').value;
@@ -42,27 +42,27 @@ function searchform() {
         method: 'POST',
         body: JSON.stringify({
             title: title,
-            author: author,
-            publisher: publisher,
+            location: location,
+            tags: tags,
             keywords: keywords,
             yearfrom: yearfrom,
             yearto: yearto
         })
     })
     .then(response => response.json())
-    .then(articles => {
-        articles.forEach(singleArticle => {
-            const articleResult = document.createElement('div');
-            articleResult.className="list-group-item";
-            articleResult.innerHTML =`
-              <span>${singleArticle.title}</span>
-              <span>${singleArticle.author}</span>
-              <span>${singleArticle.year}</span>
+    .then(manuscripts => {
+        manuscripts.forEach(singleManuscript => {
+            const manuscriptResult = document.createElement('div');
+            manuscriptResult.className="list-group-item";
+            manuscriptResult.innerHTML =`
+              <span>${singleManuscript.title}</span>
+              <span>${singleManuscript.location}</span>
+              <span>${singleManuscript.year}</span>
             `;
-            articleResult.addEventListener('click', function() {
-                view_article(singleArticle.id)
+            manuscriptResult.addEventListener('click', function() {
+                document.querySelector('#searchform').style.display = 'block';
             });
-            resultsview.append(articleResult)
+            resultsview.append(manuscriptResult)
         })
     })
 }

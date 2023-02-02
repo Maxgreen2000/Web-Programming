@@ -74,3 +74,27 @@ def userauthenicated(request):
     else:
         authenticated = {"authenticated":"False"}
         return JsonResponse(authenticated)
+
+def search(request):
+    return render(request, "wmi/searchpage.html")
+
+@csrf_exempt
+def searchresult(request):
+    data = json.loads(request.body) 
+    searchTitle = data.get("title")
+    searchLocation = data.get("location")
+    searchTags1 = data.get("tags").split(",")
+    searchTags2 = data.get("tags").split(" ")
+    searchTags = searchTags1 + searchTags2
+    searchKeywords1 = data.get("keywords").split(",")
+    searchKeywords2 = data.get("keywords").split(" ")
+    searchKeywords = searchKeywords1 + searchKeywords2
+    searchYearFrom = data.get("yearfrom")
+    searchYearTo = data.get("yearto")
+    if searchYearFrom == "" and searchYearTo == "":
+        manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation)
+    if searchYearFrom == "" and searchYearTo != "":
+        manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation, year__lte=searchYearTo)
+    if searchYearTo == "" and searchYearFrom != "":
+        manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation, year__gte=searchYearFrom)
+    return JsonResponse([manuscript.serialize() for manuscript in manuscripts], safe=False)
