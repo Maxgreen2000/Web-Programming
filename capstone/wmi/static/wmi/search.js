@@ -17,7 +17,7 @@ function searchform() {
     document.querySelector('#results-view').innerHTML = "";
     document.querySelector('#searchform').style.display = 'none';
     document.querySelector('#results-view').style.display = 'block';
-    document.querySelector('#article-view').style.display = 'none';
+    document.querySelector('#manuscript-view').style.display = 'none';
 
 
 
@@ -60,34 +60,26 @@ function searchform() {
               <span>${singleManuscript.year}</span>
             `;
             manuscriptResult.addEventListener('click', function() {
-                document.querySelector('#searchform').style.display = 'block';
+                view_manuscript(singleManuscript.id)
             });
             resultsview.append(manuscriptResult)
         })
     })
 }
 
-function view_article(id) {
-    articleview = document.getElementById('article-view')
-    document.querySelector('#article-view').innerHTML = "";
+function view_manuscript(id) {
+    articleview = document.getElementById('manuscript-view')
+    document.querySelector('#manuscript-view').innerHTML = "";
     document.querySelector('#searchform').style.display = 'none';
     document.querySelector('#results-view').style.display = 'none';
-    document.querySelector('#article-view').style.display = 'block'
+    document.querySelector('#manuscript-view').style.display = 'block'
 
     //Add a link that goes back to search filters
     const returntoresults = document.createElement('button');
     returntoresults.innerHTML = "Back to results"
     returntoresults.addEventListener('click', function() {
-        document.querySelector('#article-view').style.display = 'none';
+        document.querySelector('#manuscript-view').style.display = 'none';
         document.querySelector('#results-view').style.display = 'block';
-    })
-
-    //Add a button that brings up a menu of all projects
-    const selectproject = document.createElement('button');
-    selectproject.innerHTML = "Add citation"
-    selectproject.addEventListener('click', function() {
-        document.querySelector('#article-view').style.display = 'none';
-        load_projects(id)
     })
 
     fetch(`/article/${id}`)
@@ -133,6 +125,6 @@ function load_projects(article_id) {
 function add_citation(article_id, project_id) {
     fetch(`/add_citation/${article_id}/${project_id}`)
     document.querySelector('#searchform').style.display = 'none';
-    document.querySelector('#article-view').style.display = 'block';
+    document.querySelector('#manuscript-view').style.display = 'block';
     document.querySelector('#projects-view').style.display = 'none';
 }

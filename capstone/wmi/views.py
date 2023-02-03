@@ -98,3 +98,6 @@ def searchresult(request):
     if searchYearTo == "" and searchYearFrom != "":
         manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation, year__gte=searchYearFrom)
     return JsonResponse([manuscript.serialize() for manuscript in manuscripts], safe=False)
+
+def manuscript(request, manuscript_id):
+    return render(request, "wmi/manuscript.html")
