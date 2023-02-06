@@ -100,4 +100,18 @@ def searchresult(request):
     return JsonResponse([manuscript.serialize() for manuscript in manuscripts], safe=False)
 
 def manuscript(request, manuscript_id):
-    return render(request, "wmi/manuscript.html")
+    # Query for requested email
+    try:
+        manuscript = Manuscript.objects.get(pk=manuscript_id)
+    except Manuscript.DoesNotExist:
+        return JsonResponse({"error": "Manuscript not found."}, status=404)
+
+    # Return email contents
+    if request.method == "GET":
+        return JsonResponse(manuscript.serialize())
+
+    # Manuscript must be done via GET 
+    else:
+        return JsonResponse({
+            "error": "GET request required."
+        }, status=400)

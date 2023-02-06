@@ -68,7 +68,7 @@ function searchform() {
 }
 
 function view_manuscript(id) {
-    articleview = document.getElementById('manuscript-view')
+    manuscriptview = document.getElementById('manuscript-view')
     document.querySelector('#manuscript-view').innerHTML = "";
     document.querySelector('#searchform').style.display = 'none';
     document.querySelector('#results-view').style.display = 'none';
@@ -82,20 +82,21 @@ function view_manuscript(id) {
         document.querySelector('#results-view').style.display = 'block';
     })
 
-    fetch(`/article/${id}`)
+    fetch(`/manuscript/${id}`)
     .then(response => response.json())
-    .then(article => {
-      articleview.innerHTML = `
+    .then(manuscript => {
+      manuscriptview.innerHTML = `
         <ul class="list-group">
-            <li class="list-group-item">ID: ${article.id}</li>
-            <li class="list-group-item">TITLE: ${article.title}</li>
-            <li class="list-group-item">AUTHOR: ${article.author}</li>
-            <li class="list-group-item">PUBLISHER: ${article.publisher}</li>
-            <li class="list-group-item">YEAR: ${article.year}</li>
-            <li class="list-group-item"><p>Content: ${article.content}</p></li>
+            <li class="list-group-item">id: ${manuscript.id}</li>
+            <li class="list-group-item">title: ${manuscript.title}</li>
+            <li class="list-group-item">location: ${manuscript.location}</li>
+            <li class="list-group-item">day: ${manuscript.day}</li>
+            <li class="list-group-item">month: ${manuscript.month}</li>
+            <li class="list-group-item">year: ${manuscript.year}</li>
+            <li class="list-group-item">tags: ${manuscript.tags}</li>
+            <li class="list-group-item"><p>Transcript: ${manuscript.transcript}</p></li>
         </ul>`
-    articleview.prepend(selectproject)
-    articleview.prepend(returntoresults)
+    manuscriptview.prepend(returntoresults)
     })
 
 }
