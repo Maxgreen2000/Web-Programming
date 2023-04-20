@@ -6,6 +6,7 @@ class User(AbstractUser):
 
 # Create your models here.
 class Manuscript(models.Model):
+    poster = models.ForeignKey("User", on_delete=models.CASCADE, related_name="manuscipts")
     title = models.CharField(max_length=250, blank=True)
     location = models.CharField(max_length=250, blank=True)
     day = models.IntegerField(null=True, blank=True)
@@ -21,6 +22,7 @@ class Manuscript(models.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "poster": self.poster.id,
             "title": self.title,
             "location": self.location,
             "day": self.day,

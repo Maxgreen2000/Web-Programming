@@ -10,4 +10,7 @@ urlpatterns = [
     path("userauthenicated", views.userauthenicated, name="userauthenicated"),
     path("searchresult", views.searchresult, name="searchresult"),
     path("manuscript/<int:manuscript_id>", views.manuscript, name="manuscript"),
+    path("searchresult", views.searchresult, name="searchresult"),
+    path("mymanuscripts", views.mymanuscripts, name="mymanuscripts"),
+    path("mymanuscriptresults", views.mymanuscriptresults, name="mymanuscriptresults"),
 ]

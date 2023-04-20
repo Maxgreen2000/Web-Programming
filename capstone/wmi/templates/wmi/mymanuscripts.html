@@ -1,0 +1,21 @@
+{% extends "wmi/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}
+    <div>
+        <button class="btn btn-primary" id="addbutton">Add New</button>
+    </div>
+    <div id="my-manuscripts-view">
+      MY MANUSCRIPTS!!!
+    </div>
+    <div id="manuscript-view">
+    </div>
+    {% endif %}
+</body>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'wmi/mymanuscripts.js' %}"></script>
+{% endblock %}

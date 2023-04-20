@@ -115,3 +115,15 @@ def manuscript(request, manuscript_id):
         return JsonResponse({
             "error": "GET request required."
         }, status=400)
+
+def mymanuscripts(request):
+    currentUser = request.user
+    if currentUser.is_authenticated:
+        return render(request, "wmi/mymanuscripts.html")
+    else:
+        return render(request, "wmi/login.html")
+
+def mymanuscriptresults(request):
+    manuscripts = Manuscript.objects.filter(poster=request.user)
+    return JsonResponse([manuscript.serialize() for manuscript in manuscripts], safe=False)
+
