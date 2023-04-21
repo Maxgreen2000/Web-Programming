@@ -127,3 +127,9 @@ def mymanuscriptresults(request):
     manuscripts = Manuscript.objects.filter(poster=request.user)
     return JsonResponse([manuscript.serialize() for manuscript in manuscripts], safe=False)
 
+def loadaddnew(request):
+    currentUser = request.user
+    if currentUser.is_authenticated:
+        return render(request, "wmi/addnewpage.html")
+    else:
+        return render(request, "wmi/login.html")
