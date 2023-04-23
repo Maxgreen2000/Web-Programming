@@ -133,3 +133,35 @@ def loadaddnew(request):
         return render(request, "wmi/addnewpage.html")
     else:
         return render(request, "wmi/login.html")
+    
+def addnewmanuscript(request):
+    currentUser = request.user
+    if request.method == "POST":                     
+        title = request.POST["title"]      #Getting all the information from the form
+        location = request.POST["location"]
+        #day = request.POST["imageUrl"]
+        #month = request.POST["startingPrice"]
+        #year = request.POST["category"]
+        #tags = request.POST["imageUrl"]
+        #transcript = request.POST["startingPrice"]
+
+
+        if title != "":
+
+            newManuscript = Manuscript(                              #Adding the information collected to the database
+                poster = currentUser,
+                title = title,
+                #location = location,
+                #day = day,
+                #month = month,
+                #year = year,
+                #tags = tags,
+                #transcript = transcript,
+            )
+
+            newManuscript.save()                                #Saving the database entry and then redirect the user back to the index page
+            return HttpResponseRedirect(reverse(index))
+
+        else:
+            return render(request, "wmi/addnewpage.html")
+
