@@ -139,11 +139,10 @@ def addnewmanuscript(request):
     if request.method == "POST":                     
         title = request.POST["title"]      #Getting all the information from the form
         location = request.POST["location"]
-        #day = request.POST["imageUrl"]
-        #month = request.POST["startingPrice"]
-        #year = request.POST["category"]
-        #tags = request.POST["imageUrl"]
-        #transcript = request.POST["startingPrice"]
+        yearfrom = request.POST["YearFrom"]
+        yearto = request.POST["YearTo"]
+        tags = request.POST["tags"]
+        transcript = request.POST["Transcript"]
 
 
         if title != "":
@@ -151,16 +150,15 @@ def addnewmanuscript(request):
             newManuscript = Manuscript(                              #Adding the information collected to the database
                 poster = currentUser,
                 title = title,
-                #location = location,
-                #day = day,
-                #month = month,
-                #year = year,
-                #tags = tags,
-                #transcript = transcript,
+                location = location,
+                yearfrom = yearfrom,
+                yearto = yearto,
+                tags = tags,
+                transcript = transcript,
             )
 
-            newManuscript.save()                                #Saving the database entry and then redirect the user back to the index page
-            return HttpResponseRedirect(reverse(index))
+            newManuscript.save()                                #Saving the database entry and then redirect the user back to the my manuscripts page
+            return HttpResponseRedirect(reverse(mymanuscripts))
 
         else:
             return render(request, "wmi/addnewpage.html")

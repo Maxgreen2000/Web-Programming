@@ -9,9 +9,8 @@ class Manuscript(models.Model):
     poster = models.ForeignKey("User", on_delete=models.CASCADE, related_name="manuscipts")
     title = models.CharField(max_length=250, blank=True)
     location = models.CharField(max_length=250, blank=True)
-    day = models.IntegerField(null=True, blank=True)
-    month = models.IntegerField(null=True, blank=True)
-    year = models.IntegerField(null=True, blank=True)
+    yearfrom = models.IntegerField(null=True, blank=True)
+    yearto = models.IntegerField(null=True, blank=True)
     tags = models.TextField(blank=True)
     transcript = models.TextField(blank=True)
     image = models.ImageField(upload_to='files/manuscriptimages', null=True, blank=True)
@@ -25,9 +24,8 @@ class Manuscript(models.Model):
             "poster": self.poster.id,
             "title": self.title,
             "location": self.location,
-            "day": self.day,
-            "month": self.month,
-            "year": self.year,
+            "yearfrom": self.yearfrom,
+            "yearto": self.yearto,
             "tags": self.tags,
             "transcript": self.transcript,
         }
