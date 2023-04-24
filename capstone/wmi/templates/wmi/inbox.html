@@ -1,0 +1,17 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2 id="useremail">{{ request.user.username }}</h2>
+    <hr>
+
+    <div id="emails-view">
+    </div>
+
+    <div id="email-content-view">
+    </div>
+{% endblock %}
+
+{% block script %}
+    <!--<script src="{% static 'wmi/inbox.js' %}"></script>-->
+{% endblock %}

@@ -50,6 +50,7 @@ function view_manuscript(id) {
     .then(response => response.json())
     .then(manuscript => {
       manuscriptview.innerHTML = `
+        <img src="${manuscript.imageurl}" alt="${manuscript.title}" height="450px">
         <ul class="list-group">
             <li class="list-group-item">id: ${manuscript.poster}</li>
             <li class="list-group-item">id: ${manuscript.id}</li>
