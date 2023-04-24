@@ -94,9 +94,11 @@ def searchresult(request):
     if searchYearFrom == "" and searchYearTo == "":
         manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation)
     if searchYearFrom == "" and searchYearTo != "":
-        manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation, year__lte=searchYearTo)
+        manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation, yearto__lte=searchYearTo)
     if searchYearTo == "" and searchYearFrom != "":
-        manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation, year__gte=searchYearFrom)
+        manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation, yearfrom__gte=searchYearFrom)
+    if searchYearTo != "" and searchYearFrom != "":
+        manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation, yearfrom__gte=searchYearFrom, yearto__lte=searchYearTo)
     return JsonResponse([manuscript.serialize() for manuscript in manuscripts], safe=False)
 
 def manuscript(request, manuscript_id):

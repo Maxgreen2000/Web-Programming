@@ -51,9 +51,9 @@ function searchform() {
             const manuscriptResult = document.createElement('div');
             manuscriptResult.className="list-group-item";
             manuscriptResult.innerHTML =`
-              <span>${singleManuscript.title}</span>
-              <span>${singleManuscript.location}</span>
-              <span>${singleManuscript.year}</span>
+              <span>${singleManuscript.title},</span>
+              <span>${singleManuscript.location},</span>
+              <span>${singleManuscript.yearfrom} - ${singleManuscript.yearto}</span>
             `;
             manuscriptResult.addEventListener('click', function() {
                 view_manuscript(singleManuscript.id)
@@ -82,14 +82,13 @@ function view_manuscript(id) {
     .then(response => response.json())
     .then(manuscript => {
       manuscriptview.innerHTML = `
+        <img src="${manuscript.imageurl}" alt="${manuscript.title}" height="450px">
         <ul class="list-group">
             <li class="list-group-item">id: ${manuscript.poster}</li>
             <li class="list-group-item">id: ${manuscript.id}</li>
             <li class="list-group-item">title: ${manuscript.title}</li>
             <li class="list-group-item">location: ${manuscript.location}</li>
-            <li class="list-group-item">day: ${manuscript.day}</li>
-            <li class="list-group-item">month: ${manuscript.month}</li>
-            <li class="list-group-item">year: ${manuscript.year}</li>
+            <li class="list-group-item">Date Range: ${manuscript.yearfrom} - ${manuscript.yearto}</li>
             <li class="list-group-item">tags: ${manuscript.tags}</li>
             <li class="list-group-item"><p>Transcript: ${manuscript.transcript}</p></li>
         </ul>`

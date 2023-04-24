@@ -13,10 +13,10 @@ class Manuscript(models.Model):
     yearto = models.IntegerField(null=True, blank=True)
     tags = models.TextField(blank=True)
     transcript = models.TextField(blank=True)
-    image = models.ImageField(upload_to='files/manuscriptimages', null=True, blank=True)
+    imageurl = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.title}, {self.location}, {self.year}"
+        return f"{self.title}, {self.location}, {self.yearfrom} - {self.yearto}"
 
     def serialize(self):
         return {
@@ -28,4 +28,5 @@ class Manuscript(models.Model):
             "yearto": self.yearto,
             "tags": self.tags,
             "transcript": self.transcript,
+            "imageurl": self.imageurl
         }
