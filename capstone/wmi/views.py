@@ -180,15 +180,15 @@ def mailbox(request, mailbox):
     # Filter emails returned based on mailbox
     if mailbox == "inbox":
         emails = Email.objects.filter(
-            user=request.user, recipients=request.user, archived=False
+            recipient=request.user, archived=False
         )
     elif mailbox == "sent":
         emails = Email.objects.filter(
-            user=request.user, sender=request.user
+            sender=request.user
         )
     elif mailbox == "archive":
         emails = Email.objects.filter(
-            user=request.user, recipients=request.user, archived=True
+            recipient=request.user, archived=True
         )
     else:
         return JsonResponse({"error": "Invalid mailbox."}, status=400)

@@ -42,13 +42,13 @@ class Email(models.Model):
     archived = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.sender} sent to {self.recipient} at {self.timestamp}"
+        return f"email ID: {self.id} from {self.sender} sent to {self.recipient} at {self.timestamp}"
 
     def serialize(self):
         return {
             "id": self.id,
-            "sender": self.sender.email,
-            "recipients": [user.email for user in self.recipients.all()],
+            "sender": self.sender.username,
+            "recipient": [self.recipient.username],
             "subject": self.subject,
             "body": self.body,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
