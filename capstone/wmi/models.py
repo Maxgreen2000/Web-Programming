@@ -30,3 +30,28 @@ class Manuscript(models.Model):
             "transcript": self.transcript,
             "imageurl": self.imageurl
         }
+    
+class Email(models.Model):
+    sender = models.ForeignKey("User", on_delete=models.PROTECT, related_name="emails_sent")
+    recipient = models.ForeignKey("User", on_delete=models.PROTECT, related_name="emails_received", null=True)
+    manuscriptid = models.ForeignKey("Manuscript", on_delete=models.PROTECT, related_name="manuscriptid")
+    subject = models.CharField(max_length=255)
+    body = models.TextField(blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.sender} sent to {self.recipient} at {self.timestamp}"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "sender": self.sender.email,
+            "recipients": [user.email for user in self.recipients.all()],
+            "subject": self.subject,
+            "body": self.body,
+            "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
+            "read": self.read,
+            "archived": self.archived
+        }

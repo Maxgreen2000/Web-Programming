@@ -15,4 +15,5 @@ urlpatterns = [
     path("mymanuscriptresults", views.mymanuscriptresults, name="mymanuscriptresults"),
     path("loadaddnew", views.loadaddnew, name="loadaddnew"),
     path("addnewmanuscript", views.addnewmanuscript, name="addnewmanuscript"),
+    path("loadmailbox", views.loadmailbox, name="loadmailbox"),
 ]
