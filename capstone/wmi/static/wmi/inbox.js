@@ -21,6 +21,8 @@ function load_mailbox(mailbox) {
           <h1>From: ${email.sender}</h1>
           <h2>Subject: ${email.subject}</h2>
           <p>${email.timestamp}</p>
+          <p>${email.manuscriptid}</p>
+          <p>${email.manuscripttitle}</p>
         `;
 
         if(email.read == true){
