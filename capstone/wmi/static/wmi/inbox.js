@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   // By default, load the inbox
+  document.querySelector('#compose-view').style.display = 'none';
   load_mailbox('inbox');
 });
 
@@ -43,3 +44,24 @@ function load_mailbox(mailbox) {
 
 }
 
+function view_email(id) {
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#email-content-view').style.display = 'block';
+
+  fetch(`/email/${id}`)
+  .then(response => response.json())
+  .then(email => {
+    document.querySelector('#email-content-view').innerHTML = `
+    <ul class="list-group">
+      <li class="list-group-item">From: ${email.sender}</li>
+      <li class="list-group-item">To: ${email.recipient}</li>
+      <li class="list-group-item">Subject: ${email.subject}</li>
+      <li class="list-group-item">Subject: ${email.manuscripttitle}</li>
+      <li class="list-group-item">Time: ${email.timestamp}</li>
+      <li class="list-group-item"><p>${email.body}</p></li>
+    </ul>`
+
+  });
+
+}

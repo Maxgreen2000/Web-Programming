@@ -1,11 +1,10 @@
 import json
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import HttpResponse, HttpResponseRedirect, render
 from django.urls import reverse
-from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -197,3 +196,7 @@ def mailbox(request, mailbox):
     emails = emails.order_by("-timestamp").all()
     return JsonResponse([email.serialize() for email in emails], safe=False)
 
+
+def email(request, email_id):
+    email = Email.objects.get(id=email_id)
+    return JsonResponse(email.serialize())
