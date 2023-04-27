@@ -57,11 +57,48 @@ function view_email(id) {
       <li class="list-group-item">From: ${email.sender}</li>
       <li class="list-group-item">To: ${email.recipient}</li>
       <li class="list-group-item">Subject: ${email.subject}</li>
-      <li class="list-group-item">Subject: ${email.manuscripttitle}</li>
+      <li class="list-group-item"><a href="#" id="manuscriptlink">${email.manuscripttitle}</a></li>
       <li class="list-group-item">Time: ${email.timestamp}</li>
       <li class="list-group-item"><p>${email.body}</p></li>
     </ul>`
-
+    manuscriptlink = document.getElementById('manuscriptlink')
+    manuscriptlink.addEventListener('click', function() {
+      view_manuscript(email.manuscriptid)
+    })
   });
+
+
+}
+
+function view_manuscript(id) {
+  manuscriptview = document.getElementById('manuscript-view')
+  document.querySelector('#email-content-view').style.display = 'none';
+  document.querySelector('#manuscript-view').innerHTML = "";
+  document.querySelector('#manuscript-view').style.display = 'block'
+
+  //Add a link that goes back to search filters
+  const returntoresults = document.createElement('button');
+  returntoresults.innerHTML = "Back to Email"
+  returntoresults.addEventListener('click', function() {
+      document.querySelector('#manuscript-view').style.display = 'none';
+      document.querySelector('#email-content-view').style.display = 'block';
+  })
+
+  fetch(`/manuscript/${id}`)
+  .then(response => response.json())
+  .then(manuscript => {
+    manuscriptview.innerHTML = `
+      <img src="${manuscript.imageurl}" alt="${manuscript.title}" height="450px">
+      <ul class="list-group">
+          <li class="list-group-item">id: ${manuscript.poster}</li>
+          <li class="list-group-item">id: ${manuscript.id}</li>
+          <li class="list-group-item">title: ${manuscript.title}</li>
+          <li class="list-group-item">location: ${manuscript.location}</li>
+          <li class="list-group-item">Date Range: ${manuscript.yearfrom} - ${manuscript.yearto}</li>
+          <li class="list-group-item">tags: ${manuscript.tags}</li>
+          <li class="list-group-item"><p>Transcript: ${manuscript.transcript}</p></li>
+      </ul>`
+  manuscriptview.prepend(returntoresults)
+  })
 
 }
