@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
   load_mailbox('inbox');
 });
 
+function openmanuscriptinnewtab(manuscriptid) {
+  window.open(`/manuscript/${manuscriptid}`, '_blank');
+}
+
+
 function load_mailbox(mailbox) {
   
   document.querySelector('#emails-view').innerHTML = "";
@@ -52,16 +57,16 @@ function view_email(id) {
   fetch(`/email/${id}`)
   .then(response => response.json())
   .then(email => {
+
     document.querySelector('#email-content-view').innerHTML = `
     <ul class="list-group">
       <li class="list-group-item">From: ${email.sender}</li>
       <li class="list-group-item">To: ${email.recipient}</li>
       <li class="list-group-item">Subject: ${email.subject}</li>
-      <li class="list-group-item"><a href="/manuscript/${email.manuscriptid}">${email.manuscripttitle}</a></li>
+      <li class="list-group-item"><a href="#" onclick="openmanuscriptinnewtab(${email.manuscriptid})">${email.manuscripttitle}</a></li>
       <li class="list-group-item">Time: ${email.timestamp}</li>
       <li class="list-group-item"><p>${email.body}</p></li>
     </ul>`
   });
-
 
 }
