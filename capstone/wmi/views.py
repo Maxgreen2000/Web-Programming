@@ -79,17 +79,16 @@ def search(request):
 
 @csrf_exempt
 def searchresult(request):
-    data = json.loads(request.body) 
-    searchTitle = data.get("title")
-    searchLocation = data.get("location")
-    searchTags1 = data.get("tags").split(",")
-    searchTags2 = data.get("tags").split(" ")
+    searchTitle = request.POST["inputTitle"]
+    searchLocation = request.POST["inputLocation"]
+    searchTags1 = request.POST["inputTags"].split(",")
+    searchTags2 = request.POST["inputTags"].split(" ")
     searchTags = searchTags1 + searchTags2
-    searchKeywords1 = data.get("keywords").split(",")
-    searchKeywords2 = data.get("keywords").split(" ")
+    searchKeywords1 = request.POST["inputKeywords"].split(",")
+    searchKeywords2 = request.POST["inputKeywords"].split(" ")
     searchKeywords = searchKeywords1 + searchKeywords2
-    searchYearFrom = data.get("yearfrom")
-    searchYearTo = data.get("yearto")
+    searchYearFrom = request.POST["inputYearFrom"]
+    searchYearTo = request.POST["inputYearTo"]
     if searchYearFrom == "" and searchYearTo == "":
         manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation)
     if searchYearFrom == "" and searchYearTo != "":
@@ -98,7 +97,10 @@ def searchresult(request):
         manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation, yearfrom__gte=searchYearFrom)
     if searchYearTo != "" and searchYearFrom != "":
         manuscripts = Manuscript.objects.filter(title__icontains=searchTitle, location__icontains=searchLocation, yearfrom__gte=searchYearFrom, yearto__lte=searchYearTo)
-    return JsonResponse([manuscript.serialize() for manuscript in manuscripts], safe=False)
+    return render(request, "wmi/results.html", {
+        "results": manuscripts
+    })
+
 
 def manuscript(request, manuscript_id):
     manuscript = Manuscript.objects.get(pk=manuscript_id)

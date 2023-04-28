@@ -1,0 +1,22 @@
+{% extends "wmi/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}
+    {% for manuscript in results %}
+        <div class="list-group-item">
+            <a href="/manuscript/{{ manuscript.id }}">            
+                <span>{{ manuscript.title }},</span>
+                <span>{{ manuscript.location }},</span>
+                <span>{{ manuscript.yearfrom }} - {{ manuscript.yearto }}</span>
+            </a>
+        </div>
+    {% endfor %}
+    {% else %}
+      <div id="welcomediv">
+        <h1>Please sign in</h1>
+      </div>
+    {% endif %}
+</body>
+{% endblock %}

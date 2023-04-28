@@ -12,20 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function searchform() {
-    document.querySelector('#results-view').innerHTML = "";
-    document.querySelector('#searchform').style.display = 'none';
-    document.querySelector('#results-view').style.display = 'block';
-    document.querySelector('#manuscript-view').style.display = 'none';
-
-    //Add a link that goes back to search filters
-    const returntofilters = document.createElement('button');
-    returntofilters.innerHTML = "Back to search filters"
-    returntofilters.addEventListener('click', function() {
-        document.querySelector('#searchform').style.display = 'block';
-        document.querySelector('#results-view').style.display = 'none';
-    })
-    resultsview = document.getElementById('results-view')
-    resultsview.append(returntofilters)
 
     const title = document.querySelector('#inputTitle').value;
     const location = document.querySelector('#inputLocation').value;
@@ -43,22 +29,6 @@ function searchform() {
             keywords: keywords,
             yearfrom: yearfrom,
             yearto: yearto
-        })
-    })
-    .then(response => response.json())
-    .then(manuscripts => {
-        manuscripts.forEach(singleManuscript => {
-            const manuscriptResult = document.createElement('div');
-            manuscriptResult.className="list-group-item";
-            manuscriptResult.innerHTML =`
-              <span>${singleManuscript.title},</span>
-              <span>${singleManuscript.location},</span>
-              <span>${singleManuscript.yearfrom} - ${singleManuscript.yearto}</span>
-            `;
-            manuscriptResult.addEventListener('click', function() {
-                document.location = `/manuscript/${singleManuscript.id}`;
-            });
-            resultsview.append(manuscriptResult)
         })
     })
 }
