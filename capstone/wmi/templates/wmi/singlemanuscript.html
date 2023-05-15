@@ -1,19 +1,48 @@
 {% extends "wmi/layout.html" %}
+{% load static %}
 
 {% block body %}
-    <img src="{{ manuscript.imageurl }}" alt="{{ manuscript.title }}" height="450px">
-    <ul class="list-group">
-        <li class="list-group-item">id: {{ manuscript.poster }}</li>
-        <li class="list-group-item">id: {{ manuscript.id }}</li>
-        <li class="list-group-item">title: {{ manuscript.title }}</li>
-        <li class="list-group-item">location: {{ manuscript.location }}</li>
-        <li class="list-group-item">Date Range: {{ manuscript.yearfrom }} - {{ manuscript.yearto }}</li>
-        <li class="list-group-item">tags: {{ manuscript.tags }}</li>
-        <li class="list-group-item"><p>Transcript: {{ manuscript.transcript }}</p></li>
-    </ul>`
+    <div id="manuscript-details-view">
+        <img src="{{ manuscript.imageurl }}" alt="{{ manuscript.title }}" height="450px">
+        <ul class="list-group">
+            <li class="list-group-item">id: {{ manuscript.poster }}</li>
+            <li class="list-group-item">id: {{ manuscript.id }}</li>
+            <li class="list-group-item">title: {{ manuscript.title }}</li>
+            <li class="list-group-item">location: {{ manuscript.location }}</li>
+            <li class="list-group-item">Date Range: {{ manuscript.yearfrom }} - {{ manuscript.yearto }}</li>
+            <li class="list-group-item">tags: {{ manuscript.tags }}</li>
+            <li class="list-group-item"><p>Transcript: {{ manuscript.transcript }}</p></li>
+        </ul>`
+    </div>
 
     {% if user != manuscript.poster %}
-        <button type="button" class="btn btn-outline-info">Contact Poster</button>
+        <button type="button" id="ContactPoster" class="btn btn-outline-info">Contact Poster</button>
     {% endif %}
 
+    <div id="compose-new-email-view"  style="display: none;">
+        <button type="button" id="BackToEntry" class="btn btn-outline-info">Back to Entry</button>
+        <div id="compose-view">
+            <form id="compose-form">
+                <div class="form-group">
+                    <input disabled  id="compose-manuscript-name" class="form-control" value="{{ manuscript.title}}">
+                </div>
+                <div class="form-group">
+                    To: <input disabled id="compose-recipient" class="form-control" value="{{ manuscript.poster.username }}">
+                </div>
+                <div class="form-group">
+                    <input disabled hidden id="compose-manuscript" class="form-control" value="{{ manuscript.id}}">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="compose-subject" placeholder="Subject" >
+                </div>
+                <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
+                <input type="submit" class="btn btn-primary"/>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'wmi/singlemanuscript.js' %}"></script>
 {% endblock %}

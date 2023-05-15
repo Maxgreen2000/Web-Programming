@@ -190,3 +190,40 @@ def mailbox(request, mailbox):
 def email(request, email_id):
     email = Email.objects.get(id=email_id)
     return JsonResponse(email.serialize())
+
+def compose(request):
+
+    # Composing a new email must be via POST
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    # Check recipient emails
+    data = json.loads(request.body)
+    if recipient == [""]:
+        return JsonResponse({
+            "error": "recipient required."
+        }, status=400)
+
+    if body == [""]:
+        return JsonResponse({
+            "error": "body of text required."
+        }, status=400)
+    
+
+    # Get contents of email
+    manuscript = data.get("manuscript", "")
+    recipient = data.get("recipient", "")
+    subject = data.get("subject", "")
+    body = data.get("body", "")
+
+    # Create email
+    email = Email(
+        sender=request.user,
+        manuscript=manuscript,
+        recipient=recipient,
+        subject=subject,
+        body=body,
+    )
+    email.save()
+
+    return JsonResponse({"message": "mail sent successfully."}, status=201)
