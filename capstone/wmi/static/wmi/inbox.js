@@ -60,9 +60,7 @@ function view_email(id) {
 
     document.querySelector('#email-content-view').innerHTML = `
     <ul class="list-group">
-      <li class="list-group-item">From: ${email.sender}</li>
-      <li class="list-group-item">To: ${email.recipient}</li>
-      <li class="list-group-item">Subject: ${email.subject}</li>
+      <li class="list-group-item">${email.sender}</li>
       <li class="list-group-item"><a href="#" onclick="openmanuscriptinnewtab(${email.manuscriptid})">${email.manuscripttitle}</a></li>
       <li class="list-group-item">Time: ${email.timestamp}</li>
       <li class="list-group-item"><p>${email.body}</p></li>

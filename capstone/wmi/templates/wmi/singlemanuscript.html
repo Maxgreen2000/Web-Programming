@@ -12,4 +12,8 @@
         <li class="list-group-item"><p>Transcript: {{ manuscript.transcript }}</p></li>
     </ul>`
 
+    {% if user != manuscript.poster %}
+        <button type="button" class="btn btn-outline-info">Contact Poster</button>
+    {% endif %}
+
 {% endblock %}
