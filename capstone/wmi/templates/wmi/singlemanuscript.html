@@ -30,7 +30,10 @@
                     To: <input disabled id="compose-recipient" class="form-control" value="{{ manuscript.poster.username }}">
                 </div>
                 <div class="form-group">
-                    <input disabled hidden id="compose-manuscript" class="form-control" value="{{ manuscript.id}}">
+                    <input disabled hidden id="compose-recipient-id" class="form-control" value="{{ manuscript.poster.id  }}">
+                </div>
+                <div class="form-group">
+                    <input disabled hidden id="compose-manuscript" class="form-control" value="{{ manuscript.id }}">
                 </div>
                 <div class="form-group">
                     <input class="form-control" id="compose-subject" placeholder="Subject" >

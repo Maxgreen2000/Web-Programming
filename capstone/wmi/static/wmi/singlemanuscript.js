@@ -5,20 +5,37 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(authenicated => {
         if(authenicated.authenticated == "True"){
             document.getElementById('ContactPoster').addEventListener('click', function() {
-                document.querySelector('#manuscript-details-view').style.display = 'none';
-                document.querySelector('#ContactPoster').style.display = 'none';
-                document.querySelector('#compose-new-email-view').style.display = 'block';
+                compose_view()
             })
             document.querySelector("#compose-form").addEventListener('submit', send_email);
+            document.getElementById('BackToEntry').addEventListener('click', function() {
+                manuscript_view()
+            })
         }
     })
 });
+
+function manuscript_view() {
+    document.querySelector('#compose-subject').value = "";
+    document.querySelector('#compose-body').value = "";
+    document.querySelector('#compose-new-email-view').style.display = 'none';
+    document.querySelector('#manuscript-details-view').style.display = 'block';
+    document.querySelector('#ContactPoster').style.display = 'block';
+ }
+
+ function compose_view() {
+    document.querySelector('#compose-subject').value = "";
+    document.querySelector('#compose-body').value = "";
+    document.querySelector('#compose-new-email-view').style.display = 'block';
+    document.querySelector('#manuscript-details-view').style.display = 'none';
+    document.querySelector('#ContactPoster').style.display = 'none';
+ }
 
 function send_email(event) {
     event.preventDefault(); // STOP THE SUBMITTING OF THE FORM RELOADING PAGE. SHOULD TAKE US TO THE SEND PAGE
     
     //Save values from each input in the compose form
-    const recipients = document.querySelector('#compose-recipient').value;
+    const recipient = document.querySelector('#compose-recipient-id').value;
     const manuscript = document.querySelector('#compose-manuscript').value;
     const subject = document.querySelector('#compose-subject').value;
     const body = document.querySelector('#compose-body').value;
@@ -28,7 +45,7 @@ function send_email(event) {
       method: 'POST',
       body: JSON.stringify({
         manuscript: manuscript,
-        recipients: recipients,
+        recipient: recipient,
         subject: subject,
         body: body
       })
@@ -37,6 +54,8 @@ function send_email(event) {
     .then(result => {
         // Print result
         console.log(result);
-        load_mailbox('sent');
+        manuscript_view()
     });
   }
+
+

@@ -191,14 +191,20 @@ def email(request, email_id):
     email = Email.objects.get(id=email_id)
     return JsonResponse(email.serialize())
 
+@csrf_exempt
 def compose(request):
 
     # Composing a new email must be via POST
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
 
-    # Check recipient emails
     data = json.loads(request.body)
+    manuscript = data.get("manuscript", "")
+    recipient = data.get("recipient", "")
+    subject = data.get("subject", "")
+    body = data.get("body", "")
+
+    # Check recipient emails
     if recipient == [""]:
         return JsonResponse({
             "error": "recipient required."
@@ -209,13 +215,8 @@ def compose(request):
             "error": "body of text required."
         }, status=400)
     
-
-    # Get contents of email
-    manuscript = data.get("manuscript", "")
-    recipient = data.get("recipient", "")
-    subject = data.get("subject", "")
-    body = data.get("body", "")
-
+    recipient = User.objects.get(id=recipient)
+    manuscript = Manuscript.objects.get(id=manuscript)
     # Create email
     email = Email(
         sender=request.user,
