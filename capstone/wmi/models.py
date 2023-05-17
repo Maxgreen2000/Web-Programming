@@ -57,3 +57,11 @@ class Email(models.Model):
             "read": self.read,
             "archived": self.archived
         }
+
+class Conversation(models.Model):
+    manuscript = models.ForeignKey("Manuscript", on_delete=models.PROTECT, related_name="conversation_manuscriptid")
+    participants = models.ManyToManyField("User", related_name="conversation_participants")
+    emails = models.ManyToManyField("Email", related_name="conversation_emails")
+
+    def __str__(self):
+        return f"manuscript: {self.manuscript.title} conversation between {self.participants.all()}"

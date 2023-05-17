@@ -20,3 +20,5 @@ urlpatterns = [
     path("email/<int:email_id>", views.email, name="email"),
     path("emails", views.compose, name="compose"),
 ]
+
+

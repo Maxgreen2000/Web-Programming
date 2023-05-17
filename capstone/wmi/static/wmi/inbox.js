@@ -9,6 +9,55 @@ function openmanuscriptinnewtab(manuscriptid) {
 }
 
 
+function load_conversations() {
+  fetch(`/emails/${mailbox}`)
+  .then(response => response.json())
+  .then(emails => {
+      emails.forEach(email => { 
+        const createdemail = document.createElement('div');
+        createdemail.className="list-group-item";
+        createdemail.innerHTML =`
+          <h1>From: ${email.sender}</h1>
+          <h2>Subject: ${email.subject}</h2>
+          <p>${email.timestamp}</p>
+          <p>${email.manuscriptid}</p>
+          <p>${email.manuscripttitle}</p>
+        `;
+
+        createdemail.addEventListener('click', function() {
+          view_email(email.id)
+        });
+        document.querySelector('#emails-view').append(createdemail);
+      })
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function load_mailbox(mailbox) {
   
   document.querySelector('#emails-view').innerHTML = "";
@@ -30,13 +79,6 @@ function load_mailbox(mailbox) {
           <p>${email.manuscriptid}</p>
           <p>${email.manuscripttitle}</p>
         `;
-
-        if(email.read == true){
-          createdemail.id = 'read'
-        }
-        else{
-          createdemail.id = 'unread'
-        }
 
         createdemail.addEventListener('click', function() {
           view_email(email.id)

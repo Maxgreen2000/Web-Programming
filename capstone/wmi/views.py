@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 
-from .models import User, Manuscript, Email
+from .models import User, Manuscript, Email, Conversation
 
 def index(request):
     return render(request, "wmi/index.html")
