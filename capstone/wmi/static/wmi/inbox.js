@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   // By default, load the inbox
   document.querySelector('#compose-view').style.display = 'none';
-  load_mailbox('inbox');
+  load_conversations();
 });
 
 function openmanuscriptinnewtab(manuscriptid) {
@@ -10,30 +10,32 @@ function openmanuscriptinnewtab(manuscriptid) {
 
 
 function load_conversations() {
-  fetch(`/emails/${mailbox}`)
+  fetch(`/conversations`)
   .then(response => response.json())
-  .then(emails => {
-      emails.forEach(email => { 
-        const createdemail = document.createElement('div');
-        createdemail.className="list-group-item";
-        createdemail.innerHTML =`
-          <h1>From: ${email.sender}</h1>
-          <h2>Subject: ${email.subject}</h2>
-          <p>${email.timestamp}</p>
-          <p>${email.manuscriptid}</p>
-          <p>${email.manuscripttitle}</p>
+  .then(conversations => {
+      conversations.forEach(conversation => { 
+        const createdconversation = document.createElement('div');
+        createdconversation.className="list-group-item";
+        createdconversation.innerHTML =`
+          <h1>From: ${conversation.sender}</h1>
+          <h2>Subject: ${conversation.subject}</h2>
+          <p>${conversation.timestamp}</p>
+          <p>${conversation.manuscriptid}</p>
+          <p>${conversation.manuscripttitle}</p>
         `;
 
-        createdemail.addEventListener('click', function() {
-          view_email(email.id)
+        createdconversation.addEventListener('click', function() {
+          view_conversation(conversation.id)
         });
-        document.querySelector('#emails-view').append(createdemail);
+        document.querySelector('#conversations_view').append(createdconversation);
       })
   });
 }
 
 
+function view_conversation() {
 
+}
 
 
 

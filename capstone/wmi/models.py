@@ -62,6 +62,18 @@ class Conversation(models.Model):
     manuscript = models.ForeignKey("Manuscript", on_delete=models.PROTECT, related_name="conversation_manuscriptid")
     participants = models.ManyToManyField("User", related_name="conversation_participants")
     emails = models.ManyToManyField("Email", related_name="conversation_emails")
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"manuscript: {self.manuscript.title} conversation between {self.participants.all()}"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "manuscript": self.manuscript.title,
+            "manuscript_id": self.manuscript.id,
+            "participants": [user.username for user in self.participants.all()],
+            "participants_id": [user.id for user in self.participants.all()],
+            "emails_id": [email.id for email in self.emails.all()],
+            "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
+        }

@@ -228,3 +228,9 @@ def compose(request):
     email.save()
 
     return JsonResponse({"message": "mail sent successfully."}, status=201)
+
+
+def conversations(request):
+    conversations = Conversation.objects.filter( participants=request.user ) 
+    conversations = conversations.order_by("-timestamp").all()
+    return JsonResponse([conversation.serialize() for conversation in conversations], safe=False)

@@ -19,6 +19,7 @@ urlpatterns = [
     path("emails/<str:mailbox>", views.mailbox, name="mailbox"),
     path("email/<int:email_id>", views.email, name="email"),
     path("emails", views.compose, name="compose"),
+    path("conversations", views.conversations, name="conversations"),
 ]
 
 
