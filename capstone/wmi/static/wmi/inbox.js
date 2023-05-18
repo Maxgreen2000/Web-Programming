@@ -16,12 +16,14 @@ function load_conversations() {
       conversations.forEach(conversation => { 
         const createdconversation = document.createElement('div');
         createdconversation.className="list-group-item";
-        createdconversation.innerHTML =`
-          <h1>From: ${conversation.sender}</h1>
-          <h2>Subject: ${conversation.subject}</h2>
+        conversation.participants.forEach((item) => {
+          if(document.getElementById('useremail').innerHTML != item){
+            createdconversation.innerHTML += `<h1>${item}</h1>`
+          }
+        });
+        createdconversation.innerHTML +=`
+          <h2>${conversation.manuscript}</h2>
           <p>${conversation.timestamp}</p>
-          <p>${conversation.manuscriptid}</p>
-          <p>${conversation.manuscripttitle}</p>
         `;
 
         createdconversation.addEventListener('click', function() {
