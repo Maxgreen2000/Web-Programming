@@ -16,9 +16,7 @@ urlpatterns = [
     path("loadaddnew", views.loadaddnew, name="loadaddnew"),
     path("addnewmanuscript", views.addnewmanuscript, name="addnewmanuscript"),
     path("loadmailbox", views.loadmailbox, name="loadmailbox"),
-    path("emails/<str:mailbox>", views.mailbox, name="mailbox"),
-    path("email/<int:email_id>", views.email, name="email"),
-    path("emails", views.compose, name="compose"),
+    path("createmessage", views.createnewmessage, name="createnewmessage"),
     path("conversations", views.conversations, name="conversations"),
     path("messages/<int:conversation_id>", views.load_conversation_messages, name="conversation_messages"),
 ]

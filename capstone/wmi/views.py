@@ -192,7 +192,7 @@ def email(request, email_id):
     return JsonResponse(email.serialize())
 
 @csrf_exempt
-def compose(request):
+def createnewmessage(request):
 
     # Composing a new email must be via POST
     if request.method != "POST":
@@ -239,4 +239,5 @@ def conversations(request):
 def load_conversation_messages(request, conversation_id):
     conversation = Conversation.objects.get(id=conversation_id)
     emails = conversation.emails.all()
+    emails = emails.order_by("-timestamp").all()
     return JsonResponse([email.serialize() for email in emails], safe=False)
