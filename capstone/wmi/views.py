@@ -234,3 +234,9 @@ def conversations(request):
     conversations = Conversation.objects.filter( participants=request.user ) 
     conversations = conversations.order_by("-timestamp").all()
     return JsonResponse([conversation.serialize() for conversation in conversations], safe=False)
+
+
+def load_conversation_messages(request, conversation_id):
+    conversation = Conversation.objects.get(id=conversation_id)
+    emails = conversation.emails.all()
+    return JsonResponse([email.serialize() for email in emails], safe=False)

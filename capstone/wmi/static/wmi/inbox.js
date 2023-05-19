@@ -35,7 +35,29 @@ function load_conversations() {
 }
 
 
-function view_conversation() {
+function view_conversation(id) {
+  document.querySelector('#emails-view').innerHTML = "";
+  document.querySelector('#emails-view').style.display = 'block';
+  document.querySelector('#email-content-view').style.display = 'none';
+  document.querySelector('#conversations_view').style.display = 'none';
+
+  fetch(`/messages/${id}`)
+  .then(response => response.json())
+  .then(emails => {
+      emails.forEach(email => { 
+        const createdemail = document.createElement('div');
+        createdemail.className="list-group-item";
+        createdemail.innerHTML =`
+          <h1>From: ${email.sender}</h1>
+          <h2>Subject: ${email.subject}</h2>
+          <p>${email.timestamp}</p>
+          <p>${email.manuscriptid}</p>
+          <p>${email.manuscripttitle}</p>
+        `;
+
+        document.querySelector('#emails-view').append(createdemail);
+      })
+  });
 
 }
 
