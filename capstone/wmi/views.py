@@ -192,16 +192,14 @@ def email(request, email_id):
     return JsonResponse(email.serialize())
 
 @csrf_exempt
-def createnewmessage(request):
+def createnewmessage(request, manuscript_id, poster_id):
 
     # Composing a new email must be via POST
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
 
     data = json.loads(request.body)
-    manuscript = data.get("manuscript", "")
     recipient = data.get("recipient", "")
-    subject = data.get("subject", "")
     body = data.get("body", "")
 
     # Check recipient emails
@@ -216,16 +214,20 @@ def createnewmessage(request):
         }, status=400)
     
     recipient = User.objects.get(id=recipient)
-    manuscript = Manuscript.objects.get(id=manuscript)
     # Create email
     email = Email(
         sender=request.user,
-        manuscript=manuscript,
         recipient=recipient,
-        subject=subject,
         body=body,
     )
     email.save()
+
+    #NOW ADD NEW EMAIL TO THE CONVERSATION
+    poster = User.objects.get(id=poster_id)
+    manuscript = Manuscript.objects.get(id=manuscript_id)
+    conversation = Conversation.objects.get( participants = request.user and poster, manuscript = manuscript )
+    conversation.emails.add(email)
+
 
     return JsonResponse({"message": "mail sent successfully."}, status=201)
 

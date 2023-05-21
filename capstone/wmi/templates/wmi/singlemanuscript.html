@@ -25,22 +25,10 @@
         <div id="compose-view">
             <form id="compose-form">
                 <div class="form-group">
-                    <input disabled  id="compose-manuscript-name" class="form-control" value="{{ manuscript.title}}">
+                    <input disabled hidden hidden id="compose-recipient-id" class="form-control" value="{{ manuscript.poster.id  }}">
                 </div>
-                <div class="form-group">
-                    To: <input disabled id="compose-recipient" class="form-control" value="{{ manuscript.poster.username }}">
-                </div>
-                <div class="form-group">
-                    <input disabled hidden id="compose-recipient-id" class="form-control" value="{{ manuscript.poster.id  }}">
-                </div>
-                <div class="form-group">
-                    <input disabled hidden id="compose-manuscript" class="form-control" value="{{ manuscript.id }}">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" id="compose-subject" placeholder="Subject" >
-                </div>
-                <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
-                <input type="submit" class="btn btn-primary"/>
+                <textarea class="form-control" id="compose-body"></textarea>
+                <input type="button"  id="send_button" class="btn btn-primary" value="Send"/>
             </form>
         </div>
     </div>

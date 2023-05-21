@@ -7,10 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('ContactPoster').addEventListener('click', function() {
               view_conversation()
             })
-            document.querySelector("#compose-form").addEventListener('submit', send_email);
             document.getElementById('BackToEntry').addEventListener('click', function() {
                 manuscript_view()
             })
+            document.getElementById('send_button').addEventListener('click', function() {
+              send_email()
+          })
         }
     })
 });
@@ -23,30 +25,27 @@ function manuscript_view() {
     document.querySelector('#ContactPoster').style.display = 'block';
  }
 
- function compose_view() {
-    document.querySelector('#compose-subject').value = "";
-    document.querySelector('#compose-body').value = "";
-    document.querySelector('#compose-new-email-view').style.display = 'block';
-    document.querySelector('#manuscript-details-view').style.display = 'none';
-    document.querySelector('#ContactPoster').style.display = 'none';
+ function conversation_view() {
+  document.querySelector('#emails-view').innerHTML = "";
+  document.querySelector('#emails-view').style.display = 'block';
+  document.querySelector('#compose-new-email-view').style.display = 'block';
+  document.querySelector('#manuscript-details-view').style.display = 'none';
  }
 
-function send_email(event) {
-    event.preventDefault(); // STOP THE SUBMITTING OF THE FORM RELOADING PAGE. SHOULD TAKE US TO THE SEND PAGE
+function send_email() {
     
+    manuscript_id = document.getElementById('manuscript_id').value
+    poster_id = document.getElementById('poster_id').value
+
     //Save values from each input in the compose form
     const recipient = document.querySelector('#compose-recipient-id').value;
-    const manuscript = document.querySelector('#compose-manuscript').value;
-    const subject = document.querySelector('#compose-subject').value;
     const body = document.querySelector('#compose-body').value;
 
     //Send data to the back-end
-    fetch('/createmessage', {
+    fetch(`/createmessage/${manuscript_id}/${poster_id}`, {
       method: 'POST',
       body: JSON.stringify({
-        manuscript: manuscript,
         recipient: recipient,
-        subject: subject,
         body: body
       })
     })
@@ -54,19 +53,18 @@ function send_email(event) {
     .then(result => {
         // Print result
         console.log(result);
-        manuscript_view()
+        view_conversation()
     });
   }
 
   function view_conversation() {
 
+    conversation_view()
+
     manuscript_id = document.getElementById('manuscript_id').value
     poster_id = document.getElementById('poster_id').value
 
-    document.querySelector('#emails-view').innerHTML = "";
-    document.querySelector('#emails-view').style.display = 'block';
-    document.querySelector('#compose-new-email-view').style.display = 'none';
-    document.querySelector('#manuscript-details-view').style.display = 'none';
+
   
     fetch(`/find_conversation/${manuscript_id}/${poster_id}`)
     .then(response => response.json())
@@ -83,6 +81,8 @@ function send_email(event) {
           document.querySelector('#emails-view').append(createdemail);
         })
     });
+
+
   
   }
   
