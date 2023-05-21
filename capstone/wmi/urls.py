@@ -19,6 +19,7 @@ urlpatterns = [
     path("createmessage", views.createnewmessage, name="createnewmessage"),
     path("conversations", views.conversations, name="conversations"),
     path("messages/<int:conversation_id>", views.load_conversation_messages, name="conversation_messages"),
+    path("find_conversation/<int:manuscript_id>/<int:poster_id>", views.find_conversation, name="find_a_conversation"),
 ]
 
 

@@ -5,19 +5,20 @@
     <div id="manuscript-details-view">
         <img src="{{ manuscript.imageurl }}" alt="{{ manuscript.title }}" height="450px">
         <ul class="list-group">
-            <li class="list-group-item">id: {{ manuscript.poster }}</li>
-            <li class="list-group-item">id: {{ manuscript.id }}</li>
+            <li class="list-group-item" id="poster_id" value="{{ manuscript.poster.id }}">Poster id: {{ manuscript.poster.id }}</li>
+            <li class="list-group-item" id="manuscript_id" value="{{ manuscript.id }}">id: {{ manuscript.id }}</li>
             <li class="list-group-item">title: {{ manuscript.title }}</li>
             <li class="list-group-item">location: {{ manuscript.location }}</li>
             <li class="list-group-item">Date Range: {{ manuscript.yearfrom }} - {{ manuscript.yearto }}</li>
             <li class="list-group-item">tags: {{ manuscript.tags }}</li>
             <li class="list-group-item"><p>Transcript: {{ manuscript.transcript }}</p></li>
         </ul>`
-    </div>
 
-    {% if user != manuscript.poster %}
-        <button type="button" id="ContactPoster" class="btn btn-outline-info">Contact Poster</button>
-    {% endif %}
+        {% if user != manuscript.poster %}
+            <button type="button" id="ContactPoster" class="btn btn-outline-info">Contact Poster</button>
+        {% endif %}
+
+    </div>
 
     <div id="compose-new-email-view"  style="display: none;">
         <button type="button" id="BackToEntry" class="btn btn-outline-info">Back to Entry</button>
@@ -43,6 +44,10 @@
             </form>
         </div>
     </div>
+
+    <div id="emails-view">
+    </div>
+
 
 {% endblock %}
 

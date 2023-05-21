@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(authenicated => {
         if(authenicated.authenticated == "True"){
             document.getElementById('ContactPoster').addEventListener('click', function() {
-                compose_view()
+              view_conversation()
             })
             document.querySelector("#compose-form").addEventListener('submit', send_email);
             document.getElementById('BackToEntry').addEventListener('click', function() {
@@ -58,13 +58,17 @@ function send_email(event) {
     });
   }
 
-  function view_conversation(id) {
+  function view_conversation() {
+
+    manuscript_id = document.getElementById('manuscript_id').value
+    poster_id = document.getElementById('poster_id').value
+
     document.querySelector('#emails-view').innerHTML = "";
     document.querySelector('#emails-view').style.display = 'block';
-    document.querySelector('#email-content-view').style.display = 'none';
-    document.querySelector('#conversations_view').style.display = 'none';
+    document.querySelector('#compose-new-email-view').style.display = 'none';
+    document.querySelector('#manuscript-details-view').style.display = 'none';
   
-    fetch(`/messages/${id}`)
+    fetch(`/find_conversation/${manuscript_id}/${poster_id}`)
     .then(response => response.json())
     .then(emails => {
         emails.forEach(email => { 

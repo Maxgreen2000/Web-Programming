@@ -241,3 +241,18 @@ def load_conversation_messages(request, conversation_id):
     emails = conversation.emails.all()
     emails = emails.order_by("-timestamp").all()
     return JsonResponse([email.serialize() for email in emails], safe=False)
+
+def find_conversation(request, manuscript_id, poster_id):
+    poster = User.objects.get(id=poster_id)
+    manuscript = Manuscript.objects.get(id=manuscript_id)
+    try:
+        conversation = Conversation.objects.filter( participants = request.user and poster, manuscript = manuscript )
+    except:
+        conversation = Conversation(
+            participants = request.user and poster,
+            manuscript = manuscript
+        )
+        conversation.save()
+    emails = conversation.emails.all()
+    emails = emails.order_by("-timestamp").all()
+    return JsonResponse([email.serialize() for email in emails], safe=False)
