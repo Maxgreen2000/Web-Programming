@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
   // By default, load the inbox
   load_conversations();
+  document.getElementById('send_button').addEventListener('click', function() {
+    send_email()
+  })
 });
 
 function openmanuscriptinnewtab(manuscriptid) {
@@ -49,6 +52,7 @@ function conversation_view() {
  }
 
 function view_conversation(id) {
+  document.getElementById('compose_conversation_id').value = id
   conversation_view()
 
   fetch(`/messages/${id}`)
@@ -74,15 +78,15 @@ function view_conversation(id) {
 
 function send_email(manuscript_id) {
     
-  manuscript_id = document.getElementById('manuscript_id').value
-  poster_id = document.getElementById('poster_id').value
+  manuscript_id = document.querySelector('#compose_manuscript_id').value;
+  conversation_id = document.querySelector('#compose_conversation_id').value;
 
   //Save values from each input in the compose form
-  const recipient = document.querySelector('#compose-recipient-id').value;
+  const recipient = document.querySelector('#compose_recipient_id').value;
   const body = document.querySelector('#compose-body').value;
 
   //Send data to the back-end
-  fetch(`/createmessage/${manuscript_id}/${poster_id}`, {
+  fetch(`/createmessage/${manuscript_id}`, {
     method: 'POST',
     body: JSON.stringify({
       recipient: recipient,
@@ -93,6 +97,6 @@ function send_email(manuscript_id) {
   .then(result => {
       // Print result
       console.log(result);
-      view_conversation()
+      view_conversation(conversation_id)
   });
 }
