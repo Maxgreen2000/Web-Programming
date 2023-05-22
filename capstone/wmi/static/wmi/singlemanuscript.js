@@ -35,14 +35,13 @@ function manuscript_view() {
 function send_email() {
     
     manuscript_id = document.getElementById('manuscript_id').value
-    poster_id = document.getElementById('poster_id').value
 
     //Save values from each input in the compose form
     const recipient = document.querySelector('#compose-recipient-id').value;
     const body = document.querySelector('#compose-body').value;
 
     //Send data to the back-end
-    fetch(`/createmessage/${manuscript_id}/${poster_id}`, {
+    fetch(`/createmessage/${manuscript_id}`, {
       method: 'POST',
       body: JSON.stringify({
         recipient: recipient,
@@ -68,21 +67,27 @@ function send_email() {
   
     fetch(`/find_conversation/${manuscript_id}/${poster_id}`)
     .then(response => response.json())
-    .then(emails => {
-        emails.forEach(email => { 
-          const createdemail = document.createElement('div');
-          createdemail.className="list-group-item";
-          createdemail.innerHTML =`
-            <h1>${email.sender}</h1>
-            <p>${email.timestamp}</p>
-            <h2>${email.body}</h2>
-          `;
-  
-          document.querySelector('#emails-view').append(createdemail);
+    .then(conversation => {
+        conversation.participants.forEach((item) => {
+          if(document.getElementById('useremail').innerHTML != item){
+            createdconversation.innerHTML += `<h1>${item.id}</h1>`
+          }
+        });
+        fetch(`/messages/${conversation.id}`)
+        .then(response => response.json())
+        .then(emails => {
+            emails.forEach(email => { 
+              const createdemail = document.createElement('div');
+              createdemail.className="list-group-item";
+              createdemail.innerHTML =`
+                <h1>${email.sender}</h1>
+                <p>${email.timestamp}</p>
+                <h2>${email.body}</h2>
+              `;
+      
+              document.querySelector('#emails-view').append(createdemail);
+            })
         })
-    });
-
-
-  
+      })
   }
   

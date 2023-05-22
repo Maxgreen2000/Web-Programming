@@ -192,7 +192,7 @@ def email(request, email_id):
     return JsonResponse(email.serialize())
 
 @csrf_exempt
-def createnewmessage(request, manuscript_id, poster_id):
+def createnewmessage(request, manuscript_id):
 
     # Composing a new email must be via POST
     if request.method != "POST":
@@ -223,7 +223,7 @@ def createnewmessage(request, manuscript_id, poster_id):
     email.save()
 
     #NOW ADD NEW EMAIL TO THE CONVERSATION
-    poster = User.objects.get(id=poster_id)
+    poster = User.objects.get(id=request.user.id)
     manuscript = Manuscript.objects.get(id=manuscript_id)
     conversation = Conversation.objects.get( participants = request.user and poster, manuscript = manuscript )
     conversation.emails.add(email)
@@ -256,6 +256,4 @@ def find_conversation(request, manuscript_id, poster_id):
         conversation.save()
         conversation.participants.add(request.user)
         conversation.participants.add(poster)
-    emails = conversation.emails.all()
-    emails = emails.order_by("-timestamp").all()
-    return JsonResponse([email.serialize() for email in emails], safe=False)
+    return JsonResponse(conversation.serialize())
