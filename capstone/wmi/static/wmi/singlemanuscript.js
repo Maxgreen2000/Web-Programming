@@ -68,11 +68,6 @@ function send_email() {
     fetch(`/find_conversation/${manuscript_id}/${poster_id}`)
     .then(response => response.json())
     .then(conversation => {
-        conversation.participants.forEach((item) => {
-          if(document.getElementById('useremail').innerHTML != item){
-            createdconversation.innerHTML += `<h1>${item.id}</h1>`
-          }
-        });
         fetch(`/messages/${conversation.id}`)
         .then(response => response.json())
         .then(emails => {

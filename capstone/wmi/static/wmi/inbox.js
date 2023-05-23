@@ -41,7 +41,6 @@ function load_conversations() {
         document.querySelector('#conversations_view').append(createdconversation);
       })
   });
-
 }
 
 function conversation_view() {
@@ -66,14 +65,9 @@ function view_conversation(id) {
           <p>${email.timestamp}</p>
           <h2>${email.body}</h2>
         `;
-
         document.querySelector('#emails-view').append(createdemail);
       })
   });
-
-
-
-
 }
 
 function send_email(manuscript_id) {
